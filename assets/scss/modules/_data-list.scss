@@ -1,0 +1,18 @@
+.data-list {
+	&--item {
+		padding: em(10px, 14px);
+		border-bottom: 1px solid darken($primary_bg, 15%);
+		font-size: 16px;
+		span {
+			small {
+				display: block;
+				color: darken($primary_bg, 25%);
+				margin-bottom: em(7px, 16px);
+				font-weight: map-get($fontWeight, bold);
+			}
+			button {
+				padding: em(5px) em(10px);
+			}
+		}
+	}
+}

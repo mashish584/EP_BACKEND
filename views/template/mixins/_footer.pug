@@ -1,0 +1,39 @@
+mixin footer(invert=false)
+	//- #loader
+	//- 	<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+	footer(class=(invert ? 'invert' : '') )
+		.platform-info
+			h2 SHARE OUR PLATFORM
+			p By sharing our platform with your known you will get 1 reward point on each user signup through your shared link.
+			h4 How reward points work ?
+			p At the time of hosting an event you will be asked to use reward point or not. If you say yes,
+				|you will not be charged for using our platform instead we will reduce your reward point instead
+				|of charging any fee.
+			span 1 reward point = 1 Fee Free booking on your hosted event
+			.platform-info--meta
+				small © EP 2019
+				ul.social-list
+					li 
+						a(href="" class="fa fa-facebook-square")
+					li 
+						a(href="" class="fa fa-twitter-square")
+					li 
+						a(href="" class="fa fa-linkedin-square")
+					li 
+						a(href="" class="fa fa-instagram")
+		.platform-contact
+			h2 WANT TO ASK SOMETHING ?
+			form(action="") 
+				.input-group
+					label(for="fullName") FULL NAME
+					input(type="text" name="fullName" )
+				.input-group
+					label(for="email") EMAIL
+					input(type="email" name="email" )
+				.input-group
+					label(for="message") MESSAGE
+					textarea(name="message")
+				button(class="btn btn-th btn-submit") SEND NOW
+			
+
+		

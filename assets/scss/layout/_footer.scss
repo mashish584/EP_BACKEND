@@ -1,0 +1,16 @@
+footer {
+	@include flexy();
+	padding: em(55px) em(30px);
+	.platform {
+		&-info,
+		&-contact {
+			margin: 10px 5%;
+			flex-basis: flexWidth(2, 5%);
+		}
+		&-info--meta {
+			@include flexy() {
+				justify-content: space-between;
+			}
+		}
+	}
+}

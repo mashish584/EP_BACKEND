@@ -1,0 +1,79 @@
+.event {
+	&-info {
+		position: relative;
+		padding-right: em(70px);
+		p {
+			color: darken($primary_bg, 55%);
+			line-height: em(25px);
+		}
+		&--meta {
+			margin: em(25px) 0;
+			span {
+				font-weight: map-get($fontWeight, "bold");
+				color: $theme_color;
+				margin: 0 em(5px);
+				&:nth-of-type(1) {
+					margin-left: 0;
+				}
+			}
+		}
+		&--price {
+			margin: em(10px) 0;
+			border: 1px solid darken($primary_bg, 15%);
+			padding: em(15px);
+			border-radius: 5px;
+			span,
+			a {
+				display: inline-block;
+			}
+			span {
+				color: darken($primary_bg, 35%);
+				font-size: em(34px);
+			}
+			a {
+				padding: em(10px) em(25px);
+				box-shadow: 0 5px 5px rgba(invert($primary-bg), 0.1);
+			}
+		}
+		&:after {
+			@extend %abs;
+			@include WH(1px, 350px);
+			background: darken($primary-bg, 10%);
+			top: 75px;
+			right: 10px;
+			left: initial !important;
+		}
+	}
+	&-host {
+		text-align: center;
+		.user-image {
+			position: relative;
+			@include WH(150px, 150px);
+			img {
+				border-radius: 50%;
+			}
+			.badge {
+				position: absolute;
+				@include WH(100%, auto);
+				padding: em(7px) em(30px);
+				background: $theme_color;
+				color: $primary_bg;
+				border-radius: 25px;
+				bottom: -7px;
+				left: 0;
+			}
+		}
+		h4 {
+			margin-bottom: 0;
+		}
+		p {
+			color: darken($primary-bg, 45%);
+			font-size: em(14px);
+			padding: 0 em(15px, 14px);
+		}
+		a {
+			color: $theme_color;
+			text-decoration: underline;
+		}
+	}
+}

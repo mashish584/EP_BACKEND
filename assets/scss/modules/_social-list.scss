@@ -1,0 +1,7 @@
+.social-list li {
+	display: inline-block;
+	margin: 0 em(5px);
+	a {
+		color: darken($primary-bg, 45%);
+	}
+}

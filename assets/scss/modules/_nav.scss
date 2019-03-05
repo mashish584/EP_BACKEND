@@ -1,0 +1,50 @@
+#my-nav {
+	.notification {
+		position: relative;
+		.sub-menu {
+			@include WH(275px, auto);
+			left: -132.5px;
+			&:after {
+				left: 57%;
+			}
+		}
+		&-item {
+			font-size: 9px;
+			border-radius: em(5px, 9px);
+			padding: em(10px, 9px);
+			background: $theme_color;
+			margin-bottom: em(10px, 9px);
+			@include flexy() {
+				justify-content: space-evenly;
+				align-items: center;
+			}
+			img {
+				@include WH(40px, 40px);
+				border-radius: 25px;
+			}
+		}
+		&-btn {
+			color: darken($primary_bg, 25%);
+		}
+	}
+	.dropdown-nav {
+		position: relative;
+		color: $primary_bg;
+		span {
+			@include WH(110px, auto);
+			padding: em(5px, 10px);
+			border-radius: 25px;
+			background: $theme_color;
+			font-size: em(10px);
+			img {
+				vertical-align: middle;
+				@include WH(25px, 25px);
+				border-radius: 50%;
+			}
+			i {
+				margin-right: 15px;
+				font-weight: map-get($fontWeight, "bold");
+			}
+		}
+	}
+}

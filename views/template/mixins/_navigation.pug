@@ -1,0 +1,41 @@
+mixin navigation
+	nav#my-nav
+		a(href="/", class="logo")
+			img(src="/images/logo.svg", alt="EP_LOGO")
+		div.flex-right
+			.notification
+				button(class="notification-btn",data-target="subMenu")
+					i.fa.fa-bell
+				.sub-menu
+					a(href="" class="notification-item")
+						img(src="https://unsplash.it/50/50") 	
+						div
+							span Ashish
+							p Aliquam tincidunt mauris eu risus.
+					a(href="" class="notification-item")
+						img(src="https://unsplash.it/50/50") 	
+						div
+							span Ashish
+							p Aliquam tincidunt mauris eu risus.
+					a(href="" class="notification-item")
+						img(src="https://unsplash.it/50/50") 	
+						div
+							span Ashish
+							p Aliquam tincidunt mauris eu risus.
+					a(href="" style="text-align:center;") Show All Notifications
+			a(href="/login").btn.btn-th.btn-nav Login
+			.dropdown-nav
+				span(data-target="subMenu")
+					img(src="https://unsplash.it/100/100", alt="User Image") 
+					b Ashish 
+					i.fa.fa-angle-down
+				.sub-menu
+					a(href="/host-event") 
+						i.fa.fa-plus 
+						| Add Event
+					a(href="/profile/me") 
+						i.fa.fa-user 
+						| Profile
+					a(href="/") 
+						i.fa.fa-unlock 
+						| Log out

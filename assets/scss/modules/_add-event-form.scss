@@ -1,0 +1,53 @@
+#addEvent {
+	@include WH(100%);
+	margin-bottom: em(25px);
+	.input {
+		&-group {
+			label {
+				top: em(7px, 14px);
+				left: em(15px, 14px);
+			}
+			input,
+			textarea {
+				padding: em(25px) em(15px) em(15px);
+				resize: none;
+				color: darken($primary_bg, 45%) !important;
+			}
+			textarea {
+				@include WH(100%, 125px);
+			}
+
+			&--item {
+				position: relative;
+				flex: 1;
+				input {
+					font-size: 14px;
+					padding: em(15px, 14px) em(30px, 14px);
+				}
+				span {
+					position: absolute;
+					color: $theme_color;
+					top: 16px;
+					left: 10px;
+				}
+			}
+		}
+
+		&-actions {
+			.btn {
+				padding: em(10px) em(15px);
+				font-weight: map-get($fontWeight, 800);
+			}
+		}
+	}
+	.show-list {
+		border: 1px solid darken($primary_bg, 15%);
+		top: 100%;
+		left: 0;
+		@include WH(100%, auto);
+		li {
+			background: darken($primary_bg, 5%);
+			border-bottom: 1px solid darken($primary_bg, 10%);
+		}
+	}
+}

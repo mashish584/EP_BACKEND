@@ -1,0 +1,56 @@
+footer {
+	background: $primary-bg;
+	.platform {
+		&-info {
+			p {
+				color: darken($primary-bg, 65%);
+				font-size: em(14px);
+				line-height: em(27px, 14px);
+			}
+			span {
+				display: block;
+				color: darken($primary-bg, 45%);
+				font-size: em(14px);
+				font-weight: map-get($fontWeight, "bold");
+			}
+			&--meta {
+				border-top: 1px solid rgba(invert($primary-bg), 10%);
+				margin-top: em(27px);
+				padding: em(15px) 0;
+			}
+		}
+		&-contact {
+			.input-group {
+				margin: em(7px) 0;
+			}
+			input,
+			textarea {
+				padding: em(23px) em(5px) em(10px);
+				border-radius: 5px;
+				border: 1px solid darken($primary-bg, 10%);
+			}
+		}
+	}
+	&.invert {
+		position: relative;
+		margin-top: em(85px);
+		background: $theme_color;
+		color: $primary-bg;
+		p,
+		span,
+		small,
+		a {
+			color: $primary-bg !important;
+		}
+		button {
+			background: darken($theme_color, 25%) !important;
+		}
+		&:after {
+			@extend %abs;
+			@include WH(130%, 150px);
+			background: $theme_color;
+			transform: translateY(-42px) translateX(-10px) rotate(-3deg);
+			z-index: -1;
+		}
+	}
+}

@@ -1,0 +1,28 @@
+extends layout
+block header
+block content
+	#container.pd-0
+		#layer
+		section#form-container
+			a(href="" class="logo")
+				img(src="/images/logo.svg", alt="EP_LOGO")
+			form#login(action="")
+				.input-group
+					label(for="email") Email
+					input(type="email" name="email")
+				.input-group
+					label(for="password") Password
+					input(type="password" name="password")
+				button.btn.btn-submit.btn-th LOG IN
+			a(href="/forgot" class="st-link") Forgot your password?
+			hr.br
+			.social-logins
+				a(href="" class="btn") 
+					i.fa.fa-facebook
+					| Login with Facebook
+				a(href="" class="btn btn-th")
+					i.fa.fa-google
+					| Login with Google
+			span New User? 
+				a(href="/signup" class="st-link hlt")  Create An Account
+block footer

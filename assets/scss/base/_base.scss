@@ -1,0 +1,62 @@
+*,
+html,
+body {
+	box-sizing: border-box;
+}
+
+*:focus {
+	outline-color: darken($primary-bg, 5%);
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: darken($primary-bg, 2%);
+	font-family: unquote(map-get($fontsCollection, "two"));
+	font-size: $base_font;
+	font-weight: map-get($fontWeight, "med");
+	overflow-x: hidden;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+img {
+	@include WH();
+}
+
+button {
+	background: none;
+	border: none;
+	&:focus {
+		outline: none;
+	}
+}
+
+small {
+	color: darken($primary-bg, 65%);
+	font-weight: map-get($fontWeight, "med");
+}
+
+span {
+	b {
+		font-weight: map-get($fontWeight, "bold");
+	}
+	i {
+		margin-right: em(10px);
+	}
+}
+
+hr {
+	position: relative;
+	margin: em(35px) 0;
+	border: 1px solid darken($primary-bg, 10%);
+}

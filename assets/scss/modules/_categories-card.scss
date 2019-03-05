@@ -1,0 +1,33 @@
+.event-categories {
+	&--card {
+		position: relative;
+		img {
+			height: 200px;
+		}
+		span {
+			position: absolute;
+			color: $primary_bg;
+			font-weight: map-get($fontWeight, "bold");
+			top: 15px;
+			left: 15px;
+			@include WH(100px, 0);
+			z-index: 999;
+			text-transform: uppercase;
+		}
+		a {
+			display: block;
+			text-align: center;
+			margin-top: em(-3px);
+			padding: em(7px);
+			@include WH(100%, 45px);
+			color: darken($primary_bg, 65%);
+			background: $primary_bg;
+		}
+		&:after {
+			@extend %abs;
+			@include WH(100%, 200px);
+			background: rgba(invert($primary_bg), 25%);
+			opacity: 0.5;
+		}
+	}
+}

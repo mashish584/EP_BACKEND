@@ -1,0 +1,13 @@
+header {
+	.bg-layer {
+		position: absolute;
+		background: getVarValue(header-bg) no-repeat center;
+		background-size: cover;
+		@include WH();
+		&:after {
+			@extend %abs;
+			@include WH();
+			background: rgba(invert($primary_bg), 0.6);
+		}
+	}
+}

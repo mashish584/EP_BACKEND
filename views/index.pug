@@ -1,0 +1,29 @@
+extends layout
+block headerContent
+	include template/_search-form.pug
+block content
+	section#container
+		h2 Upcoming Events
+		.upcoming-events
+			each val in [1,2,3,4]
+				+event_card("other-events--card")
+		h2 Explore Events By Category
+		.event-categories
+			.event-categories--card
+				img(src="https://unsplash.it/300/300", alt="Sample Image")
+				span Tailgating Parties
+				a(href="/category/dfjh" class="btn-th") VIEW EVENTS	
+			
+	section#intro
+		h2 How We Work?
+		ul
+			li
+				span 1
+				h4 HOST EVENT
+				p You can host event by using our platform and people can  book your event by using our platform. We charge 0.5% on each booking if event is paid.
+			li
+				span 2
+				h4 JOIN EVENT
+				p You can easily look for an event going in your nearby or in some different cities and can request a host or organiser to join that event. You only have to pay event charge if their is any. Once the booking is done you will receive a e-ticket on your mail-id with QR code which you can use as a entry for event.
+
+

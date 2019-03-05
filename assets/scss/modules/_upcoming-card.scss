@@ -1,0 +1,62 @@
+.upcoming-events,
+.other-events,
+.events-container {
+	&--card,
+	&--item {
+		background: darken($primary_bg, 5%);
+		box-shadow: 0 2px 5px rgba(invert($primary_bg), 0.3);
+	}
+	.card {
+		&-top {
+			position: relative;
+			@include WH(100%, 175px);
+			span {
+				position: absolute;
+				padding: em(10px);
+				border-radius: 5px;
+				display: inline-block;
+				background: $theme_color;
+				color: $primary_bg;
+				top: 10px;
+				left: 10px;
+				b {
+					display: block;
+				}
+			}
+		}
+		&-bottom {
+			// background: darken($primary_bg, 5%);
+			padding: em(10px);
+			&--meta {
+				color: darken($primary_bg, 25%);
+				font-size: 10px;
+				span {
+					&:nth-child(2) {
+						i {
+							color: $theme_color;
+							margin-right: 5px;
+						}
+						float: right;
+					}
+				}
+			}
+			&--info {
+				font-weight: map-get($fontWeight, "bold");
+				color: darken($primary_bg, 65%);
+			}
+			.btn-more {
+				display: block;
+				@include WH(200px, auto);
+				margin: 0 auto;
+				transform: translateY(25px);
+			}
+		}
+	}
+	.user-meta {
+		span {
+			b {
+				color: $theme_color;
+			}
+		}
+	}
+}

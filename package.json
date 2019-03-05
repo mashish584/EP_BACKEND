@@ -1,0 +1,37 @@
+{
+	"scripts": {
+		"dev": "nodemon start.js --ignore assets/",
+		"start": "concurrently \"npm run dev\"  \"npm run watch\"",
+		"build": "webpack -p --config ./webpack.config.js --display-error-details",
+		"watch": "webpack -d --watch --config ./webpack.config.js --display-error-details"
+	},
+	"name": "",
+	"version": "",
+	"dependencies": {
+		"connect-flash": "^0.1.1",
+		"connect-mongo": "^2.0.1",
+		"dotenv": "^6.1.0",
+		"express": "^4.16.4",
+		"express-session": "^1.15.6",
+		"googleapis": "^37.2.0",
+		"html-to-text": "^4.0.0",
+		"mongoose": "^5.3.8",
+		"nodemailer": "^5.1.1",
+		"pug": "^2.0.3",
+		"serve-favicon": "^2.5.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.3.4",
+		"@babel/preset-env": "^7.3.4",
+		"autoprefixer": "^9.4.9",
+		"babel-loader": "^8.0.5",
+		"concurrently": "^4.1.0",
+		"css-loader": "^2.1.0",
+		"mini-css-extract-plugin": "^0.5.0",
+		"node-sass": "^4.11.0",
+		"postcss-loader": "^3.0.0",
+		"sass-loader": "^7.1.0",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.2.3"
+	}
+}

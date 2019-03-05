@@ -1,0 +1,15 @@
+@function em($target, $context: $base_font) {
+	@return ($target/$context) * 1em;
+}
+
+@function getVarValue($var_name) {
+	@return var(--#{$var_name});
+}
+
+@function flexWidth($count, $margin: 0.5%) {
+	@return (100 / $count) - ($margin * 2);
+}
+
+@function border($weight: 2px, $color: $primary_bg) {
+	@return $weight solid $color;
+}

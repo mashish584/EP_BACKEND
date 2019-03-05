@@ -1,0 +1,29 @@
+#my-nav {
+	padding: em(5px) em(15px);
+	@include flexy() {
+		justify-content: space-between;
+		align-items: center;
+	}
+	.notification {
+		@include flexy() {
+			align-items: center;
+		}
+	}
+	.flex-right {
+		@include flexy() {
+			justify-content: space-evenly;
+		}
+		> * {
+			margin: 0 em(10px);
+		}
+	}
+
+	.dropdown-nav {
+		span {
+			@include flexy() {
+				justify-content: space-between;
+				align-items: center;
+			}
+		}
+	}
+}

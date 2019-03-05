@@ -1,0 +1,20 @@
+@mixin WH($w: 100%, $h: 100%, $imp: false) {
+	@if ($imp) {
+		width: $w !important;
+		height: $h !important;
+	} @else {
+		width: $w;
+		height: $h;
+	}
+}
+
+@mixin flexy($flex-direction: row, $important: false) {
+	@if ($important) {
+		display: flex !important;
+	} @else {
+		display: flex;
+	}
+	flex-direction: $flex-direction;
+	flex-wrap: wrap;
+	@content;
+}

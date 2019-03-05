@@ -1,0 +1,12 @@
+// import urls if exist
+@if variable-exists(googleFonts) {
+	@import url($googleFonts);
+}
+
+@if variable-exists(fontAwesome) {
+	@import url($fontAwesome);
+}
+
+@if variable-exists(normalize) {
+	@import url($normalize);
+}

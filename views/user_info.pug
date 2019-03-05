@@ -1,0 +1,38 @@
+extends layout
+block header
+	+navigation
+block content
+	section#container
+		.profile
+			+profile_navigations
+			.profile-info
+				.profile-info--user
+					.user-image
+						img(src="https://unsplash.it/200/200", alt="user-image")
+						span#update-pic.fa.fa-pencil-square
+					.user-meta
+						h2 Nick Toldman
+						span 
+							i.fa.fa-map-marker
+							| San Francisco, California
+						ul.social-list
+							li 
+								a(href="" class="fa fa-facebook-square")
+							li 
+								a(href="" class="fa fa-twitter-square")
+							li 
+								a(href="" class="fa fa-linkedin-square")
+							li 
+								a(href="" class="fa fa-instagram")
+				.profile-info--about
+					p Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
+					|Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
+					span
+						i.fa.fa-envelope
+						| nick@ep.com
+					span
+						i.fa.fa-phone
+						| +00 9512785
+				
+block footer
+	+footer(true)

@@ -1,0 +1,75 @@
+%commentImg {
+	@include WH(75px, 75px);
+	border-radius: 50px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.comments {
+	padding-top: 25px;
+}
+
+#replies {
+	.comment {
+		border: none;
+		margin-bottom: 10px;
+	}
+}
+
+#commentForm,
+#replyForm {
+	background: $primary_bg;
+	margin-top: em(10px);
+	padding: em(25px);
+	border: 1px solid darken($primary_bg, 7%);
+	img {
+		@extend %commentImg;
+	}
+	textarea {
+		@include WH(100%, 70px);
+		padding: em(10px);
+		border: none;
+		resize: none;
+		margin: 0 10px;
+	}
+	button {
+		@include WH(100px, 50px);
+	}
+}
+
+#replyForm {
+	border: none;
+	margin-left: em(55px);
+	img {
+		@include WH(50px, 50px);
+	}
+}
+
+.comment {
+	background: $primary_bg;
+	border: 1px solid darken($primary_bg, 7%);
+	padding: em(15px);
+	margin-bottom: em(15px);
+	img {
+		@extend %commentImg;
+	}
+	&-content {
+		padding: 0 em(15px);
+		&--meta {
+			margin-bottom: 15px;
+			padding-right: 25px;
+			font-weight: map-get($fontWeight, "bold");
+			span {
+				&:nth-of-type(2) {
+					font-size: 14px;
+					color: darken($primary_bg, 35%);
+					font-weight: map-get($fontWeight, "thin");
+				}
+				display: inline-block;
+			}
+		}
+		&--comment {
+			color: darken($primary_bg, 45%);
+			font-size: 15px;
+		}
+	}
+}

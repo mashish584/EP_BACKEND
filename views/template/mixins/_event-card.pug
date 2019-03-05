@@ -1,0 +1,21 @@
+mixin event_card(className,data={})
+	div(class='' + className)
+		.card-top
+			img(src="https://unsplash.it/300/300", alt="Sample Image")
+			span 14 
+				b DEC 
+		.card-bottom
+			.card-bottom--meta
+				span Thursday, January 01, 11:00 AM
+				span 
+					i.fa.fa-map-marker
+					| Delhi, India 
+			.card-bottom--info.clrfx
+				p Lorem, ipsum dolor sit amet ...
+				.user-meta
+					img(src="https://unsplash.it/100/100", alt="user-image")
+					span Hosted by 
+						b Roberto
+				span.ct-right $15
+			a(href="/event/SAS" class="btn btn-th btn-more") Read More
+

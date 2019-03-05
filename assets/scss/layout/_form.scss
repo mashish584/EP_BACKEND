@@ -1,0 +1,40 @@
+#form-container {
+	@include flexy(column) {
+		align-items: center;
+		flex-wrap: nowrap;
+		justify-content: space-evenly;
+	}
+}
+
+.social-logins {
+	@include WH(100%, auto);
+	@include flexy() {
+		flex-wrap: nowrap;
+		justify-content: space-between;
+	}
+}
+
+.form-fluid {
+	@include WH(70%);
+	margin: 10px auto;
+	h2 {
+		font-size: 35px;
+		margin-bottom: em(14px, 35px) !important;
+	}
+}
+
+.input {
+	&-container {
+		@include flexy();
+		> div {
+			flex: 1;
+			margin: 10px;
+		}
+	}
+	&-actions {
+		@include flexy() {
+			justify-content: space-between;
+			flex-wrap: nowrap;
+		}
+	}
+}

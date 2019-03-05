@@ -1,0 +1,70 @@
+extends layout
+block header
+	+navigation
+block content
+	section#container
+		.profile
+			+profile_navigations("wallet")
+			.profile-wallet
+				.profile-wallet--meta
+						span.active Money Earned
+							b $50
+						span Money Paid
+							b $15
+						span Reward Points
+							b
+								i.fa.fa-database 
+								|25
+				.profile-wallet--data
+					ul.data-list
+						li.data-list--item
+							span.gr-2
+								small Date
+								| 5 Feb 2019
+							span.gr-3
+								small Transaction Id
+								| 845s2d54f11asd65as4cs6as65
+							span
+								small Amount
+								| $500
+							span
+								button.btn.btn-th More
+						li.data-list--item
+							span.gr-2
+								small Date
+								| 5 Feb 2019
+							span.gr-3
+								small Transaction Id
+								| 845s2d54f11asd65as4cs6as65
+							span
+								small Amount
+								| $500
+							span
+								button.btn.btn-th More
+						li.data-list--item
+							span.gr-2
+								small Date
+								| 5 Feb 2019
+							span.gr-3
+								small Transaction Id
+								| 845s2d54f11asd65as4cs6as65
+							span
+								small Amount
+								| $500
+							span
+								button.btn.btn-th More
+						li.data-list--item
+							span.gr-2
+								small Date
+								| 5 Feb 2019
+							span.gr-3
+								small Transaction Id
+								| 845s2d54f11asd65as4cs6as65
+							span
+								small Amount
+								| $500
+							span
+								button.btn.btn-th More
+						
+block footer
+	+footer(true)

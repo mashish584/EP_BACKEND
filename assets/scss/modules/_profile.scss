@@ -1,0 +1,155 @@
+$common: "user";
+
+.profile {
+	margin: em(75px);
+	&-navigation {
+		position: relative;
+		margin-right: em(35px);
+		&--item {
+			display: block;
+			font-size: 30px;
+			color: darken($primary-bg, 45%);
+			i {
+				margin-right: em(25px, 30px);
+			}
+		}
+		&:after {
+			@extend %abs;
+			@include WH(2px, 105%);
+			background: darken($primary-bg, 15%);
+			left: 100%;
+		}
+	}
+	&-info {
+		padding: em(25px) em(15px);
+		&--#{$common} {
+			.#{$common} {
+				&-image {
+					position: relative;
+					@include WH(150px, 150px);
+					span {
+						position: absolute;
+						right: -15px;
+						bottom: 25px;
+						color: $theme_color;
+						font-size: 32px;
+					}
+				}
+				&-meta {
+					margin-left: em(55px);
+					h2 {
+						margin: 0 0 em(5px) !important;
+					}
+					span {
+						color: $theme_color;
+					}
+					.social-list {
+						margin-top: em(25px);
+						li {
+							margin: 0 10px;
+							a {
+								font-size: 27px;
+								color: darken($primary-bg, 20%);
+							}
+							&:nth-of-type(1) {
+								margin-left: 0;
+							}
+						}
+					}
+				}
+			}
+		}
+		&--about {
+			padding-top: em(15px);
+			span {
+				display: block;
+				margin: em(25px) 0 0;
+				color: darken($primary-bg, 75%);
+				i {
+					color: $theme_color;
+				}
+			}
+		}
+	}
+	&-events {
+		&--item {
+			position: relative;
+			max-height: 175px;
+			border-radius: 5px;
+			transition: 100ms ease;
+			img {
+				border-radius: 5px;
+			}
+			&:after {
+				@extend %abs;
+				@include WH(100%, 100%);
+				background: invert($primary-bg);
+				opacity: 0.7;
+				border-radius: 5px;
+			}
+			.content {
+				position: absolute;
+				opacity: 0;
+				top: 0;
+				color: $primary-bg;
+				z-index: 999;
+				padding: em(25px) em(15px);
+				transition: 200ms ease 100ms;
+				h2 {
+					margin: 0 !important;
+				}
+				p {
+					font-size: 12px;
+				}
+				span {
+					position: absolute;
+					top: 10px;
+					right: 10px;
+					color: $primary-bg;
+					z-index: 999;
+				}
+			}
+		}
+	}
+	&-wallet {
+		&--meta {
+			span {
+				min-height: 125px;
+				padding: em(15px, 24px);
+				border-radius: 5px;
+				background: darken($primary-bg, 35%);
+				color: $primary-bg;
+				font-size: 24px;
+				b {
+					display: block;
+					font-size: em(40px, 24px);
+					margin-top: em(5px, 24px);
+				}
+			}
+		}
+		&--data {
+			margin-top: em(25px);
+		}
+	}
+	&-settings {
+		form {
+			@include WH(350px);
+			margin-top: em(25px);
+			.input-group {
+				margin: em(10px) 0;
+				label {
+					margin: em(2px) em(2px) 0;
+					font-weight: map-get($fontWeight, bold);
+				}
+				input {
+					border: 1px solid darken($primary-bg, 15%);
+					padding: em(25px) em(10px) em(15px);
+				}
+			}
+			.btn-submit {
+				padding: em(17px);
+				border-radius: 0 !important;
+			}
+		}
+	}
+}

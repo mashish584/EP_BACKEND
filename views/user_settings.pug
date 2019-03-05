@@ -1,0 +1,22 @@
+extends layout
+block header
+	+navigation
+block content
+	section#container
+		.profile
+			+profile_navigations("setting")
+			.profile-settings
+				h3 CHANGE PASSWORD
+				form#resetForm(action="")
+					.input-group.error
+						label(for="oldPassword") Old Password
+						input(type="password" name="oldPassword" )
+						span Your password mush include atleast 8 characters including atleast 1 number or special character.
+					.input-group
+						label(for="newPassword") New Password
+						input(type="password" name="newPassword" )
+					button(class="btn btn-th btn-submit") CHANGE
+					
+						
+block footer
+	+footer(true)

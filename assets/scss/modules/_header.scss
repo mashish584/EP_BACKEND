@@ -1,0 +1,65 @@
+header {
+	position: relative;
+	height: 450px;
+	#my-nav {
+		position: relative;
+		@include WH(100%, 75px);
+		z-index: 999;
+		.notification-btn {
+			color: $primary_bg;
+		}
+	}
+	#search-box {
+		position: relative;
+		z-index: 99;
+		@include WH(90%, auto);
+		background: $primary_bg;
+		.input-group {
+			input {
+				padding: em(27px, 22px) em(5px, 22px) em(10px, 22px);
+				border: none;
+				font-size: 22px;
+				color: darken($primary_bg, 55%);
+
+				&:focus {
+					outline: none;
+				}
+			}
+			i {
+				color: darken($primary_bg, 55%);
+			}
+			label,
+			input,
+			i {
+				font-weight: map-get($fontWeight, "bold");
+			}
+			&:after {
+				content: "";
+				height: 70%;
+				width: 2px;
+				position: absolute;
+				right: 0;
+				top: 15%;
+				background-color: darken($primary_bg, 15%);
+			}
+		}
+	}
+	#content {
+		position: absolute;
+		z-index: 999;
+		color: $primary_bg;
+		bottom: 25px;
+		left: 25px;
+		h2 {
+			font-size: em(42px);
+			margin-bottom: em(10px, 42px);
+		}
+		span {
+			font-size: em(24px);
+			font-weight: map-get($fontWeight, "bold");
+			i {
+				color: $theme_color;
+			}
+		}
+	}
+}

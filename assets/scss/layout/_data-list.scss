@@ -1,0 +1,9 @@
+.data-list {
+	&--item {
+		@include flexy();
+		span {
+			flex: 1;
+			align-self: center;
+		}
+	}
+}

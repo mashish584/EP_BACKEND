@@ -1,0 +1,9 @@
+extends layout
+block header
+	+navigation
+block content 
+	section#container
+		h2 Tailgating Parties
+		section.events-container
+			each val in [1,2,3,4,5,6,7,8]
+				+event_card("events-container--item")

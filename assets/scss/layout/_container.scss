@@ -1,0 +1,59 @@
+#container {
+	padding: em(15px) em(25px);
+	h2 {
+		margin: em(25px) 0.5%;
+	}
+
+	#other {
+		display: block;
+		margin-top: em(85px);
+	}
+
+	.upcoming-events,
+	.other-events,
+	.events-container {
+		@include flexy();
+		margin-bottom: em(75px);
+		&--card,
+		&--item {
+			margin: em(10px) 0.5% em(25px);
+			flex-basis: flexWidth(4);
+		}
+		.user-meta {
+			margin: em(10px) 0 0;
+			@include flexy() {
+				align-items: center;
+			}
+			font-weight: map-get($fontWeight, "thin");
+			img {
+				@include WH(50px, 50px);
+				border-radius: 50%;
+				margin-right: em(15px);
+			}
+		}
+	}
+	.event-categories {
+		@include flexy();
+		margin-bottom: em(75px);
+		&--card {
+			margin: em(10px) 0.5%;
+			flex-basis: flexWidth(5);
+			height: 245px;
+			max-height: 245px;
+		}
+	}
+	.event {
+		@include flexy() {
+			flex-wrap: nowrap;
+		}
+		&-info {
+			flex-shrink: 2;
+		}
+		&-host {
+			padding-top: em(50px);
+			@include flexy(column) {
+				align-items: center;
+			}
+		}
+	}
+}

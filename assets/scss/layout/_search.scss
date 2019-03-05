@@ -1,0 +1,13 @@
+#search-box {
+	margin: em(125px) auto;
+	border-radius: 5px;
+	@include flexy();
+	.input-group {
+		margin: 10px 0.5%;
+		flex-basis: flexWidth(3);
+		flex-grow: 1;
+	}
+	input:read-only {
+		cursor: pointer;
+	}
+}

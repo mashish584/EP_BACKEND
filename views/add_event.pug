@@ -1,0 +1,69 @@
+extends layout
+
+block header
+	+navigation
+
+block content
+	section#container(class="form-fluid")
+		h2 ADD EVENT
+		form#addEvent(action="")
+			.input-container
+				.input-group
+					label(for="name") Event Name
+					input(type="text" name="name")
+				.input-group
+					label(for="spot") Numbers of spot
+					input(type="number" name="spot")
+			.input-container
+				.input-group
+					label(for="location") Location
+					input(type="text" name="location")
+				.input-group
+					label(for="category") Event Category
+					input(type="text" name="category" class="trigger-list" value="" readonly)
+					i.fa.fa-angle-down
+					ul.dropdown-list
+						li 1
+						li 2
+						li 3
+						li 4
+						li 5
+						li.active 6
+						li 7
+						li 8
+						li 9
+						li 10
+						li 11
+						li 12
+						li 13
+						li 14
+						li 15
+			.input-container
+				.input-group
+					label(for="description") Description
+					textarea(name="description")
+				.input-group.flx
+					.input-group--item.datePicker
+						span.fa.fa-calendar
+						input(type="text"  placeholder="Event Date") 
+					.input-group--item.clockPicker
+						span.fa.fa-clock-o
+						input(type="text"  placeholder="Start Time") 
+					.input-group--item.clockPicker
+						span.fa.fa-clock-o
+						input(type="text"  placeholder="End Time")
+			.input-container
+				.input-group
+					label(for="price") Price
+					input(type="text" name="price" value="0")
+				.input-group
+					label(for="file" class="upload-file") 
+						i.fa.fa-upload
+						| UPLOAD IMAGE			
+					input(type="file" name="image" id="file")
+			hr
+			.input-actions
+				a(href="/" class="btn btn-cancel") CANCEL
+				button(type="submit" class="btn btn-th") ADD EVENT
+block footer
+	+footer(true)

@@ -1,0 +1,23 @@
+// import url's
+$googleFonts: "https://fonts.googleapis.com/css?family=Lato|Montserrat:400,600,900|Open+Sans:400,800|Roboto:300,400,500,700";
+$fontAwesome: "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+$normalize: "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css";
+
+// fonts map
+$fontsCollection: (
+	one: "'Roboto', sans-serif;",
+	two: "'Open Sans', sans-serif",
+	three: "'Lato', sans-serif",
+	four: "'Montserrat', sans-serif"
+);
+
+$fontWeight: (
+	thin: 100,
+	med: 500,
+	bold: 900
+);
+
+$theme_color: #ff3e3e;
+$fb_color: #386cef;
+$primary_bg: #ffffff;
+$base_font: 18px;

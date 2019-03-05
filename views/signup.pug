@@ -1,0 +1,34 @@
+extends layout
+block header
+block content
+	#container.pd-0
+		#layer
+		section#form-container
+			a(href="" class="logo")
+				img(src="/images/logo.svg", alt="EP_LOGO")
+			form#login(action="")
+				.input-group.error
+					label(for="fullname") Fullname
+					input(type="text" name="fullname")
+					span Please enter fullname
+				.input-group
+					label(for="email") Email
+					input(type="email" name="email")
+				.input-group
+					label(for="password") Password
+					input(type="password" name="password")
+				.input-group
+					label(for="confirm") Confirm Password
+					input(type="password" name="confirm")
+				button.btn.btn-submit.btn-th SIGN UP
+			hr.br
+			.social-logins
+				a(href="" class="btn") 
+					i.fa.fa-facebook
+					| Signup with Facebook
+				a(href="" class="btn btn-th")
+					i.fa.fa-google
+					| Signup with Google
+			span Already have an account? 
+				a(href="/signin" class="st-link hlt")  SignIn
+block footer

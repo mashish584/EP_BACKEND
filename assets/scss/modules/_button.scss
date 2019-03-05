@@ -1,0 +1,44 @@
+.btn {
+	display: inline-block;
+	border-radius: 5px;
+	background: darken($primary_bg, 25%);
+	padding: em(5px);
+	text-align: center;
+	cursor: pointer;
+	&-th {
+		background: $theme_color !important;
+		color: $primary_bg !important;
+	}
+	&-nav {
+		border-radius: 25px;
+		padding: em(5px) em(25px);
+	}
+	&-search {
+		height: 45px;
+		align-self: center;
+		margin: auto em(10px);
+		padding: em(10px) em(25px);
+	}
+	&-submit {
+		border-radius: 5px;
+		@include WH(100%, auto);
+		padding: em(15px) em(25px);
+	}
+	&-more {
+		padding: em(10px) em(30px);
+		border-radius: 25px;
+	}
+	&-reply {
+		background: none;
+		margin: em(10px) 0;
+		color: $theme_color;
+	}
+	&-cancel {
+		background: none;
+		color: $theme_color;
+		border: 2px solid darken($primary_bg, 25%);
+	}
+	i {
+		margin-right: em(10px);
+	}
+}
