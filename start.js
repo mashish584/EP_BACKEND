@@ -7,8 +7,6 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, err => {
 });
 mongoose.set("useCreateIndex", true);
 
-// model imports
-
 //server module import & setup
 const app = require("./server");
 

@@ -31,7 +31,7 @@ const CSS_LOADER = {
 
 module.exports = {
 	entry: {
-		main: "./assets/js/main.js"
+		main: ["@babel/polyfill", "./assets/js/main.js"]
 	},
 	output: {
 		path: path.resolve(__dirname, "assets", "dist"),

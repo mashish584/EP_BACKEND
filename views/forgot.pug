@@ -4,15 +4,19 @@ block content
 	#container.pd-0
 		#layer
 		section#form-container.flx-start
-			a(href="" class="logo")
+			a(href="/" class="logo")
 				img(src="/images/logo.svg", alt="EP_LOGO")
-			form#forgot(action="")
+			form#forgot(action="/forgot" method="post")
+				if flashError
+					div#flash(class="error")= flashError
+				if flashSuccess
+					div#flash(class="success")= flashSuccess
 				.input-group
 					label(for="email") Email
 					input(type="email" name="email")
 				button.btn.btn-submit.btn-th Get New Password
 				br
 				br
-				a(href="/signin" class="st-link") Login here
+				a(href="/login" class="st-link") Login here
 			
 block footer

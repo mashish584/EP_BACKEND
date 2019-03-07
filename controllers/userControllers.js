@@ -1,3 +1,4 @@
+// GET CONTROLLERS
 exports.GET_USER_PROFILE = (req, res, next) => {
 	return res.render("user_info", { title: "My Profile" });
 };

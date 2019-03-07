@@ -4,13 +4,12 @@ block content
 	#container.pd-0
 		#layer
 		section#form-container
-			a(href="" class="logo")
+			a(href="/" class="logo")
 				img(src="/images/logo.svg", alt="EP_LOGO")
-			form#login(action="")
-				.input-group.error
+			form#signup(action="" method="POST")
+				.input-group
 					label(for="fullname") Fullname
 					input(type="text" name="fullname")
-					span Please enter fullname
 				.input-group
 					label(for="email") Email
 					input(type="email" name="email")
@@ -30,5 +29,5 @@ block content
 					i.fa.fa-google
 					| Signup with Google
 			span Already have an account? 
-				a(href="/signin" class="st-link hlt")  SignIn
+				a(href="/login" class="st-link hlt")  Log In
 block footer

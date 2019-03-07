@@ -12,6 +12,17 @@
 	}
 }
 
+#flash {
+	margin-top: em(15px) !important;
+	&.error {
+		color: red;
+	}
+
+	&.success {
+		color: #20ca20;
+	}
+}
+
 .ct-right {
 	float: right;
 }
@@ -85,7 +96,7 @@
 }
 
 .st-link {
-	color: darken($primary_bg, 25%);
+	color: darken($primary_bg, 45%);
 	text-decoration: underline;
 }
 
@@ -110,11 +121,13 @@
 }
 
 #loader {
+	z-index: 99;
 	position: fixed;
 	background: rgba($primary_bg, 0.8);
 	@include WH(100%, 100vh);
 	top: 0;
 	@include flexy() {
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 	}
