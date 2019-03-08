@@ -10,6 +10,7 @@ import { autoCompleteLocation } from "./maps";
 
 // Backend Scripts
 import userForm from "./backend/userForm";
+import profileForm from "./backend/profileForm";
 
 // check if elements available in DOM for handling function calls
 const isDropList = document.querySelector(".dropdown-list");
@@ -24,3 +25,4 @@ isAutoComplete && autoCompleteLocation();
 
 // Backend calls
 userForm();
+profileForm();

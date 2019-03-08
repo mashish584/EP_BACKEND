@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true
 		},
+		profileImg: String,
 		active: {
 			type: Boolean,
 			default: false

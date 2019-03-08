@@ -30,7 +30,10 @@ export default () => {
 			// show success message
 			if (status === 200) {
 				this.reset();
-				this.insertAdjacentText("afterbegin", "Account created.Check your mail account for verification mail.");
+				this.insertAdjacentText(
+					"afterbegin",
+					"<div id='flash' class='success'>Account created.Check your mail account for verification mail.</div>"
+				);
 			}
 		});
 };

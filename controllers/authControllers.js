@@ -3,6 +3,7 @@ const { compareSync, hashSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
 const User = require("../models/User");
 const { send } = require("../handlers/mailHandler");
+const { formatErrors, formatSuccess } = require("../util");
 
 /*================================
 			GET CONTROLLERS
@@ -40,7 +41,9 @@ exports.POST_SIGNUP = async (req, res, next) => {
 	 */
 
 	//TODO #1 :
-	const confirmationToken = randomBytes(Math.floor(Math.random() * 64)).toString("hex");
+	const confirmationToken = randomBytes(Math.floor(Math.random() * 64)).toString(
+		"hex"
+	);
 
 	//TODO #2 :
 	const { email } = await new User({
@@ -60,11 +63,13 @@ exports.POST_SIGNUP = async (req, res, next) => {
 	});
 
 	// TODO #4:
-	return res.status(200).json({
-		success: {
-			msg: "Account created.Please check your mail account for activation link."
-		}
-	});
+	return res
+		.status(200)
+		.json(
+			formatSuccess(
+				"Account created.Please check your mail account for activation link."
+			)
+		);
 };
 
 exports.POST_SIGNIN = async (req, res, next) => {
@@ -90,18 +95,21 @@ exports.POST_SIGNIN = async (req, res, next) => {
 	if (user) {
 		//? compare password
 		if (compareSync(password, user.password)) {
-			//? check active status
 			if (!user.active) {
-				return res.status(401).json({ errors: [{ location: "#signin", msg: "Please activate your account." }] });
+				return res
+					.status(401)
+					.json(formatErrors("Please activate your account", "#signin"));
 			}
 			//? generate jwt and set session
 			req.session.user = sign({ userId: user.id }, process.env.SECRET);
-			return res.status(200).json({ success: { msg: "Access granted." } });
+			return res.status(200).json(formatSuccess("Access granted."));
 		}
 	}
 
 	//! throw error for failed login
-	return res.status(401).json({ errors: [{ location: "#signin", msg: "Email and Password not matched." }] });
+	return res
+		.status(401)
+		.json(formatErrors("Email and Password not matched.", "#signin"));
 };
 
 exports.POST_FORGOT = async (req, res, next) => {
@@ -130,12 +138,19 @@ exports.POST_FORGOT = async (req, res, next) => {
 		.substring(3, 12);
 
 	// TODO #3:
-	const user = await User.findOneAndUpdate({ email }, { password: hashSync(newPassword, 5) });
+	const user = await User.findOneAndUpdate(
+		{ email },
+		{ password: hashSync(newPassword, 5) }
+	);
 
 	// TODO #4:
 	if (user) {
 		//send new password
-		await send({ receiver: email, subject: "Forgot Password", message: `Your new password is ${newPassword} .` });
+		await send({
+			receiver: email,
+			subject: "Forgot Password",
+			message: `Your new password is ${newPassword} .`
+		});
 	}
 
 	// TODO #5:

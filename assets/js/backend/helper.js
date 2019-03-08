@@ -23,7 +23,9 @@ export const toggleLoader = (message, show) => {
 		</div>
 		<span>${message}</span>
 	</div>`;
-	show ? bodyEl.insertAdjacentHTML("afterbegin", loader) : bodyEl.removeChild(document.querySelector("#loader"));
+	show
+		? bodyEl.insertAdjacentHTML("afterbegin", loader)
+		: bodyEl.removeChild(document.querySelector("#loader"));
 };
 
 /**
@@ -45,7 +47,8 @@ export const getFormData = elements => {
 export const showErrors = errors => {
 	errors.map(err => {
 		const formEl =
-			document.querySelector(`input[name=${err.param}]`) || document.querySelector(`textarea[name=${err.param}]`);
+			document.querySelector(`input[name=${err.param}]`) ||
+			document.querySelector(`textarea[name=${err.param}]`);
 		const parentEl = formEl.parentElement;
 		parentEl.classList.add("error");
 		parentEl.insertAdjacentHTML("beforeend", `<span>${err.msg}</span>`);
@@ -58,10 +61,12 @@ export const showErrors = errors => {
 
 export const hideErrors = () => {
 	const errorEls = Array.from(document.querySelectorAll(".error"));
-	const flashError = document.querySelector(".flash-error");
+	const flashError = document.querySelector("#flash");
 	flashError && flashError.remove();
 	errorEls.map(el => {
-		el.classList.remove("error");
-		el.removeChild(el.querySelector("span"));
+		if (!el.id.includes("flash")) {
+			el.classList.remove("error");
+			el.removeChild(el.querySelector("span"));
+		}
 	});
 };

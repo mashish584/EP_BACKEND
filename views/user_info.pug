@@ -9,7 +9,11 @@ block content
 				.profile-info--user
 					.user-image
 						img(src="https://unsplash.it/200/200", alt="user-image")
-						span#update-pic.fa.fa-pencil-square
+						label(for="profile" style="cursor:pointer;")
+							span#update-pic.fa.fa-pencil-square
+						form#uploadProfile(action="" method="post" enctype="multipart/form-data")
+							.input-group
+								input(type="file" id="profile" name="profile" accept="image/*")
 					.user-meta
 						h2 Nick Toldman
 						span 

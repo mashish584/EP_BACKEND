@@ -27,6 +27,9 @@ $common: "user";
 				&-image {
 					position: relative;
 					@include WH(150px, 150px);
+					img {
+						object-fit: cover;
+					}
 					span {
 						position: absolute;
 						right: -15px;

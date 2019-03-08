@@ -25,17 +25,27 @@ instance.interceptors.response.use(
 		return response;
 	},
 	error => {
+		//! Throw alert,hide loader and stop execution of script immediately
+		if (error.message === "Network Error") {
+			alert("Network Error");
+			toggleLoader("", false);
+			return;
+		}
+
 		const {
 			status,
 			data: { errors }
 		} = error.response;
 		toggleLoader("", false);
 
-		// show error according to the matched case
+		//! Show error as per match case
 		switch (status) {
 			case 401:
 				const el = document.querySelector(`${errors[0].location}`);
-				el.insertAdjacentHTML("afterbegin", `<div id="flash" class="error">${errors[0].msg}</div>`);
+				el.insertAdjacentHTML(
+					"afterbegin",
+					`<div id="flash" class="error">${errors[0].msg}</div>`
+				);
 				break;
 			case 403:
 				showErrors(errors);
