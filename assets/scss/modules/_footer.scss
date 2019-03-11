@@ -14,7 +14,7 @@ footer {
 				font-weight: map-get($fontWeight, "bold");
 			}
 			&--meta {
-				border-top: 1px solid rgba(invert($primary-bg), 10%);
+				border-top: 1px solid darken($primary-bg, 15%);
 				margin-top: em(27px);
 				padding: em(15px) 0;
 			}

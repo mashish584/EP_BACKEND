@@ -7,6 +7,10 @@ block content
 			a(href="/" class="logo")
 				img(src="/images/logo.svg", alt="EP_LOGO")
 			form#signin(action="")
+				if flashError
+					div#flash(class="error")= flashError
+				if flashSuccess
+					div#flash(class="success")= flashSuccess
 				.input-group
 					label(for="email") Email
 					input(type="email" name="email")

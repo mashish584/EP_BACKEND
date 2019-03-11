@@ -70,3 +70,15 @@ export const hideErrors = () => {
 		}
 	});
 };
+
+/**
+ * TODO : Async Error Handler
+ */
+
+export const asyncErrorHandler = function(fn) {
+	return function(e) {
+		return fn
+			.call(this, e)
+			.catch(error => console.log(`Error : ${error.message}`));
+	};
+};

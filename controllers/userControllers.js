@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { delete_image_from_imagekit } = require("../handlers/uploadHandler");
+const { delete_image_from_imagekit } = require("../handlers/_index");
 const { formatSuccess } = require("../util");
 
 // GET CONTROLLERS
@@ -25,15 +25,20 @@ exports.GET_USER_SETTINGS = (req, res, next) => {
  * * Profile Image Upload Todos
  * 	TODO #1 : Extract data from request body
  * 	TODO #2 : Update the loggedIn user profile image
+ * 	TODO #3 : Delete existing image from server if exist
  * 	TODO #3 : Return success message
  * *Finished
  */
 exports.PUT_UPDATE_PROFILE_IMAGE = async (req, res, next) => {
+	// TODO #1:
 	const { profileImg, imageUrl } = req.body;
+	// TODO #2:
 	const user = await User.findOneAndUpdate({ _id: req.user }, { profileImg });
+	// TODO #3:
 	if (user.profileImg) {
 		await delete_image_from_imagekit(user.profileImg);
 	}
+	//TODO #4:
 	return res
 		.status(200)
 		.json(formatSuccess({ msg: "Upload success", profileImg, imageUrl }));

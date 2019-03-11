@@ -1,7 +1,7 @@
 /**
  * Async/Await Error Handler
  */
-exports.CatchAsyncError = fn => (req, res, next) => fn(req, res, next).catch(next);
+exports.catchAsyncError = fn => (req, res, next) => fn(req, res, next).catch(next);
 
 /**
  * 404 Errors

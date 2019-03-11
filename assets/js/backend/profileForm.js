@@ -1,4 +1,5 @@
 import axios from "./axios";
+import { asyncErrorHandler } from "./helper";
 
 export default () => {
 	/**
@@ -16,20 +17,24 @@ export default () => {
 	 * *Finished
 	 */
 	profileUpload &&
-		profileUpload.addEventListener("submit", async function(e) {
-			e.preventDefault();
-			//TODO #1 :
-			const body = new FormData(this);
-			//TODO #2 :
-			if (body.get("profile").size === 0) return;
-			//TODO #3 :
-			const {
-				data: { success }
-			} = await axios.put("/profile/me/upload", body);
-			this.parentElement
-				.querySelector("img")
-				.setAttribute("src", success.imageUrl);
-		});
+		profileUpload.addEventListener(
+			"submit",
+			asyncErrorHandler(async function(e) {
+				e.preventDefault();
+				//TODO #1 :
+				const body = new FormData(this);
+				//TODO #2 :
+				if (body.get("profile").size === 0) return;
+				//TODO #3 :
+
+				const {
+					data: { success }
+				} = await axios.put("/profile/me/upload", body);
+				this.parentElement
+					.querySelector("img")
+					.setAttribute("src", success.imageUrl);
+			})
+		);
 
 	/**
 	 * * Upload Button Todos

@@ -8,6 +8,7 @@ const {
 	GET_EVENT_ADDFORM
 } = require("../controllers/indexControllers.js");
 
+// GET ROUTES
 router.get("/", GET_HOMEPAGE);
 router.get("/event/:slug", GET_EVENT_DESCRIPTION);
 router.get("/category/:eventName", GET_CATEGORY_EVENTS);

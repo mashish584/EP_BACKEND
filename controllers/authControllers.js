@@ -1,9 +1,8 @@
-const { randomBytes } = require("crypto");
+const User = require("../models/User");
 const { compareSync, hashSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
-const User = require("../models/User");
-const { send } = require("../handlers/mailHandler");
-const { formatErrors, formatSuccess } = require("../util");
+const { send } = require("../handlers/_index");
+const { formatErrors, formatSuccess, generateToken } = require("../util");
 
 /*================================
 			GET CONTROLLERS
@@ -26,6 +25,31 @@ exports.GET_LOGOUT = (req, res, next) => {
 	return res.redirect("back");
 };
 
+exports.GET_ACTIVATE_ACCOUNT = async (req, res, next) => {
+	/**
+	 * *USER_ACCOUNT_ACTIVATE_TODOS
+	 * 	TODO #1 : Extract token from body
+	 * 	TODO #2 : Find user having a token & Update the isActive status to true & confirmationToken to null
+	 * 	TODO #3 : Redirect user to login page
+	 * 					? If user success flash
+	 * 					? if !user error flash
+	 * *FINISH
+	 */
+
+	//  TODO #1:
+	const { token: confirmationToken } = req.params;
+	// TODO #2:
+	const user = await User.findOneAndUpdate(
+		{ confirmationToken },
+		{ confirmationToken: null, active: true }
+	);
+	// TODO #3:
+	user
+		? req.flash("success", "Account Activated.")
+		: req.flash("error", "Invalid token.");
+	return res.redirect("/login");
+};
+
 /*================================
 			POST CONTROLLERS
 =================================*/
@@ -37,13 +61,11 @@ exports.POST_SIGNUP = async (req, res, next) => {
 	 * 	TODO #2: Save user info with confirmation token
 	 * 	TODO #3: Send confirmation mail to user
 	 * 	TODO #4: Return success response
-	 *  *FINSISH
+	 *  *FINISH
 	 */
 
 	//TODO #1 :
-	const confirmationToken = randomBytes(Math.floor(Math.random() * 64)).toString(
-		"hex"
-	);
+	const confirmationToken = generateToken();
 
 	//TODO #2 :
 	const { email } = await new User({
@@ -83,7 +105,7 @@ exports.POST_SIGNIN = async (req, res, next) => {
 	 * 		* return success message
 	 * 	TODO #3:
 	 * 			!Throw Error
-	 *  *FINSISH
+	 *  *FINISH
 	 */
 
 	//  TODO #1:
@@ -121,7 +143,7 @@ exports.POST_FORGOT = async (req, res, next) => {
 	 * 	TODO #4: If user is not null
 	 * 			? send new generated pasword on user email account
 	 *		TODO #5: Send success message in everu case
-	 *  *FINSISH
+	 *  *FINISH
 	 */
 
 	// TODO #1:
@@ -133,9 +155,7 @@ exports.POST_FORGOT = async (req, res, next) => {
 	}
 
 	// TODO #2:
-	const newPassword = randomBytes(22)
-		.toString("hex")
-		.substring(3, 12);
+	const newPassword = generateToken(22).substring(3, 12);
 
 	// TODO #3:
 	const user = await User.findOneAndUpdate(

@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 // Hanlders
-const { upload_ms, upload_on_imagekit } = require("../handlers/uploadHandler");
+const {
+	upload_ms,
+	upload_on_imagekit,
+	catchAsyncError
+} = require("../handlers/_index");
 
 // Validators
 const { validateImageUpload } = require("../validators/upload");
@@ -27,8 +31,8 @@ router.put(
 	"/me/upload",
 	upload_ms.single("profile"),
 	validateImageUpload,
-	upload_on_imagekit,
-	PUT_UPDATE_PROFILE_IMAGE
+	catchAsyncError(upload_on_imagekit),
+	catchAsyncError(PUT_UPDATE_PROFILE_IMAGE)
 );
 
 module.exports = router;
