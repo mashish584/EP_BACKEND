@@ -38,12 +38,20 @@ app.use(
 );
 
 app.use((req, res, next) => {
+	// setting request type if exist
+	const reqType = req.get("content-type")
+		? req.get("content-type").toLowerCase()
+		: "";
+	req.isAjax = reqType.includes("json") ? true : false;
+	// token verification
 	const { user: token } = req.session;
 	if (token) {
 		const { userId } = verify(token, process.env.secret);
 		req.user = userId;
 	}
+	// template variables
 	res.locals.user = req.user || null;
+	res.locals.imagekitEP = "https://ik.imagekit.io/imashish";
 	res.locals.flashError = req.flash("error")[0];
 	res.locals.flashSuccess = req.flash("success")[0];
 	next();

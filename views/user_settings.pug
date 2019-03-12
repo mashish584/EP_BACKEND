@@ -6,12 +6,36 @@ block content
 		.profile
 			+profile_navigations("setting")
 			.profile-settings
+				h3 PROFILE INFO
+				form#profileForm(action="" method="post")
+					.input-group
+						label(for="bio") Bio
+						textarea(name="bio" )=userInfo.bio 
+					.input-group
+						label(for="location") Location
+						input(type="text" name="location" data-coordinates=userInfo.location.coordinates.join(',') value=userInfo.location['address'])
+					.input-group
+						label(for="phone") Phone no.
+						input(type="text" name="phone" value=userInfo.phone)
+					.input-group
+						label(for="facebook") Facebook
+						input(type="text" name="facebook" value= userInfo.social['facebook'])
+					.input-group
+						label(for="twitter") Twitter
+						input(type="text" name="twitter" value=userInfo.social['twitter'])
+					.input-group
+						label(for="linkedin") Linkedin
+						input(type="text" name="linkedin" value=userInfo.social['linkedin'])
+					.input-group
+						label(for="instagram") Instagram
+						input(type="text" name="instagram" value=userInfo.social['instagram'])
+					button(class="btn btn-th btn-submit") Save
+				hr
 				h3 CHANGE PASSWORD
-				form#resetForm(action="")
-					.input-group.error
+				form#resetForm(action="" method="post")
+					.input-group
 						label(for="oldPassword") Old Password
 						input(type="password" name="oldPassword" )
-						span Your password mush include atleast 8 characters including atleast 1 number or special character.
 					.input-group
 						label(for="newPassword") New Password
 						input(type="password" name="newPassword" )

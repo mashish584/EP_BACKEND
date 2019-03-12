@@ -31,7 +31,7 @@ export default () => {
 				// get form data
 				const body = getFormData(Array.from(this.querySelectorAll("input")));
 				// send request
-				const { status } = await axios.post("/signup", body);
+				const { status } = await axios.post("/sinup", body);
 				// show success message
 				if (status === 200) {
 					this.reset();

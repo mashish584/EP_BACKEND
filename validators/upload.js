@@ -8,7 +8,7 @@ exports.validateImageUpload = (req, res, next) => {
 
 	if (!mimetype.includes("image")) {
 		return res
-			.status(403)
+			.status(422)
 			.json(formatErrors("Invalid image Type", "body", "profile"));
 	}
 

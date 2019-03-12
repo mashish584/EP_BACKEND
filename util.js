@@ -1,12 +1,11 @@
 const { randomBytes } = require("crypto");
 
 // generate token
-exports.generateToken = (
-	size = randomBytes(Math.floor(Math.random() * 64)).toString("hex")
-) => randomBytes(size).toString("hex");
+exports.generateToken = (size = Math.floor(Math.random() * 64)) =>
+	randomBytes(size).toString("hex");
 
 // format all errors
-exports.formatErrors = (msg, location, param = "") => {
+exports.formatErrors = (msg, location = "", param = "") => {
 	return {
 		errors: [{ msg, location, param }]
 	};

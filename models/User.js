@@ -18,6 +18,43 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true
 		},
+		phone: {
+			type: String,
+			trim: true
+		},
+		bio: {
+			type: String,
+			trim: true
+		},
+		location: {
+			type: {
+				type: String,
+				default: "Point"
+			},
+			coordinates: [Number],
+			address: {
+				type: String,
+				trim: true
+			}
+		},
+		social: {
+			facebook: {
+				type: String,
+				trim: true
+			},
+			twitter: {
+				type: String,
+				trim: true
+			},
+			linkedin: {
+				type: String,
+				trim: true
+			},
+			instagram: {
+				type: String,
+				trim: true
+			}
+		},
 		profileImg: String,
 		active: {
 			type: Boolean,

@@ -6,7 +6,7 @@ const {
 	validateUserData,
 	valdidateLoginData,
 	validationResult
-} = require("../validators/user");
+} = require("../validators/_index");
 
 // Controllers
 const {
@@ -43,6 +43,12 @@ router.post(
 	validationResult,
 	catchAsyncError(POST_SIGNUP)
 );
-router.post("/forgot", catchAsyncError(POST_FORGOT));
+router.post(
+	"/forgot",
+	(req, res, next) => {
+		console.log(req.get("content-type"));
+	},
+	catchAsyncError(POST_FORGOT)
+);
 
 module.exports = router;

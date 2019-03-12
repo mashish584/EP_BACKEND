@@ -33,6 +33,10 @@ img {
 	@include WH();
 }
 
+textarea {
+	resize: none;
+}
+
 button {
 	background: none;
 	border: none;

@@ -47,9 +47,11 @@ instance.interceptors.response.use(
 					`<div id="flash" class="error">${errors[0].msg}</div>`
 				);
 				break;
-			case 403:
+			case 422:
 				showErrors(errors);
 				break;
+			default:
+				alert(`${status} : ${errors[0].msg}`);
 		}
 
 		return Promise.reject(error);

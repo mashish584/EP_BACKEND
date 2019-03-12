@@ -135,8 +135,11 @@ $common: "user";
 		}
 	}
 	&-settings {
+		background: $primary-bg;
+		padding: em(15px) em(30px) em(25px);
+		@include WH(100%, auto);
 		form {
-			@include WH(350px);
+			@include WH(350px, auto);
 			margin-top: em(25px);
 			.input-group {
 				margin: em(10px) 0;
@@ -144,7 +147,8 @@ $common: "user";
 					margin: em(2px) em(2px) 0;
 					font-weight: map-get($fontWeight, bold);
 				}
-				input {
+				input,
+				textarea {
 					border: 1px solid darken($primary-bg, 15%);
 					padding: em(25px) em(10px) em(15px);
 				}

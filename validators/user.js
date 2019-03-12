@@ -1,4 +1,4 @@
-const { check, validationResult } = require("express-validator/check");
+const { check } = require("express-validator/check");
 const User = require("../models/User");
 
 // TODO: VALIDATE LOGIN FORM DATA
@@ -23,22 +23,27 @@ exports.validateUserData = [
 
 	check("email")
 		.isEmail()
-		.normalizeEmail()
 		.withMessage("Please enter your valid email address")
 		.custom(async value => {
-			const user = await User.findOne({ email: value });
-			if (user) throw new Error("User is already registered with provided email");
-			return value;
+			if (value) {
+				const user = await User.findOne({
+					email: { $regex: ".*" + value + ".*", $options: "i" }
+				});
+				if (user)
+					throw new Error("User is already registered with provided email");
+			}
 		}),
 
 	check("password").custom(value => {
-		const regExp = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,12}$)");
+		const regExp = new RegExp(
+			"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,12}$)"
+		);
 		if (!regExp.test(value)) {
 			throw new Error(
 				"Password must be 8-12 characters long and must contain atleast one lowercase,uppercase,number & special character"
 			);
 		}
-		return value;
+		return value ? value : true;
 	}),
 
 	check("confirm")
@@ -46,18 +51,9 @@ exports.validateUserData = [
 		.isEmpty()
 		.withMessage("Please confirm your password")
 		.custom((value, { req }) => {
-			if (req.body.password !== value) {
+			if (value && req.body.password !== value) {
 				throw new Error("Password mismatch");
 			}
-			return value;
+			return value ? value : true;
 		})
 ];
-
-// TODO: EXTRACT ERRORS AND SEND AS RESPONSE
-exports.validationResult = (req, res, next) => {
-	const result = validationResult(req);
-	if (!result.isEmpty()) {
-		return res.status(403).json({ errors: result.array() });
-	}
-	next();
-};

@@ -7,36 +7,38 @@ block content
 			+profile_navigations
 			.profile-info
 				.profile-info--user
+					- let profileSrc = userInfo.profileImg ? `${imagekitEP}${userInfo.profileImg}`: 'https://www.drupal.org/files/issues/default-avatar.png';
 					.user-image
-						img(src="https://unsplash.it/200/200", alt="user-image")
+						img(src=profileSrc , alt="user-image")
 						label(for="profile" style="cursor:pointer;")
 							span#update-pic.fa.fa-pencil-square
 						form#uploadProfile(action="" method="post" enctype="multipart/form-data")
 							.input-group
 								input(type="file" id="profile" name="profile" accept="image/*")
 					.user-meta
-						h2 Nick Toldman
-						span 
-							i.fa.fa-map-marker
-							| San Francisco, California
+						h2= userInfo.fullname
+						if userInfo.location.address
+							span 
+								i.fa.fa-map-marker
+								=userInfo.location.address
 						ul.social-list
-							li 
-								a(href="" class="fa fa-facebook-square")
-							li 
-								a(href="" class="fa fa-twitter-square")
-							li 
-								a(href="" class="fa fa-linkedin-square")
-							li 
-								a(href="" class="fa fa-instagram")
+							each media,index in ['facebook','twitter','linkedin','instagram']
+								if userInfo.social[media]
+									li 
+										if index !== 3
+											a(href="" class=`fa fa-${media}-square`)
+										else
+											a(href="" class=`fa fa-${media}`)
 				.profile-info--about
-					p Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
-					|Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
-					span
-						i.fa.fa-envelope
-						| nick@ep.com
-					span
-						i.fa.fa-phone
-						| +00 9512785
+					p= userInfo.bio || "Please update your bio..."
+					if userInfo.email
+						span
+							i.fa.fa-envelope
+							| nick@ep.com
+					if userInfo.phone
+						span
+							i.fa.fa-phone
+							| +00 9512785
 				
 block footer
 	+footer(true)

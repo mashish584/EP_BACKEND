@@ -1,6 +1,6 @@
-const User = require("../models/User");
 const { compareSync, hashSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
+const User = require("../models/User");
 const { send } = require("../handlers/_index");
 const { formatErrors, formatSuccess, generateToken } = require("../util");
 
@@ -66,10 +66,10 @@ exports.POST_SIGNUP = async (req, res, next) => {
 
 	//TODO #1 :
 	const confirmationToken = generateToken();
-
 	//TODO #2 :
 	const { email } = await new User({
 		...req.body,
+		email: req.body.email.toLowerCase(),
 		confirmationToken
 	}).save();
 
@@ -112,7 +112,9 @@ exports.POST_SIGNIN = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	// TODO #2:
-	const user = await User.findOne({ email });
+	const user = await User.findOne({
+		email: { $regex: ".*" + email + ".*", $options: "i" }
+	});
 
 	if (user) {
 		//? compare password
