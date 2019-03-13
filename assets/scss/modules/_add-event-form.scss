@@ -1,4 +1,4 @@
-#addEvent {
+.event-form {
 	@include WH(100%);
 	margin-bottom: em(25px);
 	.input {
@@ -24,11 +24,15 @@
 					font-size: 14px;
 					padding: em(15px, 14px) em(30px, 14px);
 				}
-				span {
+				span,
+				small {
 					position: absolute;
 					color: $theme_color;
 					top: 16px;
 					left: 10px;
+				}
+				span {
+					top: 50px;
 				}
 			}
 		}

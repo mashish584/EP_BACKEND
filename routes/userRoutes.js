@@ -41,7 +41,7 @@ router.put(
 );
 router.put(
 	"/me/upload",
-	upload_ms.single("profile"),
+	upload_ms.single("image"),
 	validateImageUpload,
 	catchAsyncError(upload_on_imagekit),
 	catchAsyncError(PUT_UPDATE_PROFILE_IMAGE)

@@ -2,14 +2,12 @@ const { formatErrors } = require("../util");
 
 // TODO: VALIDATE SINGLE IMAGE UPlOAD
 exports.validateImageUpload = (req, res, next) => {
-	const {
-		file: { mimetype }
-	} = req;
+	const { file } = req;
 
-	if (!mimetype.includes("image")) {
+	if (file && !file.mimetype.includes("image")) {
 		return res
 			.status(422)
-			.json(formatErrors("Invalid image Type", "body", "profile"));
+			.json(formatErrors("Invalid image Type", "body", "image"));
 	}
 
 	next();

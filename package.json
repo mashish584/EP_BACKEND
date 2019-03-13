@@ -20,6 +20,7 @@
 		"html-to-text": "^4.0.0",
 		"imagekit": "^1.4.1",
 		"jsonwebtoken": "^8.5.0",
+		"moment": "^2.24.0",
 		"mongoose": "^5.3.8",
 		"multer": "^1.4.1",
 		"nodemailer": "^5.1.1",

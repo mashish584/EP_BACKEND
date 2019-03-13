@@ -28,7 +28,7 @@ exports.upload_on_imagekit = async (req, res, next) => {
 		folder: "/ep"
 	});
 	req.body.imageUrl = upload.url;
-	req.body.profileImg = upload.imagePath;
+	req.body.uploadImg = upload.imagePath;
 	next();
 };
 

@@ -4,21 +4,8 @@ section#search-box
 			input(type="text" name="category" class="trigger-list" value="" readonly)
 			i.fa.fa-angle-down
 			ul.dropdown-list
-				li 1
-				li 2
-				li 3
-				li 4
-				li 5
-				li.active 6
-				li 7
-				li 8
-				li 9
-				li 10
-				li 11
-				li 12
-				li 13
-				li 14
-				li 15
+				each item,i in categories
+					li(class=`${i===0 ? 'active' : ''}`)= item
 		.input-group
 			label Location
 			input(type="text" name="location" placeholder="Enter location")

@@ -22,6 +22,7 @@ exports.validateUserData = [
 		.withMessage("Please enter your fullname"),
 
 	check("email")
+		.trim()
 		.isEmail()
 		.withMessage("Please enter your valid email address")
 		.custom(async value => {

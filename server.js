@@ -12,6 +12,9 @@ const appRoute = require("./routes/_index");
 // error handlers
 const { NotFoundError, ErrorRendering } = require("./handlers/errorHandler.js");
 
+// helpers
+const util = require("./util");
+
 const app = express();
 
 // setting up ejs as templating engine
@@ -51,6 +54,7 @@ app.use((req, res, next) => {
 	}
 	// template variables
 	res.locals.user = req.user || null;
+	res.locals.h = util;
 	res.locals.imagekitEP = "https://ik.imagekit.io/imashish";
 	res.locals.flashError = req.flash("error")[0];
 	res.locals.flashSuccess = req.flash("success")[0];

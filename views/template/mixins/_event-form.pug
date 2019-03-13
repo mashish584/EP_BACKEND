@@ -1,0 +1,54 @@
+mixin eventForm(isAddForm=true,event={})
+	- let formId = isAddForm ? "addEvent" : "updateEvent"
+	form(id=formId class="event-form" action="" enctype="multipart/form-data")
+			.input-container
+				.input-group
+					label(for="name") Event Name
+					input(type="text" name="name" value=`${!isAddForm ? event.name : ""}`)
+				.input-group
+					label(for="spot") Numbers of spot
+					input(type="number" name="spot" value=`${!isAddForm ? event.spot : ""}`)
+			.input-container
+				.input-group
+					label(for="location") Location
+					input(type="text" name="location" data-coordinates=`${!isAddForm ? event.location.coordinates : ''}` value=`${!isAddForm ? event.location.address : ""}`)
+				.input-group
+					label(for="category") Event Category
+					input(type="text" name="category" class="trigger-list" value="" readonly)
+					i.fa.fa-angle-down
+					ul.dropdown-list
+						each item,i in categories
+							if isAddForm
+								li(class=`${i===0 ? 'active' : ''}`)= item
+							else
+								li(class=`${item === event.category ? 'active' : ''}`)= item
+			.input-container
+				.input-group
+					label(for="description") Description
+					textarea(name="description")= !isAddForm ? event.description : ""
+				.input-group.flx
+					.input-group--item.datePicker
+						small.fa.fa-calendar
+						input(type="text" name="date"  placeholder="Event Date" value=`${!isAddForm ?  h.moment(new Date(event.date)).format('DD/MM/YYYY') : ""}`) 
+					.input-group--item.clockPicker
+						small.fa.fa-clock-o
+						input(type="text" name="start"  placeholder="Start Time" value=`${!isAddForm ? h.getTimeFromNumber(event.time.start) : ""}`) 
+					.input-group--item.clockPicker
+						small.fa.fa-clock-o
+						input(type="text" name="end"  placeholder="End Time" value=`${!isAddForm ? h.getTimeFromNumber(event.time.end) : ""}`)
+			.input-container(style="position:relative;")
+				.input-group
+					label(for="price") Price($)
+					input(type="text" name="price" value=`${!isAddForm ? event.price : 0}`)
+				.input-group
+					label(for="file" class="upload-file") 
+						i.fa.fa-upload
+						| UPLOAD IMAGE			
+					input(type="file" name="image" id="file" accept="image/*")
+				if event.cover
+					img(src=`${imagekitEP}${event.cover}`, alt=event.name, style="position:absolute;width:100px;height:100%;right:10px;")
+				
+			hr
+			.input-actions
+				a(href="/" class="btn btn-cancel") Cancel
+				button(type="submit" class="btn btn-th")= `${isAddForm ? 'Add Event' : 'Update Event'}`

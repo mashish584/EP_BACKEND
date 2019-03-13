@@ -2,10 +2,6 @@ import axios from "./axios";
 import { asyncErrorHandler, getFormData } from "./helper";
 
 export default () => {
-	/**
-	 * TODO: Store Element Reference
-	 */
-
 	const resetForm = document.querySelector("#resetForm");
 	const profileForm = document.querySelector("#profileForm");
 	const profileUpload = document.querySelector("#uploadProfile");
@@ -105,7 +101,7 @@ export default () => {
 				//TODO #1 :
 				const body = new FormData(this);
 				//TODO #2 :
-				if (body.get("profile").size === 0) return;
+				if (body.get("image").size === 0) return;
 				//TODO #3 :
 				const {
 					data: { success }

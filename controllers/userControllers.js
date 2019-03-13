@@ -56,7 +56,7 @@ exports.PUT_UPDATE_PROFILE_INFO = async (req, res, next) => {
  */
 exports.PUT_UPDATE_PROFILE_IMAGE = async (req, res, next) => {
 	// TODO #1:
-	const { profileImg, imageUrl } = req.body;
+	const { uploadImg: profileImg, imageUrl } = req.body;
 	// TODO #2:
 	const user = await User.findOneAndUpdate({ _id: req.user }, { profileImg });
 	// TODO #3:
@@ -77,13 +77,13 @@ exports.PUT_UPDATE_PROFILE_IMAGE = async (req, res, next) => {
  *  * Finished
  */
 exports.PUT_UPDATE_PROFILE_PASSWORD = async (req, res, next) => {
-	// TODO #1 :
+	// TODO #1:
 	const { newPassword: password } = req.body;
-	// TODO #2 :
+	// TODO #2:
 	await User.findOneAndUpdate(
 		{ _id: req.user },
 		{ password: hashSync(password) }
 	).exec();
-	//TODO #3
+	//TODO #3:
 	return res.status(200).json(formatSuccess({ msg: "Password updated." }));
 };
