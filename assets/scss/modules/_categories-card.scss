@@ -18,8 +18,9 @@
 			display: block;
 			text-align: center;
 			margin-top: em(-3px);
-			padding: em(7px);
+			padding: em(12px);
 			@include WH(100%, 45px);
+			max-height: 45px;
 			color: darken($primary_bg, 65%);
 			background: $primary_bg;
 		}

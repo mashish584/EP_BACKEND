@@ -36,4 +36,13 @@ exports.getTimeFromNumber = number => {
 	return `${hours < 10 ? 0 : ""}${hours}:${minutes} ${hours > 12 ? "PM" : "AM"}`;
 };
 
+// camel case string
+exports.formatCamelCase = string => {
+	let words = string.split(" ");
+	words = words.map(
+		word => `${word.slice(0, 1).toUpperCase()}${word.substring(1)}`
+	);
+	return words.join(" ");
+};
+
 exports.moment = require("moment");

@@ -1,21 +1,26 @@
-mixin event_card(className,data={})
-	div(class='' + className)
-		.card-top
-			img(src="https://unsplash.it/300/300", alt="Sample Image")
-			span 14 
-				b DEC 
-		.card-bottom
-			.card-bottom--meta
-				span Thursday, January 01, 11:00 AM
-				span 
-					i.fa.fa-map-marker
-					| Delhi, India 
-			.card-bottom--info.clrfx
-				p Lorem, ipsum dolor sit amet ...
-				.user-meta
-					img(src="https://unsplash.it/100/100", alt="user-image")
-					span Hosted by 
-						b Roberto
-				span.ct-right $15
-			a(href="/event/SAS" class="btn btn-th btn-more") Read More
+mixin event_card(className,event=false)
+	if event
+		- let eventImg = event.cover ? `${imagekitEP}${event.cover}` : '/images/header-bg.jpg'
+		- let [eventMonth,eventDate] = h.moment(new Date(event.date)).format('ll').split(' ');
+		- let dateTime = `${h.moment().format('dddd, MMMM Do YYYY')} at ${h.getTimeFromNumber(event.time.start)}`
+		- let organiserImg =  event.organiser.profileImg ? `${imagekitEP}${event.organiser.profileImg}`: 'https://www.drupal.org/files/issues/default-avatar.png'; 
+		div(class='' + className)
+			.card-top
+				img(src=eventImg, alt=event.name)
+				span= eventDate.replace(',','')
+					b= eventMonth
+			.card-bottom
+				.card-bottom--meta
+					span= dateTime
+					span 
+						i.fa.fa-map-marker
+						= `${event.location.address.substring(0,13)}${event.location.address.length > 15 ? '..':''}`
+				.card-bottom--info.clrfx
+					p= event.name
+					.user-meta
+						img(src=organiserImg, alt=event.organiser.name)
+						span Hosted by 
+							b= event.organiser.fullname
+					span.ct-right= `$${event.price}`
+				a(href=`/event/${event.slug}` class="btn btn-th btn-more") Read More
 

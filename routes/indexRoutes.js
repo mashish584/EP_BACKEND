@@ -28,7 +28,7 @@ const {
 // GET ROUTES
 router.get("/", GET_HOMEPAGE);
 router.get("/event/:slug", GET_EVENT_DESCRIPTION);
-router.get("/category/:eventName", GET_CATEGORY_EVENTS);
+router.get("/category/:name", GET_CATEGORY_EVENTS);
 router.get("/host-event", GET_EVENT_ADDFORM);
 router.get("/event/:id/update", GET_EVENT_UPDATEFORM);
 
@@ -45,14 +45,14 @@ router.post(
 
 // PUT ROUTES
 
-// router.put(
-// 	"/event/:id/update",
-// 	upload_ms.single("image"),
-// 	validateEventData,
-// 	validateImageUpload,
-// 	validationResult,
-// 	upload_on_imagekit,
-// 	catchAsyncError(PUT_UPDATE_EVENT)
-// );
+router.put(
+	"/event/:id/update",
+	upload_ms.single("image"),
+	validateEventData,
+	validateImageUpload,
+	validationResult,
+	upload_on_imagekit,
+	catchAsyncError(PUT_UPDATE_EVENT)
+);
 
 module.exports = router;

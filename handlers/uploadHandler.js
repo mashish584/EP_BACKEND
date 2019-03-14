@@ -23,12 +23,14 @@ exports.upload_ms = multer({ storage: storage_ms });
 // Imagekit upload & delete
 exports.upload_on_imagekit = async (req, res, next) => {
 	const { file } = req;
-	const upload = await image_kit.upload(file.buffer.toString("base64"), {
-		filename: "ep.jpg",
-		folder: "/ep"
-	});
-	req.body.imageUrl = upload.url;
-	req.body.uploadImg = upload.imagePath;
+	if (file) {
+		const upload = await image_kit.upload(file.buffer.toString("base64"), {
+			filename: "ep.jpg",
+			folder: "/ep"
+		});
+		req.body.imageUrl = upload.url;
+		req.body.uploadImg = upload.imagePath;
+	}
 	next();
 };
 

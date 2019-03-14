@@ -113,7 +113,7 @@ exports.POST_SIGNIN = async (req, res, next) => {
 
 	// TODO #2:
 	const user = await User.findOne({
-		email: { $regex: ".*" + email + ".*", $options: "i" }
+		email: { $regex: email, $options: "i" }
 	});
 
 	if (user) {

@@ -1,80 +1,79 @@
 extends layout
 block headerContent
+	- let organiserImg =  event.organiser.profileImg ? `${imagekitEP}${event.organiser.profileImg}`: 'https://www.drupal.org/files/issues/default-avatar.png'; 
 	#content
-		h1 CSE 2019
+		h1= event.name
 		span 
 			i.fa.fa-map-marker
-			| Ramnagar, Uttarakhand
+			= event.location.address
 block content
 	section#container
 		.event
 			.event-info
 				h2 Information
-				p Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. 
-					br
-					br
-					|Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu,fermentum et, dapibus sed, urna.
-					br
-					br
-					|Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
+				p= event.description
 				.event-info--meta
 					span 
 						i.fa.fa-calendar
-						| Jan 22,2019
+						= h.moment(new Date(event.date)).format('LL')
 					span 
 						i.fa.fa-clock-o
-						| 10:30 PM - 1:30 AM
+						=`${h.getTimeFromNumber(event.time.start)} - ${h.getTimeFromNumber(event.time.end)}`
 				.event-info--price.clrfx
-					span $15
+					span= `$${event.price}`
 					a.btn.btn-th.ct-right(href="") Book Now
 				h2 Comments
-				.comments
-					.comment
-						.comment-profile
-							img(src="https://unsplash.it/150/150", alt="user-image")
-						.comment-content
-							.comment-content--meta
-								span ABC
-								span 9 minute ago
-							.comment-content--comment Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aut cumque nesciunt molestias voluptatum dolor recusandae ad officia, quas obcaecati eius voluptates tenetur veritatis enim a ducimus, voluptatem iure quisquam.	
-							//- button.btn.btn-reply
-							//- 	i.fa.fa-reply 
-							//- 	| Reply
-							br
-							br
-							section#replies
-								.comment
-									.comment-profile
-										img(src="https://unsplash.it/150/150", alt="user-image")
-									.comment-content
-										.comment-content--meta
-											span ABC
-											span 9 minute ago
-										.comment-content--comment Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aut cumque nesciunt molestias voluptatum dolor recusandae ad officia, quas obcaecati eius voluptates tenetur veritatis enim a ducimus, voluptatem iure quisquam.	
-							section#replyForm
-								.profile-image
-									img(src="https://unsplash.it/150/150", alt="user-image")
-								textarea(name="comment" placeholder="Add a reply..")
-								button.btn.btn-reply.btn-th Reply
-					hr
-					#commentForm
-						.profile-image
-							img(src="https://unsplash.it/150/150", alt="user-image")
-						textarea(name="comment" placeholder="Add a comment..")
-						button.btn.btn-reply.btn-th Add
+				//- .comments
+				//- 	.comment
+				//- 		.comment-profile
+				//- 			img(src="https://unsplash.it/150/150", alt="user-image")
+				//- 		.comment-content
+				//- 			.comment-content--meta
+				//- 				span ABC
+				//- 				span 9 minute ago
+				//- 			.comment-content--comment Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aut cumque nesciunt molestias voluptatum dolor recusandae ad officia, quas obcaecati eius voluptates tenetur veritatis enim a ducimus, voluptatem iure quisquam.	
+				//- 			//- button.btn.btn-reply
+				//- 			//- 	i.fa.fa-reply 
+				//- 			//- 	| Reply
+				//- 			br
+				//- 			br
+				//- 			section#replies
+				//- 				.comment
+				//- 					.comment-profile
+				//- 						img(src="https://unsplash.it/150/150", alt="user-image")
+				//- 					.comment-content
+				//- 						.comment-content--meta
+				//- 							span ABC
+				//- 							span 9 minute ago
+				//- 						.comment-content--comment Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aut cumque nesciunt molestias voluptatum dolor recusandae ad officia, quas obcaecati eius voluptates tenetur veritatis enim a ducimus, voluptatem iure quisquam.	
+				//- 			section#replyForm
+				//- 				.profile-image
+				//- 					img(src="https://unsplash.it/150/150", alt="user-image")
+				//- 				textarea(name="comment" placeholder="Add a reply..")
+				//- 				button.btn.btn-reply.btn-th Reply
+				hr
+				#commentForm
+					.profile-image
+						img(src=organiserImg, alt=event.organiser.fullname)
+					textarea(name="comment" placeholder="Add a comment..")
+					button.btn.btn-reply.btn-th Add
 							
 			.event-host
 				.user-image
-					img(src="https://unsplash.it/100/100" alt="")
+					img(src=organiserImg alt=event.organiser.name)
 					span.badge HOST
-				h4 Nick Toldman
-				p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore dignissimos fugiat fugit..
-				a(href="") Know More
-		section#other
-			h2 Other Events
-			.other-events
-				each val in [1,2,3,4]
-					+event_card("other-events--card")
+				h4= event.organiser.fullname
+				if event.organiser.bio
+					p= `${event.organiser.bio.substring(0,125)}${event.organiser.bio.length > 125 ? '...' : ''}`
+				br
+				a(href=`/user/profile/${event.organiser.id}`) Know More
+
+		if otherEvents.length
+			section#other
+				h2 Other Events
+				.other-events
+					each event in otherEvents
+						+event_card("other-events--card",event)
 
 block footer
 	+footer(true)

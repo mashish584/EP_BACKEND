@@ -28,7 +28,7 @@ exports.validateUserData = [
 		.custom(async value => {
 			if (value) {
 				const user = await User.findOne({
-					email: { $regex: ".*" + value + ".*", $options: "i" }
+					email: { $regex: value, $options: "i" }
 				});
 				if (user)
 					throw new Error("User is already registered with provided email");

@@ -5,14 +5,15 @@ block content
 	section#container
 		h2 Upcoming Events
 		.upcoming-events
-			each val in [1,2,3,4]
-				+event_card("other-events--card")
+			each event in upcomingEvents
+				+event_card("other-events--card",event)
 		h2 Explore Events By Category
 		.event-categories
-			.event-categories--card
-				img(src="https://unsplash.it/300/300", alt="Sample Image")
-				span Tailgating Parties
-				a(href="/category/dfjh" class="btn-th") VIEW EVENTS	
+			each item in categories
+				.event-categories--card
+					img(src="https://unsplash.it/300/300", alt="Sample Image")
+					span= item
+					a(href=`/category/${item}` class="btn-th") VIEW EVENTS	
 			
 	section#intro
 		h2 How We Work?

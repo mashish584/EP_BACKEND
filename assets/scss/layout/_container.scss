@@ -47,9 +47,10 @@
 			flex-wrap: nowrap;
 		}
 		&-info {
-			flex-shrink: 2;
+			flex: 2;
 		}
 		&-host {
+			flex: 1;
 			padding-top: em(50px);
 			@include flexy(column) {
 				align-items: center;

@@ -45,8 +45,10 @@ mixin eventForm(isAddForm=true,event={})
 						i.fa.fa-upload
 						| UPLOAD IMAGE			
 					input(type="file" name="image" id="file" accept="image/*")
-				if event.cover
+				if !isAddForm
 					img(src=`${imagekitEP}${event.cover}`, alt=event.name, style="position:absolute;width:100px;height:100%;right:10px;")
+			if !isAddForm
+				input(type="hidden" name="eventId" value=event.id)
 				
 			hr
 			.input-actions

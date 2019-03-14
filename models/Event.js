@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slug = require("mongoose-slug-generator");
 
 const EventSchema = new mongoose.Schema(
 	{
@@ -7,7 +8,12 @@ const EventSchema = new mongoose.Schema(
 			required: true,
 			trim: true
 		},
-		slug: String,
+		slug: {
+			type: String,
+			slug: "name",
+			slug_padding_size: 2,
+			unique: true
+		},
 		spot: Number,
 		location: {
 			type: {
@@ -52,5 +58,21 @@ const EventSchema = new mongoose.Schema(
 		timestamps: true
 	}
 );
+
+// TODO : Populate fields with the reference id data
+function populate(next) {
+	this.populate(
+		"organiser",
+		"-password -confirmationToken -tokenExpiration -createdAt -updatedAt"
+	);
+	next();
+}
+
+// TODO : Hook populate function on find & find-one hook
+EventSchema.pre("find", populate);
+EventSchema.pre("findOne", populate);
+
+// TODO: Add slug plugin to mongoose instance
+mongoose.plugin(slug);
 
 module.exports = mongoose.model("Event", EventSchema);

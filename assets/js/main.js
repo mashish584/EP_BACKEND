@@ -2,6 +2,7 @@
 
 import "../scss/main.scss";
 
+import moment from "moment";
 import { catchClickEvent } from "./js-utility";
 import { dropdownList } from "./drop-down-ui.js";
 import { navDrop } from "./nav-drop";
