@@ -28,6 +28,6 @@ exports.ErrorRendering = (err, req, res, next) => {
 		res.locals.errorStack = process.env.MODE = "dev" ? err.stack : "";
 		return res.render("error", { title: message });
 	} else {
-		return res.status(status).json(formatErrors(message));
+		return res.status(status || 500).json(formatErrors(message));
 	}
 };

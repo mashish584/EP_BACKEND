@@ -1,12 +1,13 @@
-section#search-box
-		.input-group
-			label(for="category") Event Category
-			input(type="text" name="category" class="trigger-list" value="" readonly)
-			i.fa.fa-angle-down
-			ul.dropdown-list
-				each item,i in categories
-					li(class=`${i===0 ? 'active' : ''}`)= item
-		.input-group
-			label Location
-			input(type="text" name="location" placeholder="Enter location")
-		button(class="btn btn-th btn-search") Search
+section
+		form#search-box(action="/search")
+			.input-group
+				label(for="category") Event Category
+				input(type="text" name="category" class="trigger-list" value="" readonly)
+				i.fa.fa-angle-down
+				ul.dropdown-list
+					each item,i in categories
+						li(class=`${i===0 ? 'active' : ''}`)= item
+			.input-group
+				label Location
+				input(type="search"  name="location" placeholder="Enter location")
+			button(class="btn btn-th btn-search") Search

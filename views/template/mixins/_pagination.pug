@@ -1,0 +1,11 @@
+mixin pagination(url)
+	#pagination
+		if pagination.page > 1
+			a(href=`${url}/${pagination.page-1}` class="btn") << Prev 
+		else
+			button(disabled class="btn") << Prev
+		span Page #{pagination.page} of #{pagination.pages}
+		if pagination.page < pagination.pages
+			a(href=`${url}/${pagination.page+1}` class="btn") Next >>
+		else
+			button(disabled class="btn") Next >>

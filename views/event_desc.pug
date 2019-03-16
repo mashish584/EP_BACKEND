@@ -66,7 +66,8 @@ block content
 				if event.organiser.bio
 					p= `${event.organiser.bio.substring(0,125)}${event.organiser.bio.length > 125 ? '...' : ''}`
 				br
-				a(href=`/user/profile/${event.organiser.id}`) Know More
+				-let profileLink = user === event.organiser.id ? '/profile/me' : `/user/profile/${event.organiser.id}`;
+				a(href=profileLink) Know More
 
 		if otherEvents.length
 			section#other

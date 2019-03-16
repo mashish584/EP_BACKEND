@@ -21,16 +21,26 @@ const {
 	GET_CATEGORY_EVENTS,
 	GET_EVENT_ADDFORM,
 	GET_EVENT_UPDATEFORM,
+	GET_USER_PROFILE,
+	GET_USER_HOSTED_EVENTS,
+	GET_EVENT_SEARCH,
 	POST_ADD_EVENT,
 	PUT_UPDATE_EVENT
 } = require("../controllers/indexControllers.js");
 
 // GET ROUTES
-router.get("/", GET_HOMEPAGE);
-router.get("/event/:slug", GET_EVENT_DESCRIPTION);
-router.get("/category/:name", GET_CATEGORY_EVENTS);
+router.get("/", catchAsyncError(GET_HOMEPAGE));
+router.get("/event/:slug", catchAsyncError(GET_EVENT_DESCRIPTION));
+router.get("/category/:name", catchAsyncError(GET_CATEGORY_EVENTS));
 router.get("/host-event", GET_EVENT_ADDFORM);
-router.get("/event/:id/update", GET_EVENT_UPDATEFORM);
+router.get("/event/:id/update", catchAsyncError(GET_EVENT_UPDATEFORM));
+router.get("/user/profile/:id", catchAsyncError(GET_USER_PROFILE));
+router.get("/user/profile/:id/events", catchAsyncError(GET_USER_HOSTED_EVENTS));
+router.get(
+	"/user/profile/:id/events/:page",
+	catchAsyncError(GET_USER_HOSTED_EVENTS)
+);
+router.get("/search", catchAsyncError(GET_EVENT_SEARCH));
 
 // POST ROUTES
 router.post(
@@ -39,7 +49,7 @@ router.post(
 	validateEventData,
 	validateImageUpload,
 	validationResult,
-	upload_on_imagekit,
+	catchAsyncError(upload_on_imagekit),
 	catchAsyncError(POST_ADD_EVENT)
 );
 
@@ -51,7 +61,7 @@ router.put(
 	validateEventData,
 	validateImageUpload,
 	validationResult,
-	upload_on_imagekit,
+	catchAsyncError(upload_on_imagekit),
 	catchAsyncError(PUT_UPDATE_EVENT)
 );
 

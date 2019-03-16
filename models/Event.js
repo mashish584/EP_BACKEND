@@ -59,6 +59,9 @@ const EventSchema = new mongoose.Schema(
 	}
 );
 
+// TODO : Index setup
+EventSchema.index({ "location.coordinates": "2dsphere" });
+
 // TODO : Populate fields with the reference id data
 function populate(next) {
 	this.populate(

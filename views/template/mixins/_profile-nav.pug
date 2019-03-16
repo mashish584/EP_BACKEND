@@ -1,14 +1,16 @@
 mixin profile_navigations(activeItem="info")
+	- const isProfileOwner = userInfo.id === user 
 	.profile-navigation
-			a(href="/profile/me" class=activeItem == "info" ? "profile-navigation--item active" : "profile-navigation--item")
+			a(href=`${isProfilOwner ? '/profile/me' : `/user/profile/${userInfo.id}`}` class=activeItem == "info" ? "profile-navigation--item active" : "profile-navigation--item")
 				i.fa.fa-user
 				| Info
-			a(href="/profile/events" class=activeItem == "events" ? "profile-navigation--item active" : "profile-navigation--item" )
+			a(href=`${isProfilOwner ? '/profile/events' : `/user/profile/${userInfo.id}/events`}` class=activeItem == "events" ? "profile-navigation--item active" : "profile-navigation--item" )
 				i.fa.fa-umbrella
 				| Events
-			a(href="/profile/wallet" class=activeItem == "wallet" ? "profile-navigation--item active" : "profile-navigation--item")
-				i.fa.fa-money
-				| Wallet
-			a(href="/profile/setting" class=activeItem == "setting" ? "profile-navigation--item active" : "profile-navigation--item")
-				i.fa.fa-cog
-				| Settings
+			if isProfileOwner
+				a(href="/profile/wallet" class=activeItem == "wallet" ? "profile-navigation--item active" : "profile-navigation--item")
+					i.fa.fa-money
+					| Wallet
+				a(href="/profile/setting" class=activeItem == "setting" ? "profile-navigation--item active" : "profile-navigation--item")
+					i.fa.fa-cog
+					| Settings

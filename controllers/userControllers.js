@@ -1,7 +1,8 @@
 const { hashSync } = require("bcryptjs");
 const User = require("../models/User");
+const Event = require("../models/Event");
 const { delete_image_from_imagekit } = require("../handlers/_index");
-const { formatSuccess } = require("../util");
+const { formatSuccess, createPagination } = require("../util");
 
 // GET CONTROLLERS
 exports.GET_USER_PROFILE = async (req, res, next) => {
@@ -12,12 +13,35 @@ exports.GET_USER_PROFILE = async (req, res, next) => {
 	return res.render("user_info", { title: "My Profile", userInfo });
 };
 
-exports.GET_USER_HOSTED_EVENTS = (req, res, next) => {
-	return res.render("user_event", { title: "My Hosted Events" });
+exports.GET_USER_HOSTED_EVENTS = async (req, res, next) => {
+	//TODO #1 : Pagination setup
+	const count = await Event.countDocuments({ organiser: req.user });
+	const pagination = await createPagination(count, req.params.page);
+
+	//TODO #2 : Redirect user to /events if page < 1 / Redirect user to last page if page > pages
+	if (pagination.pages && pagination.page < 1)
+		return res.redirect("/profile/events");
+	if (pagination.pages && pagination.page > pagination.pages)
+		return res.redirect(`/profile/events/${pagination.pages}`);
+
+	// TODO #3 : Get all events of current user
+	const events = await Event.find({ organiser: req.user })
+		.skip(pagination.skip)
+		.limit(pagination.limit);
+
+	return res.render("user_event", {
+		title: "My Hosted Events",
+		events,
+		pagination,
+		userInfo: { id: req.user }
+	});
 };
 
 exports.GET_USER_WALLET = (req, res, next) => {
-	return res.render("user_wallet", { title: "My Wallet" });
+	return res.render("user_wallet", {
+		title: "My Wallet",
+		userInfo: { id: req.user }
+	});
 };
 
 exports.GET_USER_SETTINGS = async (req, res, next) => {

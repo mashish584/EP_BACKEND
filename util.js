@@ -45,4 +45,14 @@ exports.formatCamelCase = string => {
 	return words.join(" ");
 };
 
+// create pagination
+exports.createPagination = async (count, currentPage) => {
+	const limit = parseInt(process.env.EVENT_PAGINATION_LIMIT, 10);
+	const page = currentPage || 1;
+	const pages = Math.ceil(count / limit);
+	const skip = page * limit - limit;
+	return { page: parseInt(page, 10), pages, skip, limit };
+};
+
+// moment
 exports.moment = require("moment");

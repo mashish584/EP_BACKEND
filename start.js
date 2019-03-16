@@ -11,4 +11,6 @@ mongoose.set("useCreateIndex", true);
 const app = require("./server");
 
 app.set("port", process.env.PORT || 4040);
-app.listen(app.get("port"), () => console.log(`Server is running on port ${app.get("port")}`));
+app.listen(app.get("port"), () =>
+	console.log(`Server is running on port ${app.get("port")}`)
+);

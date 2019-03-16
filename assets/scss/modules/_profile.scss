@@ -108,8 +108,25 @@ $common: "user";
 					position: absolute;
 					top: 10px;
 					right: 10px;
+					padding: 5px;
 					color: $primary-bg;
 					z-index: 999;
+				}
+			}
+			.actions {
+				position: absolute;
+				background: $primary-bg;
+				top: -15px;
+				box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+				right: 15px;
+				z-index: 999;
+				padding: em(5px);
+				display: none;
+				a {
+					display: block;
+					padding: em(5px);
+					color: darken($primary-bg, 45%) !important;
+					border-radius: 4px;
 				}
 			}
 		}

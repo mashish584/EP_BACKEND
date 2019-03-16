@@ -68,6 +68,7 @@ const UserSchema = new mongoose.Schema(
 	}
 );
 
+//TODO: Hash password before any save call
 UserSchema.pre("save", function(next) {
 	const user = this;
 	user.password = hashSync(user.password, genSaltSync(10));

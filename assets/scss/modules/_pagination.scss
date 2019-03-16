@@ -1,0 +1,16 @@
+#pagination {
+	flex: 1 0 100%;
+	padding: em(15px) 0;
+	@include flexy() {
+		justify-content: space-between;
+		align-items: center;
+	}
+	span {
+		color: darken($primary-bg, 45%);
+	}
+	.btn {
+		background: darken($primary-bg, 15%);
+		padding: em(10px) em(15px);
+		color: invert($primary-bg);
+	}
+}

@@ -29,7 +29,8 @@ const {
 
 // GET ROUTES
 router.get("/me", catchAsyncError(GET_USER_PROFILE));
-router.get("/events", GET_USER_HOSTED_EVENTS);
+router.get("/events", catchAsyncError(GET_USER_HOSTED_EVENTS));
+router.get("/events/:page", catchAsyncError(GET_USER_HOSTED_EVENTS));
 router.get("/wallet", GET_USER_WALLET);
 router.get("/setting", catchAsyncError(GET_USER_SETTINGS));
 

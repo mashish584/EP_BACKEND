@@ -4,6 +4,11 @@ body {
 	box-sizing: border-box;
 }
 
+*:disabled {
+	cursor: no-drop !important;
+	opacity: 0.5;
+}
+
 *:focus {
 	outline-color: darken($primary-bg, 5%);
 }

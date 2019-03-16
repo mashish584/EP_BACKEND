@@ -2,12 +2,13 @@
 
 import "../scss/main.scss";
 
-import moment from "moment";
+import "moment";
 import { catchClickEvent } from "./js-utility";
 import { dropdownList } from "./drop-down-ui.js";
 import { navDrop } from "./nav-drop";
 import { inputPicker } from "./picker-ui";
 import { autoCompleteLocation } from "./maps";
+import userEventsActionUi from "./user-events-ui";
 
 // Backend Scripts
 import userForm from "./backend/userForm";
@@ -24,6 +25,7 @@ isDropList && dropdownList();
 navDrop();
 inputPicker();
 isAutoComplete && autoCompleteLocation();
+userEventsActionUi();
 
 // Backend calls
 userForm();

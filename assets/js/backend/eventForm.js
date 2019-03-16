@@ -35,6 +35,7 @@ export default () => {
 					address: body.get("location"),
 					coordinates
 				};
+
 				body.set("location", JSON.stringify(locationObject));
 
 				// TODO #3:
@@ -80,6 +81,7 @@ export default () => {
 					address: body.get("location"),
 					coordinates
 				};
+
 				body.set("location", JSON.stringify(locationObject));
 
 				// TODO #3:

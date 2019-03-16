@@ -1,5 +1,11 @@
+const User = require("../models/User");
 const Event = require("../models/Event");
-const { getNumberFromTime, formatSuccess, moment } = require("../util");
+const {
+	getNumberFromTime,
+	formatSuccess,
+	createPagination,
+	moment
+} = require("../util");
 const { delete_image_from_imagekit } = require("../handlers/uploadHandler");
 const { categories } = require("../data/sample");
 
@@ -46,7 +52,61 @@ exports.GET_EVENT_UPDATEFORM = async (req, res, next) => {
 	return res.render("update_event", { title: event.name, event, categories });
 };
 
+exports.GET_USER_PROFILE = async (req, res, next) => {
+	//TODO : Redirect to /profile if owner is visitor
+	if (req.user === req.params.id) {
+		return res.redirect("/profile/me");
+	}
+	// TODO : Find profile user Info
+	const userInfo = await User.findOne({ _id: req.params.id });
+	return res.render("user_info", {
+		title: userInfo.fullname,
+		userInfo
+	});
+};
+
+exports.GET_USER_HOSTED_EVENTS = async (req, res, next) => {
+	//TODO : Redirect to /profile if owner is visitor
+	if (req.user === req.params.id) {
+		return res.redirect("/profile/events");
+	}
+	//TODO #1 : Pagination setup
+	const count = await Event.countDocuments({ organiser: req.params.id });
+	const pagination = await createPagination(count, req.params.page);
+
+	//TODO #2 : Redirect user to /events if page < 1 / Redirect user to last page if page > pages
+	if (pagination.pages && pagination.page < 1)
+		return res.redirect(`/user/profile/${req.params.id}/events`);
+	if (pagination.pages && pagination.page > pagination.pages)
+		return res.redirect(
+			`/user/profile/${req.params.id}/events/${pagination.pages}`
+		);
+
+	// TODO #3 : Get all events of current user
+	const events = await Event.find({ organiser: req.params.id })
+		.skip(pagination.skip)
+		.limit(pagination.limit);
+
+	return res.render("user_event", {
+		title: "My Hosted Events",
+		events,
+		pagination,
+		userInfo: { id: req.params.id }
+	});
+};
+
+exports.GET_EVENT_SEARCH = async (req, res, next) => {
+	const { category, lng, lat, location } = req.query;
+	const events = await Event.find({
+		"location.coordinates": {
+			$geoWithin: { $centerSphere: [[lng, lat], 15.7 / 3963.2] }
+		}
+	});
+	return res.json({ category, lng, lat, location, events });
+};
+
 // POST CONTROLLERS
+
 /**
  * * Add Event
  * 	TODO #1: Create event & update incoming body data
@@ -88,7 +148,6 @@ exports.PUT_UPDATE_EVENT = async (req, res, next) => {
 	if (req.body.uploadImg) {
 		req.body.cover = req.body.uploadImg;
 	}
-
 	// TODO #2:
 	const event = await Event.findOneAndUpdate(
 		{ _id: id },
@@ -101,7 +160,9 @@ exports.PUT_UPDATE_EVENT = async (req, res, next) => {
 			location: JSON.parse(req.body.location),
 			date: moment(req.body.date, "DD/MM/YYYY").valueOf()
 		}
-	).exec();
+	)
+		.exec()
+		.catch(err => console.log(err));
 
 	// TODO #3:
 	if (req.body.cover && event.cover) {

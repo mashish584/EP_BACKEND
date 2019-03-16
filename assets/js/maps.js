@@ -18,6 +18,11 @@ export const autoCompleteLocation = () => {
 			place.geometry.location.lng(),
 			place.geometry.location.lat()
 		];
+
 		locationInput.setAttribute("data-coordinates", `${lng},${lat}`);
+		if (locationInput.type === "search") {
+			const inputs = `<input type="hidden" name="lng" value=${lng}> <input type="hidden" name="lat" value=${lat}> `;
+			locationInput.parentElement.insertAdjacentHTML("beforeend", inputs);
+		}
 	});
 };
