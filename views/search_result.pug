@@ -3,12 +3,15 @@ block header
 	+navigation
 block content 
 	section#container
-		h2= h.formatCamelCase(category)
+		#search-meta
+			h2 Search Results :
+			each value, key in query
+				if value && key !== "page"
+					span= `${h.formatCamelCase(key)} : ${value}` 
 		if events.length
 			section.events-container
 				each event in events
 					+event_card("events-container--item",event)
-				-const url = `/category/${category}`;
-				+pagination(url)
+				+pagination(path,"&page=")
 		else
 			span No events available.

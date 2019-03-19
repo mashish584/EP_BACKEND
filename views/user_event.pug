@@ -6,20 +6,20 @@ block content
 		.profile
 			+profile_navigations("events")
 			.profile-events
-				each event in events
-					- let eventImg = event.image ? event.image : '/images/header-bg.jpg'
-					.profile-events--item
-						img(src=eventImg, alt=event.name)
-						.content
-							h2= `${event.name.toUpperCase().substring(0,12)}${event.name.length > 12 ? ".." : ""}`
-							p= `${event.description.substring(0,75)}${event.description.length > 75 ? "..." : ""}`
-							span#action.fa.fa-ellipsis-v
-						.actions
-							a(href=`/event/${event.slug}`) View
-							if user === userInfo.id
-								a(href=`/event/${event.id}/update`) Edit
-								a(href=`/event/${event.id}/remove`) Remove
-				if pagination.pages
+				if events.length
+					each event in events
+						- let eventImg = event.cover ? `${imagekitEP}/${event.cover}` : '/images/header-bg.jpg'
+						.profile-events--item
+							img(src=eventImg, alt=event.name)
+							.content
+								h2= `${event.name.toUpperCase().substring(0,12)}${event.name.length > 12 ? ".." : ""}`
+								p= `${event.description.substring(0,75)}${event.description.length > 75 ? "..." : ""}`
+								span#action.fa.fa-ellipsis-v
+							.actions
+								a(href=`/event/${event.slug}`) View
+								if user === userInfo.id
+									a(href=`/event/${event.id}/update`) Edit
+									a(href=`/event/${event.id}/remove`) Remove
 					-const url = user !== userInfo.id ? `/user/profile/${userInfo.id}/events` : '/profile/events';
 					+pagination(url)
 				else

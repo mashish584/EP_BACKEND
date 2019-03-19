@@ -11,3 +11,18 @@
 		cursor: pointer;
 	}
 }
+
+#search-meta {
+	margin: 10px 0;
+	h2 {
+		margin-bottom: 15px !important;
+	}
+	span {
+		display: inline-block;
+		background: $primary-bg;
+		padding: 10px;
+		box-shadow: 0 2px 5px rgba(invert($primary-bg), 0.1);
+		margin: 0 5px;
+		cursor: context-menu;
+	}
+}

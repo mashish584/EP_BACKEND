@@ -32,6 +32,7 @@ const {
 router.get("/", catchAsyncError(GET_HOMEPAGE));
 router.get("/event/:slug", catchAsyncError(GET_EVENT_DESCRIPTION));
 router.get("/category/:name", catchAsyncError(GET_CATEGORY_EVENTS));
+router.get("/category/:name/:page", catchAsyncError(GET_CATEGORY_EVENTS));
 router.get("/host-event", GET_EVENT_ADDFORM);
 router.get("/event/:id/update", catchAsyncError(GET_EVENT_UPDATEFORM));
 router.get("/user/profile/:id", catchAsyncError(GET_USER_PROFILE));

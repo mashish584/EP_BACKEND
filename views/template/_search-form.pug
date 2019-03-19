@@ -5,8 +5,9 @@ section
 				input(type="text" name="category" class="trigger-list" value="" readonly)
 				i.fa.fa-angle-down
 				ul.dropdown-list
+					li.active All
 					each item,i in categories
-						li(class=`${i===0 ? 'active' : ''}`)= item
+						li= item
 			.input-group
 				label Location
 				input(type="search"  name="location" placeholder="Enter location")

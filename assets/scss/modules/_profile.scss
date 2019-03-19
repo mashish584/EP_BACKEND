@@ -86,8 +86,7 @@ $common: "user";
 			&:after {
 				@extend %abs;
 				@include WH(100%, 100%);
-				background: invert($primary-bg);
-				opacity: 0.7;
+				background: rgba(invert($primary-bg), 0.5);
 				border-radius: 5px;
 			}
 			.content {

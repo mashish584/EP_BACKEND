@@ -34,12 +34,34 @@ exports.GET_EVENT_DESCRIPTION = async (req, res, next) => {
 };
 
 exports.GET_CATEGORY_EVENTS = async (req, res, next) => {
+	//TODO : Destruct and rename name param
 	const { name: category } = req.params;
-	const events = await Event.find({
-		category: { $regex: category, $options: "i" }
-	});
 
-	return res.render("event_list", { title: category, category, events });
+	//TODO #1 : Pagination setup
+	const count = await Event.countDocuments({
+		category: new RegExp(`^${category}$`, "i")
+	});
+	const pagination = await createPagination(count, req.params.page);
+
+	//TODO #2 : Redirect user to /events if page < 1 / Redirect user to last page if page > pages
+	if (pagination.pages && pagination.page < 1)
+		return res.redirect(`/category/${category}}`);
+	if (pagination.pages && pagination.page > pagination.pages)
+		return res.redirect(`/category/${category}/${pagination.pages}`);
+
+	// TODO #3 : Get all events
+	const events = await Event.find({
+		category: new RegExp(`^${category}$`, "i")
+	})
+		.skip(pagination.skip)
+		.limit(pagination.limit);
+
+	return res.render("event_list", {
+		title: category,
+		category,
+		events,
+		pagination
+	});
 };
 
 exports.GET_EVENT_ADDFORM = (req, res, next) => {
@@ -95,14 +117,83 @@ exports.GET_USER_HOSTED_EVENTS = async (req, res, next) => {
 	});
 };
 
+/**
+ *  * Search Todos
+ * 	TODO #1 : Extract query properties in variable
+ * 	TODO #2 : create empty object for filter & variable for storing operator type AND or OR
+ * 		?Check for category
+ * 		?Check for location
+ * 			?Check for lng & lat
+ *   TODO #3 : Update operator value
+ *   TODO #4 : Pagination
+ * 		?remove "?page" from url if exist and setup redirection for inappropriate page
+ *   TODO #5 : Find Event and pass filter object & render search page
+ *  * Finished
+ */
 exports.GET_EVENT_SEARCH = async (req, res, next) => {
+	// TODO #1 :
 	const { category, lng, lat, location } = req.query;
-	const events = await Event.find({
-		"location.coordinates": {
-			$geoWithin: { $centerSphere: [[lng, lat], 15.7 / 3963.2] }
+	// TODO #2 :
+	const filterObj = [];
+	let operator;
+
+	// ? check for category
+	if (category) {
+		filterObj.push({
+			category: category.toLowerCase() === "all" ? { $ne: category } : category
+		});
+	}
+	// ? check for location and push lng and lat filter if available else push location filter
+	if (location) {
+		if (lng && lat) {
+			filterObj.push({
+				"location.coordinates": {
+					// within 25 km
+					$geoWithin: { $centerSphere: [[lng, lat], 15.7 / 3963.2] }
+				}
+			});
+		} else {
+			filterObj.push({
+				"location.address": new RegExp(`^${location}$`, "i")
+			});
 		}
+	}
+
+	// TODO #3 :
+	operator = filterObj.length === 2 ? "$and" : "$or";
+
+	// TODO #4 :
+	const count = await Event.countDocuments({
+		[operator]: filterObj,
+		date: { $gte: Date.now() }
 	});
-	return res.json({ category, lng, lat, location, events });
+	const pagination = await createPagination(count, req.query.page);
+	// ? remove "?page" from url
+	const pageUrl = req.originalUrl.includes("page")
+		? req.originalUrl.substring(0, req.originalUrl.lastIndexOf("&"))
+		: path;
+	// ? redirection for inappropriate pages
+	if (pagination.pages && pagination.page < 1)
+		return res.redirect(`${pageUrl}&page=1`);
+	if (pagination.pages && pagination.page > pagination.pages)
+		return res.redirect(`${pageUrl}&page=${pagination.pages}`);
+
+	// TODO #5 :
+	const events = await Event.find({
+		[operator]: filterObj,
+		date: { $gte: Date.now() }
+	})
+		.skip(pagination.skip)
+		.limit(pagination.limit)
+		.sort({ date: -1 });
+
+	return res.render("search_result", {
+		title: "Search Results",
+		events,
+		query: req.query,
+		pagination,
+		path: pageUrl
+	});
 };
 
 // POST CONTROLLERS
