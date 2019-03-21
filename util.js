@@ -46,12 +46,34 @@ exports.formatCamelCase = string => {
 };
 
 // create pagination
-exports.createPagination = async (count, currentPage) => {
-	const limit = parseInt(process.env.EVENT_PAGINATION_LIMIT, 10);
+exports.createPagination = async (
+	count,
+	currentPage,
+	max = process.env.EVENT_PAGINATION_LIMIT
+) => {
+	const limit = parseInt(max, 10);
 	const page = currentPage || 1;
 	const pages = Math.ceil(count / limit);
 	const skip = page * limit - limit;
 	return { page: parseInt(page, 10), pages, skip, limit };
+};
+
+// Nest comment with replies
+exports.nestCommentReplies = comments => {
+	const [parent, child] = [
+		comments.filter(comment => !comment.childOf),
+		comments.filter(comment => comment.childOf)
+	];
+	return parent.map(comment => {
+		const replies = child.filter(
+			reply => reply.childOf.toString() === comment.id.toString()
+		);
+		// console.log(comment.replies);
+		return {
+			...comment._doc,
+			replies
+		};
+	});
 };
 
 // moment

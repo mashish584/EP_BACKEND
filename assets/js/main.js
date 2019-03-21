@@ -14,6 +14,7 @@ import userEventsActionUi from "./user-events-ui";
 import userForm from "./backend/userForm";
 import profileForm from "./backend/profileForm";
 import eventForm from "./backend/eventForm";
+import commentForm from "./backend/commentForm";
 
 // check if elements available in DOM for handling function calls
 const isDropList = document.querySelector(".dropdown-list");
@@ -31,3 +32,4 @@ userEventsActionUi();
 userForm();
 profileForm();
 eventForm();
+commentForm();

@@ -55,9 +55,18 @@ const EventSchema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		toJSON: { virtuals: true },
+		toObject: { virtuals: true }
 	}
 );
+
+// TODO : Setup Relation with comments
+EventSchema.virtual("comments", {
+	ref: "Comment",
+	localField: "_id",
+	foreignField: "event"
+});
 
 // TODO : Index setup
 EventSchema.index({ "location.coordinates": "2dsphere" });
@@ -68,6 +77,7 @@ function populate(next) {
 		"organiser",
 		"-password -confirmationToken -tokenExpiration -createdAt -updatedAt"
 	);
+	this.populate({ path: "comments", options: { sort: { createdAt: -1 } } });
 	next();
 }
 

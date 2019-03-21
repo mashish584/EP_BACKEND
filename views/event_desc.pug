@@ -23,41 +23,50 @@ block content
 					span= `$${event.price}`
 					a.btn.btn-th.ct-right(href="") Book Now
 				h2 Comments
-				//- .comments
-				//- 	.comment
-				//- 		.comment-profile
-				//- 			img(src="https://unsplash.it/150/150", alt="user-image")
-				//- 		.comment-content
-				//- 			.comment-content--meta
-				//- 				span ABC
-				//- 				span 9 minute ago
-				//- 			.comment-content--comment Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aut cumque nesciunt molestias voluptatum dolor recusandae ad officia, quas obcaecati eius voluptates tenetur veritatis enim a ducimus, voluptatem iure quisquam.	
-				//- 			//- button.btn.btn-reply
-				//- 			//- 	i.fa.fa-reply 
-				//- 			//- 	| Reply
-				//- 			br
-				//- 			br
-				//- 			section#replies
-				//- 				.comment
-				//- 					.comment-profile
-				//- 						img(src="https://unsplash.it/150/150", alt="user-image")
-				//- 					.comment-content
-				//- 						.comment-content--meta
-				//- 							span ABC
-				//- 							span 9 minute ago
-				//- 						.comment-content--comment Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus aut cumque nesciunt molestias voluptatum dolor recusandae ad officia, quas obcaecati eius voluptates tenetur veritatis enim a ducimus, voluptatem iure quisquam.	
-				//- 			section#replyForm
-				//- 				.profile-image
-				//- 					img(src="https://unsplash.it/150/150", alt="user-image")
-				//- 				textarea(name="comment" placeholder="Add a reply..")
-				//- 				button.btn.btn-reply.btn-th Reply
-				hr
-				#commentForm
-					.profile-image
-						img(src=organiserImg, alt=event.organiser.fullname)
-					textarea(name="comment" placeholder="Add a comment..")
-					button.btn.btn-reply.btn-th Add
-							
+				.comments
+					each comment,index in event.comments
+						if index < 3
+							.comment
+								.comment-profile
+									- let profileSrc = comment.author.profileImg ? `${imagekitEP}${comment.author.profileImg}`: 'https://www.drupal.org/files/issues/default-avatar.png';
+									img(src=profileSrc, alt=comment.author.fullname)
+								.comment-content
+									.comment-content--meta
+										span= comment.author.fullname
+										span= h.moment(comment.createdAt).calendar()
+									.comment-content--comment= comment.comment	
+									br
+									br
+									section#replies(data-target=comment._id)
+										each reply in comment.replies
+											.comment
+												.comment-profile
+													- let profileSrc = reply.author.profileImg ? `${imagekitEP}${reply.author.profileImg}`: 'https://www.drupal.org/files/issues/default-avatar.png';
+													img(src=profileSrc, alt="user-image")
+												.comment-content
+													.comment-content--meta
+														span= reply.author.fullname
+														span= h.moment(reply.createdAt).calendar()
+													.comment-content--comment= reply.comment 
+									if user
+										form#replyForm
+											.profile-image
+												img(src=user.profileImg, alt="user-image")
+											.input-group
+												textarea(name="reply" placeholder="Add a reply..")
+											button.btn.btn-reply.btn-th(type="button" data-comment=comment._id data-id=event.id) Reply
+				if event.comments.length > 3
+					button#loadComment(class="btn btn-th center" data-user=user ? user.id : "" data-event=event.id data-page=2) Show More
+				if user
+					form#commentForm
+						.profile-image
+							img(src=user.profileImg, alt=user.fullname)
+						.input-group
+							textarea(name="comment" placeholder="Add a comment..")
+						button.btn.btn-reply.btn-th(data-id=event.id) Add
+				else
+					span 
+						a.st-link.hlt.center(href="/login") Login to comment
 			.event-host
 				.user-image
 					img(src=organiserImg alt=event.organiser.name)

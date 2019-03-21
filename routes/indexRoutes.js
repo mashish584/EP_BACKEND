@@ -11,6 +11,8 @@ const {
 // Validators
 const {
 	validateEventData,
+	validateCommentData,
+	valditeReplyData,
 	validateImageUpload,
 	validationResult
 } = require("../validators/_index");
@@ -24,7 +26,10 @@ const {
 	GET_USER_PROFILE,
 	GET_USER_HOSTED_EVENTS,
 	GET_EVENT_SEARCH,
+	GET_EVENT_COMMENTS,
 	POST_ADD_EVENT,
+	POST_EVENT_COMMENT,
+	POST_EVENT_COMMENT_REPLY,
 	PUT_UPDATE_EVENT
 } = require("../controllers/indexControllers.js");
 
@@ -42,6 +47,7 @@ router.get(
 	catchAsyncError(GET_USER_HOSTED_EVENTS)
 );
 router.get("/search", catchAsyncError(GET_EVENT_SEARCH));
+router.get("/event/:id/comments/:page", catchAsyncError(GET_EVENT_COMMENTS));
 
 // POST ROUTES
 router.post(
@@ -52,6 +58,20 @@ router.post(
 	validationResult,
 	catchAsyncError(upload_on_imagekit),
 	catchAsyncError(POST_ADD_EVENT)
+);
+
+router.post(
+	"/event/:id/comment",
+	validateCommentData,
+	validationResult,
+	catchAsyncError(POST_EVENT_COMMENT)
+);
+
+router.post(
+	"/event/:id/comment/:comment/reply",
+	valditeReplyData,
+	validationResult,
+	catchAsyncError(POST_EVENT_COMMENT_REPLY)
 );
 
 // PUT ROUTES

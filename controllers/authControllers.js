@@ -125,7 +125,16 @@ exports.POST_SIGNIN = async (req, res, next) => {
 					.json(formatErrors("Please activate your account", "#signin"));
 			}
 			//? generate jwt and set session
-			req.session.user = sign({ userId: user.id }, process.env.SECRET);
+			req.session.user = sign(
+				{
+					id: user.id,
+					fullname: user.fullname,
+					profileImg: user.profileImg
+						? `${process.env.IMAGE_KIT_EP}${user.profileImg}`
+						: "https://www.drupal.org/files/issues/default-avatar.png"
+				},
+				process.env.SECRET
+			);
 			return res.status(200).json(formatSuccess("Access granted."));
 		}
 	}

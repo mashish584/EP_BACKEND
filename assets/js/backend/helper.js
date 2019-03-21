@@ -49,6 +49,7 @@ export const showErrors = errors => {
 		const formEl =
 			document.querySelector(`input[name=${err.param}]`) ||
 			document.querySelector(`textarea[name=${err.param}]`);
+
 		const parentEl = formEl.parentElement;
 		parentEl.classList.add("error");
 		parentEl.insertAdjacentHTML("beforeend", `<span>${err.msg}</span>`);
@@ -81,4 +82,57 @@ export const asyncErrorHandler = function(fn) {
 			.call(this, e)
 			.catch(error => console.log(`Error : ${error.message}`));
 	};
+};
+
+/**
+ * Templates
+ */
+
+export const replyFormTemplate = data => {
+	return `<form id="replyForm" data-target="${data.id}">
+	<div class="profile-image">
+		<img src=${data.author.profileImg ||
+			"https://www.drupal.org/files/issues/default-avatar.png"} alt="user-image">
+	</div>
+	<div class="input-group">
+		<textarea name="reply" placeholder="Add a reply.."></textarea>
+	</div>
+	<button type="button" class="btn btn-reply btn-th" data-comment="${
+		data.comment
+	}" data-id="${data.id}">Reply</button>
+</form>`;
+};
+
+export const repliesTemplate = replies => {
+	return replies.map(reply => commentTemplate(reply)).join("");
+};
+
+export const commentTemplate = (comment, showReplies = false, showForm = false) => {
+	return `<div class="comment">
+		<div class="comment-profile">
+			<img src="${comment.author.profileImg ||
+				"https://www.drupal.org/files/issues/default-avatar.png"}" alt="user-image">
+		</div>
+		<div class="comment-content">
+			<div class="comment-content--meta">
+				<span>${comment.author.fullname}</span>
+				<span>${moment(comment.createdAt).calendar()}</span>
+			</div>
+			<div class="comment-content--comment">${comment.comment}</div>
+			<br>
+			<br>
+			<section id="replies" data-target="${comment._id}">
+				${showReplies ? repliesTemplate(comment.replies) : ""}
+			</section>
+			${
+				showForm
+					? replyFormTemplate({
+							id: comment.event,
+							comment: comment._id,
+							author: comment.author
+					  })
+					: ""
+			}
+		</div>
+	</div>`;
 };

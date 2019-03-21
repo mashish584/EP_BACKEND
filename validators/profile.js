@@ -15,7 +15,7 @@ exports.validateResetForm = [
 	check("oldPassword").custom(async (value, { req }) => {
 		if (!value) throw new Error("Please enter your old password");
 		if (value) {
-			const { password } = await User.findOne({ _id: req.user });
+			const { password } = await User.findOne({ _id: req.user.id });
 			if (!compareSync(value, password)) {
 				throw new Error("Old password is incorrect");
 			}

@@ -49,13 +49,12 @@ app.use((req, res, next) => {
 	// token verification
 	const { user: token } = req.session;
 	if (token) {
-		const { userId } = verify(token, process.env.secret);
-		req.user = userId;
+		req.user = verify(token, process.env.secret);
 	}
 	// template variables
 	res.locals.user = req.user || null;
 	res.locals.h = util;
-	res.locals.imagekitEP = "https://ik.imagekit.io/imashish";
+	res.locals.imagekitEP = process.env.IMAGE_KIT_EP;
 	res.locals.flashError = req.flash("error")[0];
 	res.locals.flashSuccess = req.flash("success")[0];
 	next();

@@ -5,13 +5,18 @@
 }
 
 .comments {
-	padding-top: 25px;
+	margin: 25px 0;
 }
 
 #replies {
+	max-height: 350px;
+	overflow: auto;
 	.comment {
 		border: none;
 		margin-bottom: 10px;
+		margin-right: 10px;
+		background: #f5f5f5;
+		border-radius: 10px;
 	}
 }
 
@@ -24,12 +29,22 @@
 	img {
 		@extend %commentImg;
 	}
+	.input-group {
+		position: relative;
+		@include WH(100%);
+		margin: 0 10px 0;
+		span {
+			position: absolute;
+			@include WH(100%, auto);
+			left: 0;
+			bottom: -10px;
+		}
+	}
 	textarea {
 		@include WH(100%, 70px);
 		padding: em(10px);
 		border: none;
 		resize: none;
-		margin: 0 10px;
 	}
 	button {
 		@include WH(100px, 50px);
@@ -38,7 +53,7 @@
 
 #replyForm {
 	border: none;
-	margin-left: em(55px);
+	margin-left: em(35px);
 	img {
 		@include WH(50px, 50px);
 	}
@@ -46,13 +61,14 @@
 
 .comment {
 	background: $primary_bg;
-	border: 1px solid darken($primary_bg, 7%);
+	// border: 1px solid darken($primary_bg, 7%);
 	padding: em(15px);
 	margin-bottom: em(15px);
 	img {
 		@extend %commentImg;
 	}
 	&-content {
+		@include WH(100%, auto);
 		padding: 0 em(15px);
 		&--meta {
 			margin-bottom: 15px;

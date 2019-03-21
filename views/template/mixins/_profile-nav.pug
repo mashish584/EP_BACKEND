@@ -1,5 +1,5 @@
 mixin profile_navigations(activeItem="info")
-	- const isProfileOwner = userInfo.id === user 
+	- const isProfileOwner = userInfo.id === user.id 
 	.profile-navigation
 			a(href=`${isProfilOwner ? '/profile/me' : `/user/profile/${userInfo.id}`}` class=activeItem == "info" ? "profile-navigation--item active" : "profile-navigation--item")
 				i.fa.fa-user

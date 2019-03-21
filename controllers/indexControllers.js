@@ -1,9 +1,12 @@
 const User = require("../models/User");
 const Event = require("../models/Event");
+const Comment = require("../models/Comment");
 const {
 	getNumberFromTime,
 	formatSuccess,
 	createPagination,
+	formatErrors,
+	nestCommentReplies,
 	moment
 } = require("../util");
 const { delete_image_from_imagekit } = require("../handlers/uploadHandler");
@@ -25,6 +28,9 @@ exports.GET_HOMEPAGE = async (req, res, next) => {
 exports.GET_EVENT_DESCRIPTION = async (req, res, next) => {
 	//TODO: Fetch event with slug
 	const event = await Event.findOne({ slug: req.params.slug });
+	// TODO: Get all replies
+
+	event.comments = nestCommentReplies(event.comments);
 	// TODO : Fetch 4 other events of "event" host
 	const otherEvents = await Event.find({
 		_id: { $ne: event.id },
@@ -76,7 +82,7 @@ exports.GET_EVENT_UPDATEFORM = async (req, res, next) => {
 
 exports.GET_USER_PROFILE = async (req, res, next) => {
 	//TODO : Redirect to /profile if owner is visitor
-	if (req.user === req.params.id) {
+	if (req.user.id === req.params.id) {
 		return res.redirect("/profile/me");
 	}
 	// TODO : Find profile user Info
@@ -89,7 +95,7 @@ exports.GET_USER_PROFILE = async (req, res, next) => {
 
 exports.GET_USER_HOSTED_EVENTS = async (req, res, next) => {
 	//TODO : Redirect to /profile if owner is visitor
-	if (req.user === req.params.id) {
+	if (req.user.id === req.params.id) {
 		return res.redirect("/profile/events");
 	}
 	//TODO #1 : Pagination setup
@@ -171,7 +177,7 @@ exports.GET_EVENT_SEARCH = async (req, res, next) => {
 	// ? remove "?page" from url
 	const pageUrl = req.originalUrl.includes("page")
 		? req.originalUrl.substring(0, req.originalUrl.lastIndexOf("&"))
-		: path;
+		: req.originalUrl;
 	// ? redirection for inappropriate pages
 	if (pagination.pages && pagination.page < 1)
 		return res.redirect(`${pageUrl}&page=1`);
@@ -183,9 +189,9 @@ exports.GET_EVENT_SEARCH = async (req, res, next) => {
 		[operator]: filterObj,
 		date: { $gte: Date.now() }
 	})
+		.sort({ date: -1 })
 		.skip(pagination.skip)
-		.limit(pagination.limit)
-		.sort({ date: -1 });
+		.limit(pagination.limit);
 
 	return res.render("search_result", {
 		title: "Search Results",
@@ -194,6 +200,39 @@ exports.GET_EVENT_SEARCH = async (req, res, next) => {
 		pagination,
 		path: pageUrl
 	});
+};
+
+/**
+ * *Comment Load Todos
+ * 	TODO #1 : Get eventId and page number
+ * 	TODO #2 : Count all comments of event & Create Pagination
+ * 	TODO #3 : Get all the comments of particular event and update each comment with replies
+ * 	TODO #4 : Return
+ * *Finished
+ */
+exports.GET_EVENT_COMMENTS = async (req, res, next) => {
+	// TODO #1:
+	const { id, page } = req.params;
+	// TODO #2:
+	const count = await Comment.countDocuments({
+		event: id,
+		childOf: { $exists: false }
+	});
+
+	const pagination = await createPagination(count, page, 3);
+
+	// TODO #3:
+	let comments = await Comment.find({ event: id }).sort({ createdAt: -1 });
+	comments = nestCommentReplies(comments).splice(pagination.skip, pagination.limit);
+
+	// TODO #4:
+	return res.status(200).json(
+		formatSuccess({
+			msg: "Comments fetched",
+			comments,
+			pagination
+		})
+	);
 };
 
 // POST CONTROLLERS
@@ -215,11 +254,77 @@ exports.POST_ADD_EVENT = async (req, res, next) => {
 		location: JSON.parse(req.body.location),
 		date: moment(req.body.date, "DD/MM/YYYY").valueOf(),
 		cover: req.body.uploadImg,
-		organiser: req.user
+		organiser: req.user.id
 	}).save();
 
 	// TODO #2:
 	return res.status(200).json(formatSuccess({ msg: "Event added", event }));
+};
+
+/**
+ * * Post Comment
+ * 	TODO #1 : Check for event existence & return if count is 0
+ * 	TODO #2 : Save comment
+ * 	TODO #3 : Return response
+ * * Finished
+ */
+exports.POST_EVENT_COMMENT = async (req, res, next) => {
+	const { id } = req.params;
+	// TODO #1 :
+	const isEventExist = await Event.countDocuments({ _id: id });
+	if (!isEventExist)
+		return res.status(422).json(formatErrors("Please try again!", "", "comment"));
+	// TODO #2 :
+	const comment = await new Comment({
+		...req.body,
+		author: req.user.id,
+		event: id
+	}).save();
+
+	// TODO #3 :
+	return res.status(200).json(
+		formatSuccess({
+			msg: "Comment added",
+			comment: {
+				...comment._doc,
+				author: req.user
+			}
+		})
+	);
+};
+
+/**
+ * * Post comment reply
+ * 	TODO #1 : Check for comment existence & return if count is 0
+ * 	TODO #2 : Save reply
+ * 	TODO #3 : Return response
+ * * Finished
+ */
+
+exports.POST_EVENT_COMMENT_REPLY = async (req, res, next) => {
+	const { id, comment } = req.params;
+	// TODO #1 :
+	const isCommentExist = await Comment.countDocuments({ _id: comment });
+	if (!isCommentExist)
+		return res.status(422).json(formatErrors("Please try again!", "", "reply"));
+	// TODO #2 :
+	const reply = await new Comment({
+		comment: req.body.reply,
+		childOf: comment,
+		author: req.user.id,
+		event: id
+	}).save();
+
+	// TODO #3 :
+	return res.status(200).json(
+		formatSuccess({
+			msg: "Reply added",
+			reply: {
+				...reply._doc,
+				author: req.user
+			}
+		})
+	);
 };
 
 // PUT CONTROLLERS

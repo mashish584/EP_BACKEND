@@ -105,6 +105,12 @@
 	font-weight: map-get($fontWeight, bold);
 }
 
+.center {
+	display: block !important;
+	margin: 10px auto;
+	text-align: center;
+}
+
 .br:after {
 	@extend %abs;
 	content: "OR";
