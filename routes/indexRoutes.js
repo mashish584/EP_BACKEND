@@ -16,6 +16,7 @@ const {
 	validateImageUpload,
 	validationResult
 } = require("../validators/_index");
+
 // Controllers
 const {
 	GET_HOMEPAGE,
@@ -28,6 +29,7 @@ const {
 	GET_EVENT_SEARCH,
 	GET_EVENT_COMMENTS,
 	POST_ADD_EVENT,
+	POST_CHECKOUT,
 	POST_EVENT_COMMENT,
 	POST_EVENT_COMMENT_REPLY,
 	PUT_UPDATE_EVENT
@@ -73,6 +75,8 @@ router.post(
 	validationResult,
 	catchAsyncError(POST_EVENT_COMMENT_REPLY)
 );
+
+router.post("/checkout/connect/:type/:id", catchAsyncError(POST_CHECKOUT));
 
 // PUT ROUTES
 

@@ -1,6 +1,9 @@
+const Stripe = require("stripe")(process.env.STRIPE_SEC);
 const User = require("../models/User");
 const Event = require("../models/Event");
 const Comment = require("../models/Comment");
+const Booking = require("../models/Booking");
+const { send } = require("../handlers/mailHandler");
 const {
 	getNumberFromTime,
 	formatSuccess,
@@ -28,8 +31,8 @@ exports.GET_HOMEPAGE = async (req, res, next) => {
 exports.GET_EVENT_DESCRIPTION = async (req, res, next) => {
 	//TODO: Fetch event with slug
 	const event = await Event.findOne({ slug: req.params.slug });
+	console.log(event);
 	// TODO: Get all replies
-
 	event.comments = nestCommentReplies(event.comments);
 	// TODO : Fetch 4 other events of "event" host
 	const otherEvents = await Event.find({
@@ -325,6 +328,64 @@ exports.POST_EVENT_COMMENT_REPLY = async (req, res, next) => {
 			}
 		})
 	);
+};
+
+/**
+ *  * Post connect checkout
+ * 	TODO #1 : Destruct the type & id
+ * 	TODO #2 : Getevent & recalculate amount of checkout
+ * 	TODO #3 : Perform stripe checkout
+ * 	TODO #4 : Save booking detail with required info and send mail to user
+ * 	TODO #5 : Return response
+ *  * Finished
+ */
+exports.POST_CHECKOUT = async (req, res, next) => {
+	// TODO #1:
+	const { type, id } = req.params;
+	const { token } = req.body;
+
+	// TODO #2:
+	const event = await Event.findOne({ _id: id });
+	const totalAmount = event.price * 100;
+
+	// TODO #3:
+	const charge = await Stripe.charges.create({
+		amount: totalAmount,
+		currency: "usd",
+		description: `Payment of $${totalAmount / 100} against the booking of ${
+			event.name
+		} event`,
+		source: token,
+		destination: {
+			amount: totalAmount - (totalAmount * 5) / 100,
+			account: event.organiser.connect
+		}
+	});
+
+	// TODO #4:
+	await new Booking({
+		transactionId: charge.id,
+		event: event.id,
+		payer: req.user.id,
+		receiver: event.organiser.id,
+		receipt: charge.receipt_url,
+		status: charge.status
+	}).save();
+
+	await send({
+		receiver: req.user.email,
+		subject: "Payment Success",
+		message: `Congrats, ${charge.description} completed.Here is your <a href="${
+			charge.receipt_url
+		}">receipt </a>.  `
+	});
+
+	// TODO #5:
+	return res
+		.status(200)
+		.json(
+			formatSuccess({ msg: "Booking Done.Check you mail account for receipt." })
+		);
 };
 
 // PUT CONTROLLERS

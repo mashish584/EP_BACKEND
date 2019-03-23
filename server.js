@@ -54,6 +54,7 @@ app.use((req, res, next) => {
 	// template variables
 	res.locals.user = req.user || null;
 	res.locals.h = util;
+	res.locals.connectLink = process.env.STRIPE_AUTH;
 	res.locals.imagekitEP = process.env.IMAGE_KIT_EP;
 	res.locals.flashError = req.flash("error")[0];
 	res.locals.flashSuccess = req.flash("success")[0];

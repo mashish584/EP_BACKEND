@@ -2,6 +2,10 @@ a:active {
 	box-shadow: none !important;
 }
 
+.modal-overlay.active {
+	display: block !important;
+}
+
 // dropdown navigation
 .show-dropnav {
 	transform: translateY(0);

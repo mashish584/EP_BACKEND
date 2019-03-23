@@ -21,7 +21,7 @@ block content
 						=`${h.getTimeFromNumber(event.time.start)} - ${h.getTimeFromNumber(event.time.end)}`
 				.event-info--price.clrfx
 					span= `$${event.price}`
-					a.btn.btn-th.ct-right(href="") Book Now
+					button#toggleModal.btn.btn-th.ct-right(style="padding:10px;") Book Now
 				h2 Comments
 				.comments
 					each comment,index in event.comments
@@ -84,6 +84,8 @@ block content
 				.other-events
 					each event in otherEvents
 						+event_card("other-events--card",event)
+		if user
+			+paymentModal
 
 block footer
 	+footer(true)

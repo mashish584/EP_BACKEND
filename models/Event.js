@@ -68,6 +68,13 @@ EventSchema.virtual("comments", {
 	foreignField: "event"
 });
 
+// TODO : Setup Relation with bookings
+EventSchema.virtual("bookings", {
+	ref: "Booking",
+	localField: "_id",
+	foreignField: "event"
+});
+
 // TODO : Index setup
 EventSchema.index({ "location.coordinates": "2dsphere" });
 
@@ -78,6 +85,7 @@ function populate(next) {
 		"-password -confirmationToken -tokenExpiration -createdAt -updatedAt"
 	);
 	this.populate({ path: "comments", options: { sort: { createdAt: -1 } } });
+	this.populate({ path: "bookings", options: { sort: { createdAt: -1 } } });
 	next();
 }
 

@@ -22,6 +22,7 @@ const {
 	GET_USER_HOSTED_EVENTS,
 	GET_USER_SETTINGS,
 	GET_USER_WALLET,
+	GET_USER_STRIPE_CONNECT,
 	PUT_UPDATE_PROFILE_INFO,
 	PUT_UPDATE_PROFILE_IMAGE,
 	PUT_UPDATE_PROFILE_PASSWORD
@@ -33,6 +34,7 @@ router.get("/events", catchAsyncError(GET_USER_HOSTED_EVENTS));
 router.get("/events/:page", catchAsyncError(GET_USER_HOSTED_EVENTS));
 router.get("/wallet", GET_USER_WALLET);
 router.get("/setting", catchAsyncError(GET_USER_SETTINGS));
+router.get("/stripe/connect/response", catchAsyncError(GET_USER_STRIPE_CONNECT));
 
 // PUT ROUTES
 router.put(

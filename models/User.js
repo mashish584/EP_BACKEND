@@ -60,6 +60,10 @@ const UserSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false
 		},
+		connect: {
+			type: String,
+			default: null
+		},
 		confirmationToken: String,
 		tokenExpiration: Date
 	},

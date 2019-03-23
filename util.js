@@ -1,4 +1,21 @@
 const { randomBytes } = require("crypto");
+const { sign } = require("jsonwebtoken");
+
+// create jwt
+exports.createJWT = user => {
+	return sign(
+		{
+			id: user.id,
+			fullname: user.fullname,
+			email: user.email,
+			profileImg: user.profileImg
+				? `${process.env.IMAGE_KIT_EP}${user.profileImg}`
+				: "https://www.drupal.org/files/issues/default-avatar.png",
+			connect: user.connect
+		},
+		process.env.SECRET
+	);
+};
 
 // generate token
 exports.generateToken = (size = Math.floor(Math.random() * 64)) =>

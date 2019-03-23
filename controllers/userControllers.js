@@ -1,8 +1,9 @@
 const { hashSync } = require("bcryptjs");
+const axios = require("axios");
 const User = require("../models/User");
 const Event = require("../models/Event");
 const { delete_image_from_imagekit } = require("../handlers/_index");
-const { formatSuccess, createPagination } = require("../util");
+const { formatSuccess, createPagination, createJWT } = require("../util");
 
 // GET CONTROLLERS
 exports.GET_USER_PROFILE = async (req, res, next) => {
@@ -50,6 +51,39 @@ exports.GET_USER_SETTINGS = async (req, res, next) => {
 		"-password -confirmationToken"
 	);
 	return res.render("user_settings", { title: "Settings", userInfo });
+};
+
+exports.GET_USER_STRIPE_CONNECT = async (req, res, next) => {
+	// TODO #1 : Create data object for oauth
+	const data = {
+		client_secret: process.env.STRIPE_SEC, //stripe secret
+		code: req.query.code, //auth_code
+		grant_type: "authorization_code"
+	};
+	// TODO #2 : Perform oauth
+	let { data: response } = await axios.post(
+		`https://connect.stripe.com/oauth/token`,
+		data
+	);
+
+	// TODO #3 : Save user stripe account
+	const user = await User.findOneAndUpdate(
+		{ _id: req.user.id },
+		{ connect: response.stripe_user_id },
+		{ new: true }
+	);
+
+	// TODO #4 : Update the user session with new jwt
+	req.session.user = createJWT(user);
+
+	// TODO #5 : Create success flash
+	req.flash(
+		"success",
+		"Your stripe account is successfully connect with our platform."
+	);
+
+	// TODO #5 : Redirect user to /host-event
+	return res.redirect(`${process.env.BASE_URL}/host-event`);
 };
 
 // PUT CONTROLLERS

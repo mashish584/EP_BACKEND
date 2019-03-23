@@ -1,0 +1,43 @@
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	@include WH(100%);
+	background: rgba(invert($primary-bg), 0.1);
+	z-index: 999;
+	display: none;
+}
+
+#modal {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	bottom: -9999px;
+	right: -9999px;
+	margin: auto;
+	background: $primary-bg;
+	@include WH(470px, 300px);
+	z-index: 9999;
+}
+
+.modal {
+	&-header {
+		background: $theme_color;
+		h3 {
+			color: $primary-bg;
+			margin: 0;
+			padding: em(10px);
+		}
+	}
+	&-body {
+		padding: em(15px) em(10px);
+		.actions {
+			@include flexy();
+			flex-direction: row-reverse;
+			margin-top: em(25px);
+			button:last-child {
+				margin-right: em(10px);
+			}
+		}
+	}
+}

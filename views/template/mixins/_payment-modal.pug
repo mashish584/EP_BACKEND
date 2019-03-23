@@ -1,0 +1,25 @@
+mixin paymentModal
+	.modal-overlay
+		#modal
+			.modal-header
+				h3 CHECKOUT
+			.modal-body
+				span 
+					b Event : 
+				span 
+					i BMIX
+				br
+				span 
+					b Amount : 
+				span
+					i $10
+				br
+				br
+				form(action="" method="post" id="payment-form")
+					.form-row
+						#card-element
+						#card-errors(role="alert")
+					input(type="hidden" name="event" value=event.id)
+					.actions
+						button.btn.btn-th Proceed
+						button#toggleModal(type="button").btn Close

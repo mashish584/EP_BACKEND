@@ -127,7 +127,7 @@
 }
 
 #loader {
-	z-index: 99;
+	z-index: 9999;
 	position: fixed;
 	background: rgba($primary_bg, 0.8);
 	@include WH(100%, 100vh);

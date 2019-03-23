@@ -1,8 +1,7 @@
 const { compareSync, hashSync } = require("bcryptjs");
-const { sign } = require("jsonwebtoken");
 const User = require("../models/User");
 const { send } = require("../handlers/_index");
-const { formatErrors, formatSuccess, generateToken } = require("../util");
+const { formatErrors, formatSuccess, generateToken, createJWT } = require("../util");
 
 /*================================
 			GET CONTROLLERS
@@ -125,16 +124,7 @@ exports.POST_SIGNIN = async (req, res, next) => {
 					.json(formatErrors("Please activate your account", "#signin"));
 			}
 			//? generate jwt and set session
-			req.session.user = sign(
-				{
-					id: user.id,
-					fullname: user.fullname,
-					profileImg: user.profileImg
-						? `${process.env.IMAGE_KIT_EP}${user.profileImg}`
-						: "https://www.drupal.org/files/issues/default-avatar.png"
-				},
-				process.env.SECRET
-			);
+			req.session.user = createJWT(user);
 			return res.status(200).json(formatSuccess("Access granted."));
 		}
 	}
