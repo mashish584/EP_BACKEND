@@ -32,7 +32,8 @@ const {
 router.get("/me", catchAsyncError(GET_USER_PROFILE));
 router.get("/events", catchAsyncError(GET_USER_HOSTED_EVENTS));
 router.get("/events/:page", catchAsyncError(GET_USER_HOSTED_EVENTS));
-router.get("/wallet", GET_USER_WALLET);
+router.get("/wallet/:type", GET_USER_WALLET);
+router.get("/wallet/:type/:page", GET_USER_WALLET);
 router.get("/setting", catchAsyncError(GET_USER_SETTINGS));
 router.get("/stripe/connect/response", catchAsyncError(GET_USER_STRIPE_CONNECT));
 

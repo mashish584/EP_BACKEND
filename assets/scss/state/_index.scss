@@ -3,7 +3,12 @@ a:active {
 }
 
 .modal-overlay.active {
-	display: block !important;
+	opacity: 1;
+	transform: scale(1);
+}
+
+.modal-overlay.active #modal {
+	transform: translateY(0);
 }
 
 // dropdown navigation

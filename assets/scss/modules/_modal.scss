@@ -3,9 +3,9 @@
 	top: 0;
 	left: 0;
 	@include WH(100%);
-	background: rgba(invert($primary-bg), 0.1);
-	z-index: 999;
-	display: none;
+	background: rgba(invert($primary-bg), 0.2);
+	opacity: 0;
+	transform: scale(0);
 }
 
 #modal {
@@ -16,27 +16,41 @@
 	right: -9999px;
 	margin: auto;
 	background: $primary-bg;
-	@include WH(470px, 300px);
+	@include WH(470px, 325px);
 	z-index: 9999;
+	border-radius: em(10px);
+	box-shadow: 0 2px 15px rgba(invert($primary-bg), 0.2);
+	transform: translateY(-55px);
+	transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .modal {
 	&-header {
-		background: $theme_color;
+		background: $primary-bg;
+		border-radius: em(10px) em(10px) 0 0;
+		max-height: 55px;
+		border-bottom: 1px solid darken($primary-bg, 5%);
+		padding: em(15px) em(10px);
 		h3 {
-			color: $primary-bg;
+			color: $theme-color;
 			margin: 0;
-			padding: em(10px);
 		}
 	}
 	&-body {
 		padding: em(15px) em(10px);
+		span {
+			display: block;
+			i {
+				font-style: initial;
+			}
+		}
 		.actions {
 			@include flexy();
 			flex-direction: row-reverse;
 			margin-top: em(25px);
 			button:last-child {
 				margin-right: em(10px);
+				color: $primary-bg;
 			}
 		}
 	}

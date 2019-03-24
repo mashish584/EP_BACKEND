@@ -2,6 +2,7 @@ const { hashSync } = require("bcryptjs");
 const axios = require("axios");
 const User = require("../models/User");
 const Event = require("../models/Event");
+const Booking = require("../models/Booking");
 const { delete_image_from_imagekit } = require("../handlers/_index");
 const { formatSuccess, createPagination, createJWT } = require("../util");
 
@@ -38,10 +39,64 @@ exports.GET_USER_HOSTED_EVENTS = async (req, res, next) => {
 	});
 };
 
-exports.GET_USER_WALLET = (req, res, next) => {
+exports.GET_USER_WALLET = async (req, res, next) => {
+	// TODO #1: Get wallet type
+	const { type, page } = req.params;
+
+	// TODO #2: Count items
+	let count;
+
+	if (type === "paid" || type === "receive") {
+		count = await Booking.countDocuments({
+			[type === "paid" ? "payer" : "receiver"]: req.user.id
+		});
+	} else {
+		return next();
+	}
+
+	// TODO #3: Pagination setup
+	const pagination = await createPagination(count, page);
+
+	// TODO #4: Redirect user to /wallet/:type if page < 1 / Redirect to last page page>pages
+	if (pagination.pages && pagination.page < 1)
+		return res.redirect(`/profile/wallet/${type}`);
+	if (pagination.pages && pagination.page > pagination.pages)
+		return res.redirect(`/profile/wallet/${type}/${pagination.pages}`);
+
+	// TODO #5: Get all wallet details
+	let wallet = [];
+	if (type === "paid" || type === "receive") {
+		wallet = await Booking.find({
+			[type === "paid" ? "payer" : "receiver"]: req.user.id
+		})
+			.sort({ createdAt: -1 })
+			.skip(pagination.skip)
+			.limit(pagination.limit);
+	}
+
+	// TODO #6: Get user wallet paid and receive amount
+	const data = await Booking.find({
+		$or: [{ receiver: req.user.id }, { payer: req.user.id }]
+	}).select("+amount +receiver +payer");
+
+	const paid = data.reduce(
+		(prev, item) =>
+			String(item.payer) === req.user.id ? prev + item.amount : prev,
+		0
+	);
+
+	const receive = data.reduce(
+		(prev, item) =>
+			String(item.receiver) === req.user.id ? prev + item.amount : prev,
+		0
+	);
+
 	return res.render("user_wallet", {
 		title: "My Wallet",
-		userInfo: { id: req.user.id }
+		type,
+		wallet,
+		pagination,
+		userInfo: { id: req.user.id, receive, paid }
 	});
 };
 

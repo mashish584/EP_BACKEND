@@ -13,6 +13,9 @@
 			button {
 				padding: em(5px) em(10px);
 			}
+			&:last-child{
+				align-self: flex-end;
+			}
 		}
 	}
 }

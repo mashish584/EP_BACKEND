@@ -8,7 +8,7 @@ mixin profile_navigations(activeItem="info")
 				i.fa.fa-umbrella
 				| Events
 			if isProfileOwner
-				a(href="/profile/wallet" class=activeItem == "wallet" ? "profile-navigation--item active" : "profile-navigation--item")
+				a(href="/profile/wallet/receive" class=activeItem == "wallet" ? "profile-navigation--item active" : "profile-navigation--item")
 					i.fa.fa-money
 					| Wallet
 				a(href="/profile/setting" class=activeItem == "setting" ? "profile-navigation--item active" : "profile-navigation--item")

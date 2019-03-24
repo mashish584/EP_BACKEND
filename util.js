@@ -95,3 +95,6 @@ exports.nestCommentReplies = comments => {
 
 // moment
 exports.moment = require("moment");
+
+// ObjectID
+exports.ObjectId = require("mongoose").Types.ObjectId;

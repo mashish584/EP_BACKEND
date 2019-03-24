@@ -57,35 +57,36 @@ export default () => {
 	const loadComment = document.querySelector("#loadComment");
 
 	// event delegation approach for submitting reply
-	commentSection.addEventListener("click", async function({ target }) {
-		if (target.classList.contains("btn-reply")) {
-			const replyForm = target.parentElement;
-			const { id, comment } = target.dataset;
-			const body = getFormData([replyForm.querySelector("textarea")]);
-			// return if id is not available
-			if (!id) return;
-			// send request for reply submission
-			const { data, status } = await $axios.post(
-				`/event/${id}/comment/${comment}/reply`,
-				body
-			);
-			// reset reply form and generate reply template
-			if (status === 200) {
-				replyForm.reset();
-				const replies = document.querySelector(
-					`section[data-target="${comment}"]`
+	commentSection &&
+		commentSection.addEventListener("click", async function({ target }) {
+			if (target.classList.contains("btn-reply")) {
+				const replyForm = target.parentElement;
+				const { id, comment } = target.dataset;
+				const body = getFormData([replyForm.querySelector("textarea")]);
+				// return if id is not available
+				if (!id) return;
+				// send request for reply submission
+				const { data, status } = await $axios.post(
+					`/event/${id}/comment/${comment}/reply`,
+					body
 				);
-				if (replies.innerHTML === "") {
-					replies.innerHTML = commentTemplate(data.success.reply);
-				} else {
-					replies.insertAdjacentHTML(
-						"afterbegin",
-						commentTemplate(data.success.reply)
+				// reset reply form and generate reply template
+				if (status === 200) {
+					replyForm.reset();
+					const replies = document.querySelector(
+						`section[data-target="${comment}"]`
 					);
+					if (replies.innerHTML === "") {
+						replies.innerHTML = commentTemplate(data.success.reply);
+					} else {
+						replies.insertAdjacentHTML(
+							"afterbegin",
+							commentTemplate(data.success.reply)
+						);
+					}
 				}
 			}
-		}
-	});
+		});
 
 	loadComment &&
 		loadComment.addEventListener("click", async function() {

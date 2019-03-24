@@ -5,6 +5,10 @@ const BookingSchema = new mongoose.Schema(
 			type: String,
 			required: true
 		},
+		amount: {
+			type: Number,
+			required: true
+		},
 		event: {
 			type: mongoose.Schema.ObjectId,
 			ref: "Event"

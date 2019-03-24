@@ -1,6 +1,5 @@
 import axios from "../backend/axios";
 import { getFormData } from "./helper";
-import { toggleCheckout } from "../js-utility";
 
 export const eventCheckout = async form => {
 	const { stripeToken: token, event } = getFormData(
@@ -14,6 +13,6 @@ export const eventCheckout = async form => {
 	// show alert for success response
 	if (status === 200) {
 		alert(success.msg);
-		toggleCheckout();
+		window.location.reload();
 	}
 };

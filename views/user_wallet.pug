@@ -7,64 +7,34 @@ block content
 			+profile_navigations("wallet")
 			.profile-wallet
 				.profile-wallet--meta
-						span.active Money Earned
-							b $50
-						span Money Paid
-							b $15
-						span Reward Points
+						span(onclick="window.location.href='/profile/wallet/receive'" class=`${type === "receive"? 'active':''}`) Money Earned
+							b $#{userInfo.receive}
+						span(onclick="window.location.href='/profile/wallet/paid'" class=`${type === "paid"? 'active':''}`) Money Paid
+							b $#{userInfo.paid}
+						span(onclick="window.location.href='/profile/wallet/reward'") Reward Points
 							b
 								i.fa.fa-database 
-								|25
+								|0
 				.profile-wallet--data
-					ul.data-list
-						li.data-list--item
-							span.gr-2
-								small Date
-								| 5 Feb 2019
-							span.gr-3
-								small Transaction Id
-								| 845s2d54f11asd65as4cs6as65
-							span
-								small Amount
-								| $500
-							span
-								button.btn.btn-th More
-						li.data-list--item
-							span.gr-2
-								small Date
-								| 5 Feb 2019
-							span.gr-3
-								small Transaction Id
-								| 845s2d54f11asd65as4cs6as65
-							span
-								small Amount
-								| $500
-							span
-								button.btn.btn-th More
-						li.data-list--item
-							span.gr-2
-								small Date
-								| 5 Feb 2019
-							span.gr-3
-								small Transaction Id
-								| 845s2d54f11asd65as4cs6as65
-							span
-								small Amount
-								| $500
-							span
-								button.btn.btn-th More
-						li.data-list--item
-							span.gr-2
-								small Date
-								| 5 Feb 2019
-							span.gr-3
-								small Transaction Id
-								| 845s2d54f11asd65as4cs6as65
-							span
-								small Amount
-								| $500
-							span
-								button.btn.btn-th More
+					if wallet.length
+						ul.data-list
+							each item in wallet
+								li.data-list--item
+									span.gr-2
+										small Date
+										| #{h.moment(item.createdAt).format('LL')}
+									span.gr-3
+										small Transaction Id
+										| #{item.transactionId}
+									span
+										small Amount
+										| $#{item.amount}
+									span
+										a(href=item.receipt).btn.btn-th View
+						-const url = `/profile/wallet/${type}`;
+						+pagination(url)
+					else
+						span No transactions found..
 						
 block footer
 	+footer(true)

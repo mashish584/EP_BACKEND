@@ -7,12 +7,12 @@ mixin paymentModal
 				span 
 					b Event : 
 				span 
-					i BMIX
+					i #{event.name}
 				br
 				span 
 					b Amount : 
 				span
-					i $10
+					i $#{event.price}
 				br
 				br
 				form(action="" method="post" id="payment-form")

@@ -31,15 +31,32 @@ exports.GET_HOMEPAGE = async (req, res, next) => {
 exports.GET_EVENT_DESCRIPTION = async (req, res, next) => {
 	//TODO: Fetch event with slug
 	const event = await Event.findOne({ slug: req.params.slug });
-	console.log(event);
+
 	// TODO: Get all replies
 	event.comments = nestCommentReplies(event.comments);
+
+	// TODO: Check if login user got booking
+	const isBookingExist = req.user
+		? event.bookings.filter(booking => {
+				if (String(booking.receiver) === req.user.id) {
+					return booking;
+				}
+		  })
+		: [];
+
 	// TODO : Fetch 4 other events of "event" host
 	const otherEvents = await Event.find({
 		_id: { $ne: event.id },
 		organiser: event.organiser
 	}).limit(4);
-	return res.render("event_desc", { title: event.name, event, otherEvents });
+
+	// TODO : Render template
+	return res.render("event_desc", {
+		title: event.name,
+		event,
+		isBookingExist,
+		otherEvents
+	});
 };
 
 exports.GET_CATEGORY_EVENTS = async (req, res, next) => {
@@ -163,7 +180,7 @@ exports.GET_EVENT_SEARCH = async (req, res, next) => {
 			});
 		} else {
 			filterObj.push({
-				"location.address": new RegExp(`^${location}$`, "i")
+				"location.address": { $regex: location, $options: "i" }
 			});
 		}
 	}
@@ -334,7 +351,7 @@ exports.POST_EVENT_COMMENT_REPLY = async (req, res, next) => {
  *  * Post connect checkout
  * 	TODO #1 : Destruct the type & id
  * 	TODO #2 : Getevent & recalculate amount of checkout
- * 	TODO #3 : Perform stripe checkout
+ * 	TODO #3 : First validate booking & perform stripe checkout if it is valid
  * 	TODO #4 : Save booking detail with required info and send mail to user
  * 	TODO #5 : Return response
  *  * Finished
@@ -349,6 +366,17 @@ exports.POST_CHECKOUT = async (req, res, next) => {
 	const totalAmount = event.price * 100;
 
 	// TODO #3:
+
+	// validation
+	if (moment().isAfter(event.date)) {
+		throw new Error(`Bookings closed.`);
+	}
+	const countBooking = event.bookings.find(
+		booking => String(booking.receiver) === req.user.id
+	);
+	if (countBooking) throw new Error(`You already have booking for this event.`);
+
+	// checkout
 	const charge = await Stripe.charges.create({
 		amount: totalAmount,
 		currency: "usd",
@@ -365,6 +393,7 @@ exports.POST_CHECKOUT = async (req, res, next) => {
 	// TODO #4:
 	await new Booking({
 		transactionId: charge.id,
+		amount: totalAmount / 100,
 		event: event.id,
 		payer: req.user.id,
 		receiver: event.organiser.id,

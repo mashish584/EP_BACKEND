@@ -139,6 +139,7 @@ $common: "user";
 				background: darken($primary-bg, 35%);
 				color: $primary-bg;
 				font-size: 24px;
+				cursor: default;
 				b {
 					display: block;
 					font-size: em(40px, 24px);

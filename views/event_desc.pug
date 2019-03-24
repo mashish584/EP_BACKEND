@@ -21,7 +21,12 @@ block content
 						=`${h.getTimeFromNumber(event.time.start)} - ${h.getTimeFromNumber(event.time.end)}`
 				.event-info--price.clrfx
 					span= `$${event.price}`
-					button#toggleModal.btn.btn-th.ct-right(style="padding:10px;") Book Now
+					if user
+						button#toggleModal.btn.btn-th.ct-right(style="padding:10px;")&attributes(isBookingExist.length ? {'disabled':'true'} : {}) Book Now
+					else
+						a.btn.btn-th.ct-right(href="/login") Book Now
+				if user && isBookingExist.length
+					span.hlt You have booked this event already.
 				h2 Comments
 				.comments
 					each comment,index in event.comments
@@ -71,7 +76,7 @@ block content
 				.user-image
 					img(src=organiserImg alt=event.organiser.name)
 					span.badge HOST
-				h4= event.organiser.fullname
+				h4= `${user && event.organiser.id === user.id ? 'You' : event.organiser.fullname}`
 				if event.organiser.bio
 					p= `${event.organiser.bio.substring(0,125)}${event.organiser.bio.length > 125 ? '...' : ''}`
 				br
@@ -84,7 +89,7 @@ block content
 				.other-events
 					each event in otherEvents
 						+event_card("other-events--card",event)
-		if user
+		if user && !isBookingExist.length
 			+paymentModal
 
 block footer
