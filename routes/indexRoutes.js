@@ -5,11 +5,13 @@ const router = express();
 const {
 	upload_ms,
 	upload_on_imagekit,
-	catchAsyncError
+	catchAsyncError,
+	AUTH_GUARD
 } = require("../handlers/_index");
 
 // Validators
 const {
+	validateEventUpdate,
 	validateEventData,
 	validateCommentData,
 	valditeReplyData,
@@ -40,8 +42,8 @@ router.get("/", catchAsyncError(GET_HOMEPAGE));
 router.get("/event/:slug", catchAsyncError(GET_EVENT_DESCRIPTION));
 router.get("/category/:name", catchAsyncError(GET_CATEGORY_EVENTS));
 router.get("/category/:name/:page", catchAsyncError(GET_CATEGORY_EVENTS));
-router.get("/host-event", GET_EVENT_ADDFORM);
-router.get("/event/:id/update", catchAsyncError(GET_EVENT_UPDATEFORM));
+router.get("/host-event", AUTH_GUARD, GET_EVENT_ADDFORM);
+router.get("/event/:id/update", AUTH_GUARD, catchAsyncError(GET_EVENT_UPDATEFORM));
 router.get("/user/profile/:id", catchAsyncError(GET_USER_PROFILE));
 router.get("/user/profile/:id/events", catchAsyncError(GET_USER_HOSTED_EVENTS));
 router.get(
@@ -54,6 +56,7 @@ router.get("/event/:id/comments/:page", catchAsyncError(GET_EVENT_COMMENTS));
 // POST ROUTES
 router.post(
 	"/host-event",
+	AUTH_GUARD,
 	upload_ms.single("image"),
 	validateEventData,
 	validateImageUpload,
@@ -64,6 +67,7 @@ router.post(
 
 router.post(
 	"/event/:id/comment",
+	AUTH_GUARD,
 	validateCommentData,
 	validationResult,
 	catchAsyncError(POST_EVENT_COMMENT)
@@ -71,17 +75,24 @@ router.post(
 
 router.post(
 	"/event/:id/comment/:comment/reply",
+	AUTH_GUARD,
 	valditeReplyData,
 	validationResult,
 	catchAsyncError(POST_EVENT_COMMENT_REPLY)
 );
 
-router.post("/checkout/connect/:type/:id", catchAsyncError(POST_CHECKOUT));
+router.post(
+	"/checkout/connect/:type/:id",
+	AUTH_GUARD,
+	catchAsyncError(POST_CHECKOUT)
+);
 
 // PUT ROUTES
 
 router.put(
 	"/event/:id/update",
+	AUTH_GUARD,
+	validateEventUpdate,
 	upload_ms.single("image"),
 	validateEventData,
 	validateImageUpload,

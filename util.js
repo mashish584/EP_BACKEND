@@ -1,3 +1,4 @@
+const moment = require("moment");
 const { randomBytes } = require("crypto");
 const { sign } = require("jsonwebtoken");
 
@@ -93,8 +94,18 @@ exports.nestCommentReplies = comments => {
 	});
 };
 
+// function to check is input date in past
+exports.inputDateInPast = date =>
+	moment(moment(date, "DD/MM/YYYY").format("l"), "MM/DD/YYYY").isBefore(
+		moment(moment().format("l"), "MM/DD/YYYY")
+	);
+// function to check is db date in past
+exports.dateInPast = date =>
+	moment(moment.unix(date / 1000).format("l"), "MM/DD/YYYY").isBefore(
+		moment(moment().format("l"), "MM/DD/YYYY")
+	);
 // moment
-exports.moment = require("moment");
+exports.moment = moment;
 
 // ObjectID
 exports.ObjectId = require("mongoose").Types.ObjectId;

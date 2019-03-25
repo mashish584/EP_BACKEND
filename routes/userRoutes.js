@@ -5,7 +5,8 @@ const router = express.Router();
 const {
 	upload_ms,
 	upload_on_imagekit,
-	catchAsyncError
+	catchAsyncError,
+	AUTH_GUARD
 } = require("../handlers/_index");
 
 // Validators
@@ -27,6 +28,9 @@ const {
 	PUT_UPDATE_PROFILE_IMAGE,
 	PUT_UPDATE_PROFILE_PASSWORD
 } = require("../controllers/userControllers");
+
+// route middleware
+router.use(AUTH_GUARD);
 
 // GET ROUTES
 router.get("/me", catchAsyncError(GET_USER_PROFILE));

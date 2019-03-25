@@ -10,6 +10,7 @@ const {
 	createPagination,
 	formatErrors,
 	nestCommentReplies,
+	dateInPast,
 	moment
 } = require("../util");
 const { delete_image_from_imagekit } = require("../handlers/uploadHandler");
@@ -31,6 +32,9 @@ exports.GET_HOMEPAGE = async (req, res, next) => {
 exports.GET_EVENT_DESCRIPTION = async (req, res, next) => {
 	//TODO: Fetch event with slug
 	const event = await Event.findOne({ slug: req.params.slug });
+
+	//! 404
+	if (!event) return next();
 
 	// TODO: Get all replies
 	event.comments = nestCommentReplies(event.comments);
@@ -96,7 +100,13 @@ exports.GET_EVENT_ADDFORM = (req, res, next) => {
 
 exports.GET_EVENT_UPDATEFORM = async (req, res, next) => {
 	const { id } = req.params;
-	const event = await Event.findOne({ _id: id });
+	const event = await Event.findOne({
+		$and: [{ _id: id }, { organiser: req.user.id }]
+	});
+
+	//! 404
+	if (!event) return next();
+
 	return res.render("update_event", { title: event.name, event, categories });
 };
 
@@ -107,6 +117,10 @@ exports.GET_USER_PROFILE = async (req, res, next) => {
 	}
 	// TODO : Find profile user Info
 	const userInfo = await User.findOne({ _id: req.params.id });
+
+	//! 404
+	if (!userInfo) return next();
+
 	return res.render("user_info", {
 		title: userInfo.fullname,
 		userInfo
@@ -206,8 +220,7 @@ exports.GET_EVENT_SEARCH = async (req, res, next) => {
 
 	// TODO #5 :
 	const events = await Event.find({
-		[operator]: filterObj,
-		date: { $gte: Date.now() }
+		[operator]: filterObj
 	})
 		.sort({ date: -1 })
 		.skip(pagination.skip)
@@ -292,8 +305,10 @@ exports.POST_EVENT_COMMENT = async (req, res, next) => {
 	const { id } = req.params;
 	// TODO #1 :
 	const isEventExist = await Event.countDocuments({ _id: id });
-	if (!isEventExist)
-		return res.status(422).json(formatErrors("Please try again!", "", "comment"));
+	//! 404
+	if (!isEventExist) {
+		return res.status(404).json(formatErrors("Please try again!", "", "comment"));
+	}
 	// TODO #2 :
 	const comment = await new Comment({
 		...req.body,
@@ -350,7 +365,7 @@ exports.POST_EVENT_COMMENT_REPLY = async (req, res, next) => {
 /**
  *  * Post connect checkout
  * 	TODO #1 : Destruct the type & id
- * 	TODO #2 : Getevent & recalculate amount of checkout
+ * 	TODO #2 : Getevent & recalculate amount of checkout if found else 404
  * 	TODO #3 : First validate booking & perform stripe checkout if it is valid
  * 	TODO #4 : Save booking detail with required info and send mail to user
  * 	TODO #5 : Return response
@@ -363,12 +378,18 @@ exports.POST_CHECKOUT = async (req, res, next) => {
 
 	// TODO #2:
 	const event = await Event.findOne({ _id: id });
+	// !404
+	if (!event) {
+		return res
+			.status(404)
+			.json(formatErrors((msg = "Event not found"), (location = "form")));
+	}
 	const totalAmount = event.price * 100;
 
 	// TODO #3:
 
 	// validation
-	if (moment().isAfter(event.date)) {
+	if (dateInPast(event.date)) {
 		throw new Error(`Bookings closed.`);
 	}
 	const countBooking = event.bookings.find(
@@ -436,7 +457,9 @@ exports.PUT_UPDATE_EVENT = async (req, res, next) => {
 	}
 	// TODO #2:
 	const event = await Event.findOneAndUpdate(
-		{ _id: id },
+		{
+			$and: [{ _id: id }, { organiser: req.user.id }]
+		},
 		{
 			...req.body,
 			time: {
@@ -446,9 +469,14 @@ exports.PUT_UPDATE_EVENT = async (req, res, next) => {
 			location: JSON.parse(req.body.location),
 			date: moment(req.body.date, "DD/MM/YYYY").valueOf()
 		}
-	)
-		.exec()
-		.catch(err => console.log(err));
+	).exec();
+
+	//! 404
+	if (!event) {
+		return res
+			.status(404)
+			.json(formatErrors((msg = "Event not found"), (location = "form")));
+	}
 
 	// TODO #3:
 	if (req.body.cover && event.cover) {
@@ -456,7 +484,10 @@ exports.PUT_UPDATE_EVENT = async (req, res, next) => {
 	}
 
 	// TODO #4:
-	return res
-		.status(200)
-		.success(formatSuccess({ msg: "Event updated", event: req.body }));
+	return res.status(200).json(
+		formatSuccess({
+			msg: "Event updated",
+			event: req.body
+		})
+	);
 };

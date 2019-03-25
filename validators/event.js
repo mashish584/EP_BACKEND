@@ -1,5 +1,18 @@
 const { check } = require("express-validator/check");
-const moment = require("moment");
+const Event = require("../models/Event");
+const { formatErrors, inputDateInPast, dateInPast } = require("../util");
+
+exports.validateEventUpdate = async (req, res, next) => {
+	const event = await Event.findOne({ _id: req.params.id });
+
+	if (dateInPast(event.date)) {
+		return res
+			.status(400)
+			.json(formatErrors((msg = "Update event failed."), (location = "form")));
+	}
+
+	next();
+};
 
 exports.validateEventData = [
 	check("name")
@@ -37,11 +50,7 @@ exports.validateEventData = [
 	check("date").custom(value => {
 		if (!value) throw new Error("Please select data");
 		if (value) {
-			const [todayDate, eventDate] = [
-				moment(new Date()).format("YYYY-MM-DD"),
-				moment(value, "DD/MM/YYYY").format("YYYY-MM-DD")
-			];
-			if (moment(eventDate, "YYYY-MM-DD").isBefore(todayDate)) {
+			if (inputDateInPast(value)) {
 				throw new Error("Please select valid date");
 			}
 

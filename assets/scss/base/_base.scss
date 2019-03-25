@@ -51,6 +51,11 @@ button {
 	}
 }
 
+fieldset{
+	padding: 0;
+	border-color:transparent;
+}
+
 small {
 	color: darken($primary-bg, 65%);
 	font-weight: map-get($fontWeight, "med");

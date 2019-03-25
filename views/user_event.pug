@@ -17,7 +17,7 @@ block content
 								span#action.fa.fa-ellipsis-v
 							.actions
 								a(href=`/event/${event.slug}`) View
-								if user === userInfo.id
+								if user.id === userInfo.id
 									a(href=`/event/${event.id}/update`) Edit
 									a(href=`/event/${event.id}/remove`) Remove
 					-const url = user !== userInfo.id ? `/user/profile/${userInfo.id}/events` : '/profile/events';

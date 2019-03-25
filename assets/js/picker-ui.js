@@ -9,6 +9,7 @@ export const inputPicker = () => {
 		singleDatePicker: true,
 		showDropdowns: true,
 		minYear: new Date().getFullYear,
+		minDate: new Date(),
 		drops: "up",
 		autoUpdateInput: true,
 		locale: {

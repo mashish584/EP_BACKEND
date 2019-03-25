@@ -152,7 +152,7 @@ exports.GET_USER_STRIPE_CONNECT = async (req, res, next) => {
 
 exports.PUT_UPDATE_PROFILE_INFO = async (req, res, next) => {
 	// TODO #1 :
-	const user = await User.findOneAndUpdate({ _id: req.user.id }, req.body, {
+	await User.findOneAndUpdate({ _id: req.user.id }, req.body, {
 		new: true
 	}).exec();
 	// TODO #2 :

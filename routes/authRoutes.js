@@ -20,13 +20,13 @@ const {
 	POST_FORGOT
 } = require("../controllers/authControllers");
 
-// Asyn Error Handler
-const { catchAsyncError } = require("../handlers/_index");
+//Handlers
+const { catchAsyncError, UNAUTH_GUARD } = require("../handlers/_index");
 
 // GET ROUTES
-router.get("/login", GET_LOGIN);
-router.get("/signup", GET_REGISTER);
-router.get("/forgot", GET_FORGOT);
+router.get("/login", UNAUTH_GUARD, GET_LOGIN);
+router.get("/signup", UNAUTH_GUARD, GET_REGISTER);
+router.get("/forgot", UNAUTH_GUARD, GET_FORGOT);
 router.get("/logout", GET_LOGOUT);
 router.get("/account/activation/:token", catchAsyncError(GET_ACTIVATE_ACCOUNT));
 

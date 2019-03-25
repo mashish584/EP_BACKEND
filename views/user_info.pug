@@ -34,11 +34,11 @@ block content
 					if userInfo.email
 						span
 							i.fa.fa-envelope
-							| nick@ep.com
+							| #{userInfo.email}
 					if userInfo.phone
 						span
 							i.fa.fa-phone
-							| +00 9512785
+							| #{userInfo.phone}
 				
 block footer
 	+footer(true)
