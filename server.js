@@ -4,7 +4,11 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
+const passport = require("passport");
 const { verify } = require("jsonwebtoken");
+
+// passport
+require("./middlewares/passport");
 
 // created app routes
 const appRoute = require("./routes/_index");
@@ -25,6 +29,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "assets")));
 app.use(flash());
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // session middleware
 app.use(
@@ -47,9 +55,13 @@ app.use((req, res, next) => {
 		: "";
 	req.isAjax = reqType.includes("json") ? true : false;
 	// token verification
-	const { user: token } = req.session;
+	const { user: token, passport } = req.session;
+	console.log(token);
+	console.log(passport);
 	if (token) {
 		req.user = verify(token, process.env.secret);
+	} else if (passport && passport.user) {
+		req.user = verify(passport.user, process.env.secret);
 	}
 	// template variables
 	res.locals.user = req.user || null;
