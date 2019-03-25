@@ -14,6 +14,7 @@ const {
 	moment
 } = require("../util");
 const { delete_image_from_imagekit } = require("../handlers/uploadHandler");
+const { triggerPusher } = require("../handlers/pusherHandler");
 const { categories } = require("../data/sample");
 
 // GET CONTROLLERS
@@ -42,7 +43,7 @@ exports.GET_EVENT_DESCRIPTION = async (req, res, next) => {
 	// TODO: Check if login user got booking
 	const isBookingExist = req.user
 		? event.bookings.filter(booking => {
-				if (String(booking.receiver) === req.user.id) {
+				if (String(booking.payer) === req.user.id) {
 					return booking;
 				}
 		  })
@@ -368,7 +369,8 @@ exports.POST_EVENT_COMMENT_REPLY = async (req, res, next) => {
  * 	TODO #2 : Getevent & recalculate amount of checkout if found else 404
  * 	TODO #3 : First validate booking & perform stripe checkout if it is valid
  * 	TODO #4 : Save booking detail with required info and send mail to user
- * 	TODO #5 : Return response
+ * 	TODO #5 : Trigger the user-channel for notification
+ * 	TODO #6 : Return response
  *  * Finished
  */
 exports.POST_CHECKOUT = async (req, res, next) => {
@@ -431,6 +433,13 @@ exports.POST_CHECKOUT = async (req, res, next) => {
 	});
 
 	// TODO #5:
+	triggerPusher(`user-${event.organiser.id}`, "notify", {
+		message: `${event.organiser.fullname} booked ${event.name}`,
+		path: false,
+		reload: false
+	});
+
+	// TODO #6:
 	return res
 		.status(200)
 		.json(

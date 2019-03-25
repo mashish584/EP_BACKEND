@@ -9,6 +9,7 @@ import { navDrop } from "./nav-drop";
 import { inputPicker } from "./picker-ui";
 import { autoCompleteLocation } from "./maps";
 import userEventsActionUi from "./user-events-ui";
+import channelNotifications from "./pusher-channel";
 import stripe from "./stripe";
 
 // Backend Scripts
@@ -34,6 +35,7 @@ isAutoComplete && autoCompleteLocation();
 userEventsActionUi();
 p_form && stripe(p_form);
 toggleCheckout;
+channelNotifications();
 
 // Backend calls
 userForm();

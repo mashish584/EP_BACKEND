@@ -56,8 +56,7 @@ app.use((req, res, next) => {
 	req.isAjax = reqType.includes("json") ? true : false;
 	// token verification
 	const { user: token, passport } = req.session;
-	console.log(token);
-	console.log(passport);
+
 	if (token) {
 		req.user = verify(token, process.env.secret);
 	} else if (passport && passport.user) {

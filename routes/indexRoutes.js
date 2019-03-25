@@ -53,6 +53,11 @@ router.get(
 router.get("/search", catchAsyncError(GET_EVENT_SEARCH));
 router.get("/event/:id/comments/:page", catchAsyncError(GET_EVENT_COMMENTS));
 
+// api
+router.get("/api/me", (req, res, next) => {
+	return res.status(200).json({ userId: req.user ? req.user.id : null });
+});
+
 // POST ROUTES
 router.post(
 	"/host-event",

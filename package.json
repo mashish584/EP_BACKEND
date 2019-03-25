@@ -29,6 +29,7 @@
 		"passport-facebook": "^3.0.0",
 		"passport-google-oauth20": "^2.0.0",
 		"pug": "^2.0.3",
+		"pusher": "^2.2.0",
 		"serve-favicon": "^2.5.0",
 		"stripe": "^6.28.0"
 	},

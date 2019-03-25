@@ -2,9 +2,7 @@ import axios from "axios";
 import { getFormData, showErrors, hideErrors, commentTemplate } from "./helper";
 import { lastClickEl } from "../js-utility";
 // seperate instance
-const $axios = axios.create({
-	baseURL: process.env.BASE_URL
-});
+const $axios = axios.create({});
 
 // intercept request
 $axios.interceptors.request.use(
