@@ -48,11 +48,12 @@ app.use(
 	})
 );
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
 	// setting request type if exist
 	const reqType = req.get("content-type")
 		? req.get("content-type").toLowerCase()
 		: "";
+
 	req.isAjax = reqType.includes("json") ? true : false;
 	// token verification
 	const { user: token, passport } = req.session;
@@ -62,9 +63,20 @@ app.use((req, res, next) => {
 	} else if (passport && passport.user) {
 		req.user = verify(passport.user, process.env.secret);
 	}
+
+	// if user exist in req fetch notifications & set it on locals
+	let notifications = null;
+	if (req.user) {
+		const Notification = require("./models/Notification");
+		notifications = await Notification.find({ receiver: req.user.id })
+			.sort({ createdAt: -1 })
+			.limit(10);
+	}
+
 	// template variables
 	res.locals.user = req.user || null;
 	res.locals.h = util;
+	res.locals.notifications = notifications ? notifications : [];
 	res.locals.connectLink = process.env.STRIPE_AUTH;
 	res.locals.imagekitEP = process.env.IMAGE_KIT_EP;
 	res.locals.flashError = req.flash("error")[0];

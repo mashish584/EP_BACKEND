@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Event = require("../models/Event");
 const Comment = require("../models/Comment");
 const Booking = require("../models/Booking");
+const Notification = require("../models/Notification");
 const { send } = require("../handlers/mailHandler");
 const {
 	getNumberFromTime,
@@ -369,7 +370,7 @@ exports.POST_EVENT_COMMENT_REPLY = async (req, res, next) => {
  * 	TODO #2 : Getevent & recalculate amount of checkout if found else 404
  * 	TODO #3 : First validate booking & perform stripe checkout if it is valid
  * 	TODO #4 : Save booking detail with required info and send mail to user
- * 	TODO #5 : Trigger the user-channel for notification
+ * 	TODO #5 : Trigger the user-channel for notification & save it in db
  * 	TODO #6 : Return response
  *  * Finished
  */
@@ -435,9 +436,16 @@ exports.POST_CHECKOUT = async (req, res, next) => {
 	// TODO #5:
 	triggerPusher(`user-${event.organiser.id}`, "notify", {
 		message: `${event.organiser.fullname} booked ${event.name}`,
-		path: false,
-		reload: false
+		time: Date.now(),
+		user: req.user
 	});
+
+	// Save Notification
+	await new Notification({
+		receiver: event.organiser.id,
+		user: req.user.id,
+		message: `${event.organiser.fullname} booked ${event.name}`
+	}).save();
 
 	// TODO #6:
 	return res
@@ -445,6 +453,24 @@ exports.POST_CHECKOUT = async (req, res, next) => {
 		.json(
 			formatSuccess({ msg: "Booking Done.Check you mail account for receipt." })
 		);
+};
+
+exports.POST_CONTACT_MESSAGE = async (req, res, next) => {
+	const { fullName, email, message } = req.body;
+
+	if (fullName.trim() === "" || email.trim() === "" || message.trim() === "") {
+		throw new Error("All fields are mandatory");
+	}
+
+	await send({
+		receiver: "testserver163@gmail.com",
+		subject: `Query from ${fullName}(${email})`,
+		message
+	});
+
+	return res
+		.status(200)
+		.json(formatSuccess({ msg: "Your message has been sent successfully." }));
 };
 
 // PUT CONTROLLERS

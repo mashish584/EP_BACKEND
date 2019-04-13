@@ -13,6 +13,12 @@ function toggleDropNav(elem) {
 export const navDrop = () => {
 	const dropBtns = document.querySelectorAll('[data-target="subMenu"]');
 	dropBtns.forEach(btn => {
-		btn.addEventListener("click", () => toggleDropNav(btn.nextElementSibling));
+		btn.addEventListener("click", ({ target }) => {
+			console.log(target.classList);
+			if (target.classList.contains("ring")) {
+				target.classList.remove("ring");
+			}
+			toggleDropNav(btn.nextElementSibling);
+		});
 	});
 };

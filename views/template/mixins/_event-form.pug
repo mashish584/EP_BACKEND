@@ -23,7 +23,7 @@ mixin eventForm(isAddForm=true,event={})
 								if isAddForm
 									li(class=`${i===0 ? 'active' : ''}`)= item
 								else
-									li(class=`${item === event.category ? 'active' : ''}`)= item
+									li(class=`${item.category === event.category ? 'active' : ''}`)= item
 				.input-container
 					.input-group
 						label(for="description") Description

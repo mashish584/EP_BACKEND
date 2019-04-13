@@ -5,7 +5,7 @@ const pusher = new Pusher({
 	key: process.env.PUSHER_CHANNEL_APP_KEY,
 	secret: process.env.PUSHER_CHANNEL_APP_SECRET,
 	cluster: "ap2",
-	encrypted: true
+	useTLS: true
 });
 
 exports.triggerPusher = (channel, event, data) => {

@@ -7,25 +7,22 @@ mixin navigation
 				a(href="/login").btn.btn-th.btn-nav Login
 			if user
 				.notification
-					button(class="notification-btn",data-target="subMenu")
-						i.fa.fa-bell
+					button(class="notification-btn fa fa-bell",data-target="subMenu")
 					.sub-menu
-						a(href="" class="notification-item")
-							img(src="https://unsplash.it/50/50") 	
-							div
-								span Ashish
-								p Aliquam tincidunt mauris eu risus.
-						a(href="" class="notification-item")
-							img(src="https://unsplash.it/50/50") 	
-							div
-								span Ashish
-								p Aliquam tincidunt mauris eu risus.
-						a(href="" class="notification-item")
-							img(src="https://unsplash.it/50/50") 	
-							div
-								span Ashish
-								p Aliquam tincidunt mauris eu risus.
-						a(href="" style="text-align:center;") Show All Notifications
+						div#notificationContainer
+							if notifications && notifications.length
+								each notification in notifications
+									a(href="#" class="notification-item")
+										-let userImg = notification.user.profileImg ? `${imagekitEP}${notification.user.profileImg}`:'https://www.drupal.org/files/issues/default-avatar.png';
+										img(src=userImg) 	
+										div
+											span= notification.user.fullname
+											p= notification.message
+											small= h.moment(notification.createdAt).fromNow()
+							else
+								p(style="text-align:center;") No Notification
+									
+							//- a(href="" style="text-align:center;") Show All Notifications
 				.dropdown-nav
 					span(data-target="subMenu")
 						img(src="https://unsplash.it/100/100", alt="User Image") 

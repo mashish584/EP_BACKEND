@@ -2,12 +2,11 @@ mixin footer(invert=false)
 	footer(class=(invert ? 'invert' : '') )
 		.platform-info
 			h2 SHARE OUR PLATFORM
-			p By sharing our platform with your known you will get 1 reward point on each user signup through your shared link.
+			p Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh,viverra non, semper suscipit, posuere a, pede.
 			h4 How reward points work ?
-			p At the time of hosting an event you will be asked to use reward point or not. If you say yes,
-				|you will not be charged for using our platform instead we will reduce your reward point instead
-				|of charging any fee.
-			span 1 reward point = 1 Fee Free booking on your hosted event
+			p Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.Praesent dapibus, neque  id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor,  facilisis luctus, metus.
+
+
 			.platform-info--meta
 				small © EP 2019
 				ul.social-list
@@ -21,16 +20,16 @@ mixin footer(invert=false)
 						a(href="" class="fa fa-instagram")
 		.platform-contact
 			h2 WANT TO ASK SOMETHING ?
-			form(action="") 
+			form(id="contactForm") 
 				.input-group
 					label(for="fullName") FULL NAME
-					input(type="text" name="fullName" )
+					input(type="text" name="fullName" required)
 				.input-group
 					label(for="email") EMAIL
-					input(type="email" name="email" )
+					input(type="email" name="email" required)
 				.input-group
 					label(for="message") MESSAGE
-					textarea(name="message")
+					textarea(name="message" required)
 				button(class="btn btn-th btn-submit") SEND NOW
 			
 

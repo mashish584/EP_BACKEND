@@ -34,6 +34,7 @@ const {
 	POST_CHECKOUT,
 	POST_EVENT_COMMENT,
 	POST_EVENT_COMMENT_REPLY,
+	POST_CONTACT_MESSAGE,
 	PUT_UPDATE_EVENT
 } = require("../controllers/indexControllers.js");
 
@@ -91,6 +92,8 @@ router.post(
 	AUTH_GUARD,
 	catchAsyncError(POST_CHECKOUT)
 );
+
+router.post("/contact", catchAsyncError(POST_CONTACT_MESSAGE));
 
 // PUT ROUTES
 

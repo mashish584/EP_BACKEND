@@ -16,7 +16,7 @@
 	right: -9999px;
 	margin: auto;
 	background: $primary-bg;
-	@include WH(470px, 325px);
+	@include WH(470px, 355px);
 	z-index: 9999;
 	border-radius: em(10px);
 	box-shadow: 0 2px 15px rgba(invert($primary-bg), 0.2);

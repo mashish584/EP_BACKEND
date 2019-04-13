@@ -17,6 +17,7 @@ import userForm from "./backend/userForm";
 import profileForm from "./backend/profileForm";
 import eventForm from "./backend/eventForm";
 import commentForm from "./backend/commentForm";
+import contactForm from "./backend/contactForm";
 
 // check if elements available in DOM for handling function calls
 const isDropList = document.querySelector(".dropdown-list");
@@ -42,3 +43,4 @@ userForm();
 profileForm();
 eventForm();
 commentForm();
+contactForm();

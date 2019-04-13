@@ -21,12 +21,12 @@ block content
 						=`${h.getTimeFromNumber(event.time.start)} - ${h.getTimeFromNumber(event.time.end)}`
 				.event-info--price.clrfx
 					span= `$${event.price}`
-					if user
-						button#toggleModal.btn.btn-th.ct-right(style="padding:10px;")&attributes(isBookingExist.length ? {'disabled':'true'} : {}) Book Now
+					if user &&  !isBookingExist.length
+						button#toggleModal.btn.btn-th.ct-right(style="padding:10px;") Book Now
 					else
 						a.btn.btn-th.ct-right(href="/login") Book Now
 				if user && isBookingExist.length
-					span.hlt You have booked this event already.
+					span.hlt You already have a booking.
 				h2 Comments
 				.comments
 					each comment,index in event.comments
@@ -94,4 +94,12 @@ block content
 
 block footer
 	+footer(true)
+
+block customScripts
+	//- Script to update header image if cover image exist
+	if event.cover
+		script(type="text/javascript").
+			let [imagekitEP,cover] = ["#{imagekitEP}","#{event.cover}"];
+			document.documentElement.style.setProperty('--header-bg',`url(${imagekitEP}${cover})`);
+	
 				

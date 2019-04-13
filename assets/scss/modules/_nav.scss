@@ -4,6 +4,10 @@
 		.sub-menu {
 			@include WH(275px, auto);
 			left: -132.5px;
+			> div {
+				max-height: 375px;
+				overflow: auto;
+			}
 			&:after {
 				left: 57%;
 			}

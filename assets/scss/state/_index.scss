@@ -87,3 +87,24 @@ a:active {
 		}
 	}
 }
+
+// Animation for changing state
+@keyframes animBell {
+	0% {
+		transform: rotate(0deg);
+	}
+	50% {
+		transform: rotate(7deg);
+	}
+	50.5% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-7deg);
+	}
+}
+
+// notificton-button
+.ring {
+	animation: animBell 500ms ease-in-out infinite;
+}

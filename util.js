@@ -104,6 +104,7 @@ exports.dateInPast = date =>
 	moment(moment.unix(date / 1000).format("l"), "MM/DD/YYYY").isBefore(
 		moment(moment().format("l"), "MM/DD/YYYY")
 	);
+
 // moment
 exports.moment = moment;
 
