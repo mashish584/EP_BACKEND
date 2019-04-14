@@ -3,8 +3,8 @@
 		"dev": "nodemon start.js --ignore assets/",
 		"all": "concurrently \"npm run dev\"  \"npm run watch\"",
 		"start": "node start.js",
-		"build": "webpack -p --config ./webpack.config.js --display-error-details",
-		"watch": "webpack -d --watch --config ./webpack.config.js --display-error-details",
+		"build": "webpack --env.NODE_ENV=prod -p --config ./webpack.config.js --display-error-details",
+		"watch": "webpack --env.NODE_ENV=dev  -d --watch --config ./webpack.config.js --display-error-details",
 		"heroku-postbuild": "npm run build"
 	},
 	"name": "",

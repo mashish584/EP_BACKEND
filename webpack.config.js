@@ -29,22 +29,24 @@ const CSS_LOADER = {
 	]
 };
 
-module.exports = {
-	entry: {
-		main: ["@babel/polyfill", "./assets/js/main.js"]
-	},
-	output: {
-		path: path.resolve(__dirname, "assets", "dist"),
-		filename: "[name].bundle.js"
-	},
-	devtool: "source-map",
-	watch: true,
-	plugins: [
-		new mini_css_extract({
-			filename: "[name].css"
-		})
-	],
-	module: {
-		rules: [JS_LOADER, CSS_LOADER]
-	}
+module.exports = env => {
+	return {
+		entry: {
+			main: ["@babel/polyfill", "./assets/js/main.js"]
+		},
+		output: {
+			path: path.resolve(__dirname, "assets", "dist"),
+			filename: "[name].bundle.js"
+		},
+		devtool: "source-map",
+		watch: env.NODE_ENV === "dev" ? true : false,
+		plugins: [
+			new mini_css_extract({
+				filename: "[name].css"
+			})
+		],
+		module: {
+			rules: [JS_LOADER, CSS_LOADER]
+		}
+	};
 };
