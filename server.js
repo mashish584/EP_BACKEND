@@ -59,9 +59,9 @@ app.use(async (req, res, next) => {
 	const { user: token, passport } = req.session;
 
 	if (token) {
-		req.user = verify(token, process.env.secret);
+		req.user = verify(token, process.env.SECRET);
 	} else if (passport && passport.user) {
-		req.user = verify(passport.user, process.env.secret);
+		req.user = verify(passport.user, process.env.SECRET);
 	}
 
 	// if user exist in req fetch notifications & set it on locals
