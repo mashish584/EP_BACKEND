@@ -1,5 +1,15 @@
 #container {
 	padding: em(15px) em(25px);
+
+	.stack {
+		width: 80%;
+		overflow: auto;
+		margin: 10px auto;
+		background: #222;
+		padding: 10px;
+		color: #ff0000;
+	}
+
 	h2 {
 		margin: em(25px) 0.5%;
 	}

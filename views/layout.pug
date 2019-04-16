@@ -18,6 +18,16 @@ html(lang="en")
 	include template/mixins/_event-form
 	include template/mixins/_pagination
 	include template/mixins/_payment-modal
+	//- Global Flash
+	-let flashClass = "notif-flash";
+	if flashSuccess
+		-flashClass = "notif-flash success";
+	if flasError
+		-flashClass = "notif-flash alert"
+	div(class= "flashClass")
+		if flashSuccess
+			span= flashSuccess
+			button#closeFlash.fa.fa-close
 	block header
 		include template/_header
 	block content
@@ -28,7 +38,7 @@ html(lang="en")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.3/moment.min.js")
 		script(src="https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.3/daterangepicker.min.js")
-		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVLG4rzu01-HRm1QuNvvCmGK0UA7jG6kU&libraries=places")
+		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxDri1r5T3sproZmytZmnJluDj-IilQ1I&libraries=places")
 		script(src="https://js.pusher.com/4.4/pusher.min.js")
 		script(src="https://js.stripe.com/v3/")
 		script(src="/dist/main.bundle.js")

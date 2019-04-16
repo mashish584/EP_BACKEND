@@ -38,6 +38,15 @@
 		color: $theme_color;
 		border: 2px solid darken($primary_bg, 25%);
 	}
+	&-connect {
+		margin-left: 0.5%;
+		background: $theme_color;
+		color: #fff;
+		padding: 15px;
+		&:hover {
+			color: #fff;
+		}
+	}
 	i {
 		margin-right: em(10px);
 	}

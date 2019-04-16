@@ -85,6 +85,19 @@ export const asyncErrorHandler = function(fn) {
 };
 
 /**
+ * TODO : Create Notification Flash
+ */
+
+export const notificationFlash = (type, message = "Network Error") => {
+	const notifFlash = document.querySelector(".notif-flash");
+	notifFlash.innerHTML = `<span>${message}</span>
+					<button id="closeFlash" class="fa fa-close"></button>`;
+	setTimeout(() => {
+		notifFlash.classList.add(type);
+	}, 500);
+};
+
+/**
  * Templates
  */
 

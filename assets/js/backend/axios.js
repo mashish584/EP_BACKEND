@@ -1,5 +1,5 @@
 import axios from "axios";
-import { showErrors, hideErrors, toggleLoader } from "./helper";
+import { showErrors, hideErrors, toggleLoader, notificationFlash } from "./helper";
 
 const instance = axios.create({
 	baseURL: process.env.BASE_URL
@@ -27,7 +27,7 @@ instance.interceptors.response.use(
 	error => {
 		//! Throw alert,hide loader and stop execution of script immediately
 		if (error.message === "Network Error") {
-			alert("Network Error");
+			notificationFlash("alert");
 			toggleLoader("", false);
 			return;
 		}
@@ -51,7 +51,7 @@ instance.interceptors.response.use(
 				showErrors(errors);
 				break;
 			default:
-				alert(`${status} : ${errors[0].msg}`);
+				notificationFlash("alert", errors[0].msg);
 		}
 
 		return Promise.reject(error);

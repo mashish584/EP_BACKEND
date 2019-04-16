@@ -224,6 +224,39 @@
 	}
 }
 
+// global flash
+.notif-flash {
+	position: fixed;
+	width: 325px;
+	padding: 25px;
+	color: $primary_bg;
+	box-shadow: -2px 5px 15px rgba(0, 0, 0, 0.5);
+	bottom: 25px;
+	font-size: 0.9em;
+	border-radius: 5px;
+	right: 25px;
+	z-index: -1;
+	opacity: 0;
+	transform: perspective(500px) translate3d(0, 20px, -25px);
+	transition: all 0.3s ease-in;
+	&.alert,
+	&.success {
+		transform: perspective(500px) translate3d(0, 0, 0);
+		opacity: 1;
+		background: $theme_color;
+		z-index: 9999;
+	}
+	&.success {
+		background: $success_color;
+	}
+	button {
+		position: absolute;
+		color: $primary_bg;
+		top: 5px;
+		right: 5px;
+	}
+}
+
 .clrfx::after {
 	content: "";
 	clear: both;

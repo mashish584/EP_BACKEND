@@ -20,14 +20,29 @@ exports.NotFoundError = (req, res, next) => {
  */
 
 exports.ErrorRendering = (err, req, res, next) => {
-	const { message, status } = err;
+	let { message, status, name } = err;
+
+	// check for jsonwebtoken error
+	if (name.toLowerCase() === "jsonwebtokenerror") {
+		status = 400; //Bad request
+		message = "Invalid token for access";
+		// if not ajax request "logout" user
+		if (!req.isAjax) {
+			delete req.session.user;
+			delete req.session.passport;
+			return res.redirect("/");
+		}
+	}
+
 	if (!req.isAjax) {
 		res.locals.message = message;
 		res.locals.status = status || 500;
 		// error stack based on project mode
-		res.locals.errorStack = process.env.MODE = "dev" ? err.stack : "";
+		res.locals.errorStack = process.env.MODE === "dev" ? err.stack : "";
 		return res.render("error", { title: message });
 	} else {
+		// log the stack
+		console.log(err.stack);
 		return res.status(status || 500).json(formatErrors(message));
 	}
 };

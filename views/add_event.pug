@@ -8,11 +8,14 @@ block content
 		h2 ADD EVENT
 		if flashError
 			div#flash(class="error")= flashError
-		if flashSuccess
-			div#flash(class="success")= flashSuccess
+		//- if flashSuccess
+		//- 	div#flash(class="success")= flashSuccess
 		if user && user.connect
 			+eventForm
 		else
-			a(href=`${connectLink}`) Connect Stripe
+			small Please connect your stripe account with our platform.
+			a(href=`${connectLink}` class="btn btn-connect") 
+				i.fa.fa-cc-stripe 
+				| Connect Stripe
 block footer
 	+footer(true)

@@ -24,6 +24,7 @@ const isDropList = document.querySelector(".dropdown-list");
 const isAutoComplete = document.querySelector('input[name="location"]');
 const p_form = document.getElementById("payment-form");
 const toggleModalEls = document.querySelectorAll("#toggleModal");
+const notifFlash = document.querySelector(".notif-flash");
 
 toggleModalEls.forEach(btn => btn.addEventListener("click", toggleCheckout));
 
@@ -44,3 +45,12 @@ profileForm();
 eventForm();
 commentForm();
 contactForm();
+
+// Hide flash
+notifFlash.addEventListener("click", e => {
+	console.log(e.target.id);
+	if (e.target.id === "closeFlash") {
+		notifFlash.classList.remove("alert");
+		notifFlash.classList.remove("success");
+	}
+});

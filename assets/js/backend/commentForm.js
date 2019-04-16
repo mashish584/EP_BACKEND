@@ -1,8 +1,15 @@
 import axios from "axios";
-import { getFormData, showErrors, hideErrors, commentTemplate } from "./helper";
+import {
+	getFormData,
+	showErrors,
+	hideErrors,
+	commentTemplate,
+	notificationFlash
+} from "./helper";
 import { lastClickEl } from "../js-utility";
 // seperate instance
 const $axios = axios.create({});
+const notifFlash = document.querySelector(".notif-flash");
 
 // intercept request
 $axios.interceptors.request.use(
@@ -27,7 +34,7 @@ $axios.interceptors.response.use(
 	error => {
 		//! Throw alert,hide loader and stop execution of script immediately
 		if (error.message === "Network Error") {
-			alert("Network Error");
+			notificationFlash("alert");
 			return;
 		}
 		// destruct response
@@ -38,7 +45,8 @@ $axios.interceptors.response.use(
 
 		// show error in alert if status is not 422
 		if (status !== 422) {
-			alert(`Error:${errors[0].msg}`);
+			notificationFlash("alert", errors[0].msg);
+			return;
 		} else {
 			showErrors(errors);
 		}

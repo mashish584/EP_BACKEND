@@ -10,4 +10,12 @@ header {
 			background: rgba(invert($primary_bg), 0.6);
 		}
 	}
+	#error {
+		position: relative;
+		text-align: center;
+		text-transform: uppercase;
+		z-index: 999;
+		color: #fff;
+		font-size: 3em;
+	}
 }

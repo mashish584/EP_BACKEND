@@ -14,7 +14,11 @@ require("./middlewares/passport");
 const appRoute = require("./routes/_index");
 
 // error handlers
-const { NotFoundError, ErrorRendering } = require("./handlers/errorHandler.js");
+const {
+	NotFoundError,
+	ErrorRendering,
+	catchAsyncError
+} = require("./handlers/errorHandler.js");
 
 // helpers
 const util = require("./util");
@@ -48,41 +52,47 @@ app.use(
 	})
 );
 
-app.use(async (req, res, next) => {
-	// setting request type if exist
-	const reqType = req.get("content-type")
-		? req.get("content-type").toLowerCase()
-		: "";
+// middleware to intercept request
+app.use(
+	catchAsyncError(async (req, res, next) => {
+		//default locals
+		res.locals.h = util;
+		res.locals.connectLink = process.env.STRIPE_AUTH;
+		res.locals.imagekitEP = process.env.IMAGE_KIT_EP;
 
-	req.isAjax = reqType.includes("json") ? true : false;
-	// token verification
-	const { user: token, passport } = req.session;
+		// setting request type if exist
+		const reqType = req.get("content-type")
+			? req.get("content-type").toLowerCase()
+			: "";
 
-	if (token) {
-		req.user = verify(token, process.env.SECRET);
-	} else if (passport && passport.user) {
-		req.user = verify(passport.user, process.env.SECRET);
-	}
+		req.isAjax = reqType.includes("json") ? true : false;
 
-	// if user exist in req fetch notifications & set it on locals
-	let notifications = null;
-	if (req.user) {
-		const Notification = require("./models/Notification");
-		notifications = await Notification.find({ receiver: req.user.id })
-			.sort({ createdAt: -1 })
-			.limit(10);
-	}
+		// token verification
+		const { user: token, passport } = req.session;
 
-	// template variables
-	res.locals.user = req.user || null;
-	res.locals.h = util;
-	res.locals.notifications = notifications ? notifications : [];
-	res.locals.connectLink = process.env.STRIPE_AUTH;
-	res.locals.imagekitEP = process.env.IMAGE_KIT_EP;
-	res.locals.flashError = req.flash("error")[0];
-	res.locals.flashSuccess = req.flash("success")[0];
-	next();
-});
+		if (token) {
+			req.user = verify(token, process.env.SECRET);
+		} else if (passport && passport.user) {
+			req.user = verify(passport.user, process.env.SECRET);
+		}
+
+		// if user exist in req fetch notifications & set it on locals
+		let notifications = null;
+		if (req.user) {
+			const Notification = require("./models/Notification");
+			notifications = await Notification.find({ receiver: req.user.id })
+				.sort({ createdAt: -1 })
+				.limit(10);
+		}
+
+		// template variables
+		res.locals.user = req.user || null;
+		res.locals.notifications = notifications ? notifications : [];
+		res.locals.flashError = req.flash("error")[0];
+		res.locals.flashSuccess = req.flash("success")[0];
+		next();
+	})
+);
 
 // Application routes
 app.use("/", appRoute.indexRoutes);

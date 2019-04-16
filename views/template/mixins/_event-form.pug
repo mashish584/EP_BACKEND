@@ -21,9 +21,9 @@ mixin eventForm(isAddForm=true,event={})
 						ul.dropdown-list
 							each item,i in categories
 								if isAddForm
-									li(class=`${i===0 ? 'active' : ''}`)= item
+									li(class=`${i===0 ? 'active' : ''}`)= item.category
 								else
-									li(class=`${item.category === event.category ? 'active' : ''}`)= item
+									li(class=`${item.category === event.category ? 'active' : ''}`)= item.category
 				.input-container
 					.input-group
 						label(for="description") Description

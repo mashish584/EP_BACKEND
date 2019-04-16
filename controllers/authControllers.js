@@ -22,7 +22,7 @@ exports.GET_LOGOUT = (req, res, next) => {
 	// TODO: Delete session & redirect back
 	delete req.session.user;
 	delete req.session.passport;
-	return res.redirect("back");
+	return res.redirect("/");
 };
 
 exports.GET_ACTIVATE_ACCOUNT = async (req, res, next) => {
