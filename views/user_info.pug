@@ -2,6 +2,7 @@ extends layout
 block header
 	+navigation
 block content
+	-const isProfileOwner = user.id === userInfo.id
 	section#container
 		.profile
 			+profile_navigations()
@@ -10,11 +11,12 @@ block content
 					- let profileSrc = userInfo.profileImg ? `${imagekitEP}${userInfo.profileImg}`: 'https://www.drupal.org/files/issues/default-avatar.png';
 					.user-image
 						img(src=profileSrc , alt="user-image")
-						label(for="profile" style="cursor:pointer;")
-							span#update-pic.fa.fa-pencil-square
-						form#uploadProfile(action="" method="post" enctype="multipart/form-data")
-							.input-group
-								input(type="file" id="profile" name="image" accept="image/*")
+						if isProfileOwner
+							label(for="profile" style="cursor:pointer;")
+								span#update-pic.fa.fa-pencil-square
+							form#uploadProfile(action="" method="post" enctype="multipart/form-data")
+								.input-group
+									input(type="file" id="profile" name="image" accept="image/*")
 					.user-meta
 						h2= userInfo.fullname
 						if userInfo.location.address
@@ -30,7 +32,10 @@ block content
 										else
 											a(href="" class=`fa fa-${media}`)
 				.profile-info--about
-					p= userInfo.bio || "Please update your bio..."
+					if isProfileOwner
+						p= userInfo.bio || "Please update your bio..."
+					else
+						p= userInfo.bio
 					if userInfo.email
 						span
 							i.fa.fa-envelope
