@@ -16,6 +16,7 @@ $axios.interceptors.request.use(
 	config => {
 		hideErrors();
 		lastClickEl.setAttribute("disabled", true);
+		hideNotificationFlash();
 		return config;
 	},
 	error => {

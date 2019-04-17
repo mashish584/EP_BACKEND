@@ -1,5 +1,5 @@
 import axios from "../backend/axios";
-import { getFormData } from "./helper";
+import { getFormData, notificationFlash } from "./helper";
 
 export const eventCheckout = async form => {
 	const { stripeToken: token, event } = getFormData(
@@ -12,7 +12,7 @@ export const eventCheckout = async form => {
 	} = await axios.post(`/checkout/connect/event/${event}`, { token });
 	// show alert for success response
 	if (status === 200) {
-		alert(success.msg);
-		window.location.reload();
+		notificationFlash("success", success.msg);
+		setTimeout(() => window.location.reload(), 1500);
 	}
 };

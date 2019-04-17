@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { asyncErrorHandler } from "./helper";
+import { asyncErrorHandler, notificationFlash } from "./helper";
 
 export default () => {
 	const eventAddForm = document.querySelector("#addEvent");
@@ -42,10 +42,7 @@ export default () => {
 				const { status } = await axios.post("/host-event", body);
 				if (status === 200) {
 					this.reset();
-					this.insertAdjacentHTML(
-						"afterbegin",
-						"<div id='flash' class='success'>Event added.</div>"
-					);
+					notificationFlash("success", "New Event created.");
 				}
 			})
 		);
@@ -90,10 +87,7 @@ export default () => {
 					body
 				);
 				if (status === 200) {
-					this.insertAdjacentHTML(
-						"afterbegin",
-						"<div id='flash' class='success'>Event updated.</div>"
-					);
+					notificationFlash("success", "Event details updated.");
 				}
 			})
 		);

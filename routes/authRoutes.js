@@ -68,12 +68,6 @@ router.post(
 	validationResult,
 	catchAsyncError(POST_SIGNUP)
 );
-router.post(
-	"/forgot",
-	(req, res, next) => {
-		console.log(req.get("content-type"));
-	},
-	catchAsyncError(POST_FORGOT)
-);
+router.post("/forgot", catchAsyncError(POST_FORGOT));
 
 module.exports = router;

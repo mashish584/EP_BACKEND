@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { getFormData, asyncErrorHandler } from "./helper";
+import { getFormData, asyncErrorHandler, notificationFlash } from "./helper";
 
 export default () => {
 	const contactForm = document.querySelector("#contactForm");
@@ -19,7 +19,7 @@ export default () => {
 				// TODO #2:
 				const { data, status } = await axios.post("/contact", body);
 				if (status === 200) {
-					alert(data.success.msg);
+					notificationFlash("success", data.success.msg);
 				}
 			})
 		);

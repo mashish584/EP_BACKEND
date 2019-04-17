@@ -1,3 +1,5 @@
+const notifFlash = document.querySelector(".notif-flash");
+
 /**
  * TODO : Insert/Remove Loader in or from body on each ajax request/response
  * 	@param {"hold a short title of type of submission"} message
@@ -89,12 +91,16 @@ export const asyncErrorHandler = function(fn) {
  */
 
 export const notificationFlash = (type, message = "Network Error") => {
-	const notifFlash = document.querySelector(".notif-flash");
 	notifFlash.innerHTML = `<span>${message}</span>
 					<button id="closeFlash" class="fa fa-close"></button>`;
 	setTimeout(() => {
 		notifFlash.classList.add(type);
 	}, 500);
+};
+
+export const hideNotificationFlash = () => {
+	notifFlash.classList.remove("alert");
+	notifFlash.classList.remove("success");
 };
 
 /**

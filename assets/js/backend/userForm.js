@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { getFormData, asyncErrorHandler } from "./helper";
+import { getFormData, asyncErrorHandler, notificationFlash } from "./helper";
 
 export default () => {
 	const signinForm = document.querySelector("#signin");
@@ -35,9 +35,9 @@ export default () => {
 				// show success message
 				if (status === 200) {
 					this.reset();
-					this.insertAdjacentHTML(
-						"afterbegin",
-						"<div id='flash' class='success'>Account created.Check your mail account for verification mail.</div>"
+					notificationFlash(
+						"success",
+						"Account created.Check your mail account for verification mail."
 					);
 				}
 			})

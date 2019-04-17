@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { asyncErrorHandler, getFormData } from "./helper";
+import { asyncErrorHandler, getFormData, notificationFlash } from "./helper";
 
 export default () => {
 	const resetForm = document.querySelector("#resetForm");
@@ -78,10 +78,7 @@ export default () => {
 				//TODO #3 :
 				const { status } = await axios.put("/profile/me/info", body);
 				if (status === 200) {
-					this.insertAdjacentHTML(
-						"afterbegin",
-						"<div id='flash' class='success'>Profile info updated.</div>"
-					);
+					notificationFlash("success", "Info updated.");
 				}
 			})
 		);

@@ -1,5 +1,11 @@
 import axios from "axios";
-import { showErrors, hideErrors, toggleLoader, notificationFlash } from "./helper";
+import {
+	showErrors,
+	hideErrors,
+	toggleLoader,
+	notificationFlash,
+	hideNotificationFlash
+} from "./helper";
 
 const instance = axios.create({
 	baseURL: process.env.BASE_URL
@@ -10,6 +16,7 @@ instance.interceptors.request.use(
 	config => {
 		toggleLoader("Wait...", true);
 		hideErrors();
+		hideNotificationFlash();
 		return config;
 	},
 	error => {

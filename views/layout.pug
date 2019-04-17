@@ -19,14 +19,14 @@ html(lang="en")
 	include template/mixins/_pagination
 	include template/mixins/_payment-modal
 	//- Global Flash
-	-let flashClass = "notif-flash";
+	-let flashClass = "notif-flash"
 	if flashSuccess
 		-flashClass = "notif-flash success";
-	if flasError
+	if flashError
 		-flashClass = "notif-flash alert"
 	div(class=flashClass)
-		if flashSuccess
-			span= flashSuccess
+		if flashSuccess || flashError
+			span= flashSuccess || flashError
 			button#closeFlash.fa.fa-close
 	block header
 		include template/_header
