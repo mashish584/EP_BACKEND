@@ -4,12 +4,12 @@ import {
 	showErrors,
 	hideErrors,
 	commentTemplate,
-	notificationFlash
+	notificationFlash,
+	hideNotificationFlash
 } from "./helper";
 import { lastClickEl } from "../js-utility";
 // seperate instance
 const $axios = axios.create({});
-const notifFlash = document.querySelector(".notif-flash");
 
 // intercept request
 $axios.interceptors.request.use(
@@ -38,6 +38,7 @@ $axios.interceptors.response.use(
 			notificationFlash("alert");
 			return;
 		}
+		console.log(error);
 		// destruct response
 		const {
 			status,
